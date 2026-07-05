@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nereus — Pulsar-native Shared-Storage Streaming Engine</title>
+<meta name="description" content="Nereus is a Pulsar-native shared-storage streaming engine built on Oxia and object storage. Stateless broker, lakehouse-native stream-table duality, KoP Kafka compatibility." />
+<meta name="keywords" content="Nereus, Pulsar, Oxia, shared-storage, streaming engine, lakehouse, Kafka, KoP, stream offset index, WAL, compaction, SBT, SDT" />
+<meta property="og:title" content="Nereus — Pulsar-native Shared-Storage Streaming Engine" />
+<meta property="og:description" content="Oxia-backed metadata plane, object-storage data plane, stateless broker. Pulsar native + KoP Kafka, lakehouse-native stream-table duality." />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="NereusStream" />
+<link rel="icon" type="image/png" href="logo-icon.png" />
+<style>
+  :root {
+    --n-blue-900: #051030;
+    --n-blue-800: #071b5f;
+    --n-blue-700: #0a2a8a;
+    --n-blue-600: #0e3bb5;
+    --n-blue-500: #1447e0;
+    --n-blue-400: #3b82f6;
+    --n-teal-500: #06b6d4;
+    --n-teal-400: #22d3ee;
+    
+    --n-bg-main: #f8fafc;
+    --n-bg-alt: #ffffff;
+    --n-text-main: #0f172a;
+    --n-text-muted: #475569;
+    --n-text-light: #64748b;
+    
+    --n-border: rgba(15, 23, 42, 0.08);
+    --n-card-bg: #ffffff;
+    --n-card-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    --n-card-hover: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--n-bg-main);
+    color: var(--n-text-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── Nav ────────────────────────────────── */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    background: rgba(255, 255, 255, 0.85);
+    border-bottom: 1px solid var(--n-border);
+    padding: 0 24px;
+  }
+  .nav-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; height: 64px; gap: 32px;
+  }
+  .nav-brand {
+    display: flex; align-items: center; gap: 8px;
+    text-decoration: none;
+  }
+  .nav-brand img { height: 32px; width: auto; }
+  .nav-links { display: flex; gap: 24px; margin-left: auto; align-items: center; }
+  .nav-links a {
+    color: var(--n-text-muted); text-decoration: none;
+    font-size: 14px; font-weight: 500; transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--n-blue-600); }
+  .nav-gh svg { width: 22px; height: 22px; fill: var(--n-text-muted); transition: fill .2s; }
+  .nav-gh:hover svg { fill: var(--n-blue-600); }
+
+  /* ── Section Layout ─────────────────────── */
+  .section { padding: 80px 24px; }
+  .section-inner { max-width: 1120px; margin: 0 auto; }
+  .section-header { text-align: center; margin-bottom: 56px; }
+  .section-tag {
+    display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--n-blue-600);
+    background: rgba(14, 59, 181, 0.08); border: 1px solid rgba(14, 59, 181, 0.15);
+    border-radius: 999px; padding: 4px 14px; margin-bottom: 16px;
+  }
+  .section-title {
+    font-size: clamp(32px, 4vw, 44px); font-weight: 800;
+    letter-spacing: -0.03em; line-height: 1.15; color: var(--n-text-main); margin-bottom: 12px;
+  }
+  .section-desc {
+    font-size: 16px; color: var(--n-text-muted); max-width: 600px; margin: 0 auto;
+  }
+
+  /* ── Hero ───────────────────────────────── */
+  .hero {
+    position: relative; min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 120px 24px 80px; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+    background: linear-gradient(180deg, #f0f7ff 0%, #f8fafc 100%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(14,59,181,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(14,59,181,0.04) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 70%);
+  }
+  .hero-inner {
+    position: relative; z-index: 2; text-align: center; max-width: 860px;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 600; color: var(--n-blue-700);
+    background: rgba(14, 59, 181, 0.08); border: 1px solid rgba(14, 59, 181, 0.15);
+    border-radius: 999px; padding: 6px 18px; margin-bottom: 28px;
+  }
+  .badge-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--n-teal-500); box-shadow: 0 0 8px rgba(6, 182, 212, 0.6);
+    animation: pulse-dot 2s infinite;
+  }
+  @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .hero-title {
+    font-size: clamp(40px, 7vw, 76px); font-weight: 900;
+    letter-spacing: -0.05em; line-height: 1.05; margin-bottom: 20px;
+    color: var(--n-text-main);
+  }
+  .hero-title span { display: inline; }
+  .hero-title .t-nereus {
+    background: linear-gradient(135deg, var(--n-teal-500) 0%, var(--n-blue-500) 50%, var(--n-blue-800) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    font-size: clamp(18px, 2.5vw, 26px); font-weight: 600;
+    color: var(--n-blue-800); margin-bottom: 16px;
+  }
+  .hero-desc {
+    font-size: 16px; color: var(--n-text-muted); max-width: 620px; margin: 0 auto 36px;
+    line-height: 1.7;
+  }
+  .hero-actions {
+    display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 48px;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 12px 24px; border-radius: 999px; font-size: 15px; font-weight: 600;
+    text-decoration: none; transition: all .2s; cursor: pointer; border: none;
+  }
+  .btn-primary {
+    background: var(--n-blue-600); color: white;
+    box-shadow: 0 4px 12px rgba(14, 59, 181, 0.25);
+  }
+  .btn-primary:hover { background: var(--n-blue-700); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(14, 59, 181, 0.3); }
+  .btn-ghost {
+    background: var(--n-card-bg); color: var(--n-text-main);
+    border: 1px solid var(--n-border);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
+  .btn-ghost:hover { border-color: rgba(15,23,42,0.15); background: #f1f5f9; }
+  
+  .hero-stats {
+    display: flex; gap: 32px; justify-content: center; align-items: center; flex-wrap: wrap;
+  }
+  .stat-item {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    text-decoration: none;
+  }
+  .stat-item .stat-icon { font-size: 20px; }
+  .stat-item .stat-val { font-size: 22px; font-weight: 800; color: var(--n-blue-900); }
+  .stat-item .stat-label { font-size: 12px; color: var(--n-text-light); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
+  .stat-divider { width: 1px; height: 40px; background: var(--n-border); }
+
+  /* ── Architecture ───────────────────────── */
+  .arch-visual { margin-top: 20px; }
+  .arch-rows { display: flex; flex-direction: column; gap: 16px; max-width: 760px; margin: 0 auto; }
+  .arch-row {
+    display: flex; align-items: center; gap: 20px;
+    padding: 24px 28px; border-radius: 16px;
+    background: var(--n-card-bg); border: 1px solid var(--n-border);
+    box-shadow: var(--n-card-shadow);
+    transition: transform .3s, box-shadow .3s, border-color .3s;
+  }
+  .arch-row:hover { 
+    border-color: rgba(14, 59, 181, 0.15); 
+    box-shadow: var(--n-card-hover); 
+    transform: translateY(-2px); 
+  }
+  .arch-row-icon {
+    width: 52px; height: 52px; border-radius: 12px; display: flex;
+    align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;
+  }
+  .arch-row-icon.protocol { background: #e0f2fe; }
+  .arch-row-icon.oxia   { background: #dbeafe; }
+  .arch-row-icon.data   { background: #ede9fe; }
+  .arch-row-icon.store  { background: #fef3c7; }
+  .arch-row-body h4 { font-size: 17px; font-weight: 700; color: var(--n-blue-900); margin-bottom: 4px; }
+  .arch-row-body p  { font-size: 14px; color: var(--n-text-muted); line-height: 1.6; }
+  .arch-row-body .arch-tech { font-size: 12px; font-weight: 600; color: var(--n-blue-600); margin-top: 8px; }
+  .arch-arrow {
+    font-size: 20px; font-weight: bold; color: var(--n-slate-300); flex-shrink: 0; width: 24px; text-align: center;
+  }
+  .arch-row-inline { display: flex; gap: 16px; }
+  .arch-row-inline .arch-row { flex: 1; }
+
+  /* ── Features Grid ──────────────────────── */
+  .feature-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;
+  }
+  .feature-card {
+    padding: 32px 24px; border-radius: 16px;
+    background: var(--n-card-bg); border: 1px solid var(--n-border);
+    box-shadow: var(--n-card-shadow);
+    transition: transform .3s, box-shadow .3s, border-color .3s;
+  }
+  .feature-card:hover {
+    border-color: rgba(14, 59, 181, 0.15); 
+    box-shadow: var(--n-card-hover); 
+    transform: translateY(-2px);
+  }
+  .fc-icon { font-size: 32px; margin-bottom: 20px; }
+  .fc-title { font-size: 18px; font-weight: 700; color: var(--n-blue-900); margin-bottom: 10px; }
+  .fc-desc { font-size: 14px; color: var(--n-text-muted); line-height: 1.6; }
+
+  /* ── Roadmap ────────────────────────────── */
+  .roadmap-list { display: flex; flex-direction: column; gap: 16px; max-width: 800px; margin: 0 auto; }
+  .roadmap-item {
+    display: flex; gap: 20px; align-items: flex-start;
+    padding: 20px 24px; border-radius: 12px;
+    background: var(--n-card-bg); border: 1px solid var(--n-border);
+    box-shadow: var(--n-card-shadow);
+  }
+  .roadmap-num {
+    width: 40px; height: 40px; border-radius: 10px; display: flex;
+    align-items: center; justify-content: center; font-size: 15px; font-weight: 700;
+    background: #f1f5f9; color: var(--n-slate-500); flex-shrink: 0;
+  }
+  .roadmap-num.done { background: #dbeafe; color: var(--n-blue-600); }
+  .roadmap-body h4 { font-size: 16px; font-weight: 700; color: var(--n-text-main); margin-bottom: 4px; }
+  .roadmap-body p  { font-size: 14px; color: var(--n-text-muted); line-height: 1.5; }
+  .roadmap-badge {
+    display: inline-block; font-size: 11px; font-weight: 600; margin-left: 8px;
+    padding: 2px 10px; border-radius: 999px; vertical-align: middle;
+    background: #f1f5f9; color: var(--n-slate-600);
+  }
+  .roadmap-badge.done { background: #dbeafe; color: var(--n-blue-600); }
+
+  /* ── Alignment Table ────────────────────── */
+  .align-table {
+    width: 100%; border-collapse: collapse; font-size: 14px;
+    background: var(--n-card-bg); border: 1px solid var(--n-border); 
+    border-radius: 12px; overflow: hidden; box-shadow: var(--n-card-shadow);
+  }
+  .align-table th {
+    text-align: left; padding: 16px 20px; background: #f8fafc;
+    font-weight: 700; color: var(--n-blue-900); font-size: 13px; letter-spacing: 0.03em;
+    border-bottom: 1px solid var(--n-border);
+  }
+  .align-table td { padding: 14px 20px; border-bottom: 1px solid var(--n-border); color: var(--n-text-muted); }
+  .align-table tr:last-child td { border-bottom: none; }
+  .align-table td:first-child { color: var(--n-text-main); font-weight: 600; }
+
+  /* ── Terminal ───────────────────────────── */
+  .terminal {
+    max-width: 680px; margin: 0 auto; border-radius: 12px; overflow: hidden;
+    background: #0f172a; border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  }
+  .terminal-bar {
+    display: flex; align-items: center; gap: 8px; padding: 12px 16px;
+    background: #1e293b; border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .t-dot { width: 12px; height: 12px; border-radius: 50%; }
+  .t-dot.r { background: #f43f5e; } .t-dot.y { background: #eab308; } .t-dot.g { background: #22c55e; }
+  .terminal-body { padding: 24px; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 14px; }
+  .t-line { margin-bottom: 8px; display: flex; gap: 10px; }
+  .t-prompt { color: var(--n-teal-400); flex-shrink: 0; user-select: none; }
+  .t-cmd { color: #f8fafc; }
+  .t-comment { color: #64748b; }
+  .t-out { color: #94a3b8; }
+
+  /* ── Footer ─────────────────────────────── */
+  .footer { padding: 48px 24px; border-top: 1px solid var(--n-border); text-align: center; background: #ffffff; }
+  .footer-inner { max-width: 1120px; margin: 0 auto; }
+  .footer-brand { margin-bottom: 12px; }
+  .footer-brand img { height: 36px; width: auto; }
+  .footer-tagline { font-size: 14px; font-weight: 500; color: var(--n-text-muted); margin-bottom: 24px; }
+  .footer-links { display: flex; gap: 24px; justify-content: center; margin-bottom: 20px; }
+  .footer-links a { font-size: 14px; font-weight: 600; color: var(--n-blue-600); text-decoration: none; }
+  .footer-links a:hover { color: var(--n-blue-800); text-decoration: underline; }
+  .footer-note { font-size: 12px; color: var(--n-text-light); }
+
+  /* ── Responsive ─────────────────────────── */
+  @media (max-width: 768px) {
+    .nav-links a.desktop-only { display: none; }
+    .hero-stats { gap: 20px; }
+    .arch-row-inline { flex-direction: column; gap: 16px; }
+    .align-table { font-size: 13px; }
+    .align-table th, .align-table td { padding: 12px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Nav ───────────────────────── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="#">
+      <img src="logo-icon.png" alt="NereusStream Logo">
+      <span style="font-weight: 800; font-size: 19px; color: var(--n-blue-900); letter-spacing: -0.02em;">Nereus<span style="color: var(--n-blue-600); font-weight: 600;">Stream</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="#architecture">Architecture</a>
+      <a href="#features">Features</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#get-started">Get Started</a>
+      <a class="nav-gh" href="https://github.com/nereusstream/nereus" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Hero ──────────────────────── -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-grid"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <span class="badge-dot"></span> Design Phase · Oxia-Powered · Pulsar-Native
+    </div>
+    <h1 class="hero-title">
+      <span class="t-nereus">Nereus</span>
+    </h1>
+    <p class="hero-sub">Pulsar-native Shared-Storage Streaming Engine</p>
+    <p class="hero-desc">
+      Oxia-backed metadata and coordination plane. Object-storage-first durable data plane.
+      Stateless, leaderless broker. Pulsar native protocol, KoP Kafka compatibility,
+      and lakehouse-native stream-table duality — all in one architecture.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="https://github.com/nereusstream/nereus" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a class="btn btn-ghost" href="https://github.com/nereusstream/nereus/blob/main/docs/design/nereus-overall-architecture.md" target="_blank" rel="noopener">
+        Read the Design
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-icon">🏗️</span>
+        <span class="stat-val">L0&mdash;L4</span>
+        <span class="stat-label">Layered Architecture</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-icon">☑️</span>
+        <span class="stat-val">Oxia</span>
+        <span class="stat-label">Metadata Plane</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-icon">📦</span>
+        <span class="stat-val">Object</span>
+        <span class="stat-label">Data Plane</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-icon">⚡</span>
+        <span class="stat-val">8</span>
+        <span class="stat-label">Design Futures</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Architecture ──────────────── -->
+<section class="section" id="architecture" style="background:#ffffff;">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">Architecture</div>
+      <h2 class="section-title">Five Layers, One Truth</h2>
+      <p class="section-desc">
+        L0&ndash;L4 layered architecture. The single internal coordinate —
+        <code style="background:rgba(14,59,181,0.06);padding:2px 8px;border-radius:6px;font-size:14px;color:var(--n-blue-700);font-weight:600;">streamId + offset</code>
+        — powers Pulsar, Kafka, cursor, retention, compaction, and lakehouse.
+      </p>
+    </div>
+    <div class="arch-visual">
+      <div class="arch-rows">
+        <div class="arch-row">
+          <div class="arch-row-icon protocol">🔌</div>
+          <div class="arch-row-body">
+            <h4>L1/L2 · Protocol Projection</h4>
+            <p>Pulsar native protocol + KoP Kafka compatibility. ManagedLedger facade projects MessageId/Position onto the internal offset truth without introducing a second durable log.</p>
+            <div class="arch-tech">Pulsar Broker · KoP · MessageId · Position</div>
+          </div>
+        </div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-row">
+          <div class="arch-row-icon oxia">☑️</div>
+          <div class="arch-row-body">
+            <h4>Oxia · Metadata and Coordination Plane</h4>
+            <p>Offset authority, append fencing, offset index, object manifest, cursor state, transaction state, routing. Oxia decides visibility — not the broker, not the object store.</p>
+            <div class="arch-tech">Offset Index · Fencing · CAS · Cursor · Notifications</div>
+          </div>
+        </div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-row">
+          <div class="arch-row-icon data">⚡</div>
+          <div class="arch-row-body">
+            <h4>L0 · Core Stream Storage</h4>
+            <p>Multi-stream WAL objects aggregate writes across partitions. Per-stream compacted objects serve reads and lakehouse queries from the same physical bytes.</p>
+            <div class="arch-tech">StreamStorage · Object WAL · Commit-time Offset Assignment · Read Resolver</div>
+          </div>
+        </div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-row-inline">
+          <div class="arch-row">
+            <div class="arch-row-icon store">🗄️</div>
+            <div class="arch-row-body">
+              <h4>L3 · Compaction + Lakehouse</h4>
+              <p>Generation replacement swaps offset index targets atomically. SBT and SDT expose committed streams as Iceberg/Delta/Hudi tables.</p>
+            </div>
+          </div>
+          <div class="arch-row">
+            <div class="arch-row-icon protocol">🌐</div>
+            <div class="arch-row-body">
+              <h4>L4 · Routing + Elasticity</h4>
+              <p>Stateless broker, preferred routing, append session fencing, zone-aware failover. No data movement on scale-in/out.</p>
+            </div>
+          </div>
+        </div>
+        <div class="arch-arrow">↓</div>
+        <div class="arch-row">
+          <div class="arch-row-icon data">☁️</div>
+          <div class="arch-row-body">
+            <h4>Shared Object Data Plane</h4>
+            <p>Multi-stream WAL objects, per-stream compacted objects, SBT/SDT table files, cursor/txn snapshots. Objects are immutable once committed. Visibility is Oxia's domain.</p>
+            <div class="arch-tech">S3 · GCS · MinIO · Parquet · Iceberg</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Design Capabilities ─────── -->
+<section class="section" style="background:#f1f5f9;">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">Design Alignment</div>
+      <h2 class="section-title">Shared-Storage Architecture with Pulsar-Native Enhancement</h2>
+      <p class="section-desc">
+        Nereus is built on a shared-storage streaming architecture, adding first-class Pulsar-native semantics —
+        MessageId, ManagedCursor, Shared/Key_Shared subscriptions, transactions, and replication.
+      </p>
+    </div>
+    <div style="overflow-x:auto; padding: 10px 0;">
+      <table class="align-table">
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th>Nereus Design</th>
+            <th>Layer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Oxia metadata service</td><td>Oxia: offset index, fencing, routing, cursor, txn, manifest</td><td>L0/L4</td></tr>
+          <tr><td>Stateless / leaderless broker</td><td>Broker not durable owner; preferred broker for locality only</td><td>L4</td></tr>
+          <tr><td>Object WAL</td><td>Multi-stream WAL object; independent per-stream slice visibility</td><td>L0</td></tr>
+          <tr><td>Offset index</td><td><code>{streamId, offsetEnd}</code> → object range + entry index + cumulative size</td><td>L0</td></tr>
+          <tr><td>Commit-time offset assignment</td><td>Offset assigned by Oxia at index-commit time, not by broker</td><td>L0</td></tr>
+          <tr><td>Compaction</td><td>Generation replacement: same offset, new physical object, atomic swap</td><td>L3</td></tr>
+          <tr><td>Lakehouse / stream-table duality</td><td>SBT (built-in table) + SDT (external delivery); catalog not on ack path</td><td>L3</td></tr>
+          <tr><td>Cost profile</td><td>Object WAL + Oxia + object storage for large-scale, low-cost workloads</td><td>L0/L3</td></tr>
+          <tr><td>Latency profile</td><td>BookKeeper WAL or local WAL feeding into the same StreamStorage truth</td><td>L0</td></tr>
+          <tr><td>Kafka protocol</td><td>KoP projection: Kafka offset = stream record offset</td><td>L2</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ── Features ──────────────────── -->
+<section class="section" id="features">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">Core Design</div>
+      <h2 class="section-title">Designed from First Principles</h2>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="fc-icon">☑️</div>
+        <h3 class="fc-title">Oxia is the Offset Authority</h3>
+        <p class="fc-desc">Oxia decides visibility, assigns offsets, fences stale commits. Object store stores bytes — not truth. Broker is stateless for correctness.</p>
+      </div>
+      <div class="feature-card">
+        <div class="fc-icon">📦</div>
+        <h3 class="fc-title">Multi-Stream WAL Object</h3>
+        <p class="fc-desc">One physical WAL object aggregates multiple stream slices. Each slice becomes visible independently when its Oxia offset index entry is committed.</p>
+      </div>
+      <div class="feature-card">
+        <div class="fc-icon">🔄</div>
+        <h3 class="fc-title">Generation Replacement</h3>
+        <p class="fc-desc">Compaction never changes stream offsets. It replaces which physical object an offset range points to — readers switch atomically to the highest visible generation.</p>
+      </div>
+      <div class="feature-card">
+        <div class="fc-icon">🗄️</div>
+        <h3 class="fc-title">Stream-Table Duality</h3>
+        <p class="fc-desc">SBT exposes streams as built-in Iceberg tables. SDT delivers to external catalogs. Lakehouse queries and streaming reads share the same compacted objects.</p>
+      </div>
+      <div class="feature-card">
+        <div class="fc-icon">🔌</div>
+        <h3 class="fc-title">Pulsar Native + KoP Kafka</h3>
+        <p class="fc-desc">Pulsar protocol as first-class, Kafka via KoP projection. Both map to the same stream offset truth. No second durable log for Kafka workloads.</p>
+      </div>
+      <div class="feature-card">
+        <div class="fc-icon">⚡</div>
+        <h3 class="fc-title">Dual WAL Profiles</h3>
+        <p class="fc-desc">Latency-optimized with BookKeeper WAL, cost-optimized with Object WAL. Same StreamStorage API, same Oxia offset truth, same compaction pipeline.</p>
+      </div>
+      <div class="feature-card">
+        <div class="fc-icon">🔐</div>
+        <h3 class="fc-title">Fencing &amp; Correctness</h3>
+        <p class="fc-desc">Oxia append sessions with monotonic fencing tokens. Stale broker commits are rejected at the metadata plane. No split-brain visible commit.</p>
+      </div>
+      <div class="feature-card">
+        <div class="fc-icon">📐</div>
+        <h3 class="fc-title">Immutable Objects</h3>
+        <p class="fc-desc">WAL, compacted, snapshot, and table objects are immutable once committed. GC is driven by Oxia reference counting — not by object store list operations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Roadmap ───────────────────── -->
+<section class="section" id="roadmap" style="background:#f1f5f9;">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">Design Roadmap</div>
+      <h2 class="section-title">8 Futures to Full Architecture</h2>
+      <p class="section-desc">
+        One target architecture, split into designable, reviewable modules. Each future maps to one or more layers (L0&ndash;L4).
+      </p>
+    </div>
+    <div class="roadmap-list">
+      <div class="roadmap-item">
+        <div class="roadmap-num done">1</div>
+        <div class="roadmap-body">
+          <h4>Core StreamStorage + Object WAL <span class="roadmap-badge done">Design Draft</span></h4>
+          <p>StreamStorage API, object WAL, Oxia offset index, commit-time offset assignment, read resolver. <strong>L0</strong></p>
+        </div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-num done">2</div>
+        <div class="roadmap-body">
+          <h4>ManagedLedger Facade <span class="roadmap-badge done">Design Draft</span></h4>
+          <p>ManagedLedger/ManagedCursor compatibility runtime, virtual ledger projection, Position/MessageId mapping. <strong>L1</strong></p>
+        </div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-num done">3</div>
+        <div class="roadmap-body">
+          <h4>Cursor &amp; Subscription State <span class="roadmap-badge done">Design Draft</span></h4>
+          <p>Mark-delete offset, individual ack ranges, cursor snapshot objects, cursor CAS, Shared/Failover/Exclusive recovery. <strong>L1</strong></p>
+        </div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-num done">4</div>
+        <div class="roadmap-body">
+          <h4>Compaction + Generation Replacement <span class="roadmap-badge done">Design Draft</span></h4>
+          <p>WAL→compacted Parquet, generation overlay, atomic index replacement, fallback, GC protection. <strong>L3</strong></p>
+        </div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-num done">5</div>
+        <div class="roadmap-body">
+          <h4>KoP Compatibility <span class="roadmap-badge done">Design Draft</span></h4>
+          <p>Kafka offset=stream offset, Produce/Fetch mapping, group offset, transaction visibility, leader epoch projection. <strong>L2</strong></p>
+        </div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-num done">6</div>
+        <div class="roadmap-body">
+          <h4>Lakehouse SBT / SDT <span class="roadmap-badge done">Design Draft</span></h4>
+          <p>SBT built-in table, SDT external delivery, Iceberg catalog commit, catalog repair, delivery idempotence. <strong>L3</strong></p>
+        </div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-num done">7</div>
+        <div class="roadmap-body">
+          <h4>Routing / Brown-out / Elasticity <span class="roadmap-badge done">Design Draft</span></h4>
+          <p>Broker session, zone-aware routing ring, preferred broker, append session transfer, cache invalidation. <strong>L4</strong></p>
+        </div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-num">8</div>
+        <div class="roadmap-body">
+          <h4>Advanced Pulsar Semantics <span class="roadmap-badge">Design Draft</span></h4>
+          <p>Key_Shared, delayed delivery, pending ack transaction, replicated subscription, schema/system topic bootstrap, geo-replication. <strong>L1/L4</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Get Started ───────────────── -->
+<section class="section" id="get-started" style="background:#ffffff;">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">Get Involved</div>
+      <h2 class="section-title">Explore &amp; Contribute</h2>
+      <p class="section-desc">
+        Nereus is in the design phase. Start with the architecture overview, then dive into individual future design docs.
+      </p>
+    </div>
+    <div class="terminal">
+      <div class="terminal-bar">
+        <span class="t-dot r"></span><span class="t-dot y"></span><span class="t-dot g"></span>
+      </div>
+      <div class="terminal-body">
+        <div class="t-line"><span class="t-comment"># Clone the design repository</span></div>
+        <div class="t-line"><span class="t-prompt">$</span><span class="t-cmd">git clone https://github.com/nereusstream/nereus.git</span></div>
+        <div class="t-line" style="margin-top:12px;"><span class="t-comment"># Read the overall architecture</span></div>
+        <div class="t-line"><span class="t-prompt">$</span><span class="t-cmd">cat docs/design/nereus-overall-architecture.md</span></div>
+        <div class="t-line" style="margin-top:12px;"><span class="t-comment"># Browse the design index</span></div>
+        <div class="t-line"><span class="t-prompt">$</span><span class="t-cmd">cat docs/design/nereus-design-index.md</span></div>
+        <div class="t-line" style="margin-top:12px;"><span class="t-out">→ 14 authoritative design docs · 8 futures · L0–L4 layers</span></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:16px;justify-content:center;margin-top:36px;flex-wrap:wrap;">
+      <a class="btn btn-primary" href="https://github.com/nereusstream/nereus/blob/main/docs/design/nereus-overall-architecture.md" target="_blank" rel="noopener">Architecture Overview</a>
+      <a class="btn btn-ghost" href="https://github.com/nereusstream/nereus" target="_blank" rel="noopener">GitHub Organization</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ────────────────────── -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="logo-icon.png" alt="NereusStream Logo" style="height: 36px; vertical-align: middle; margin-right: 8px;">
+      <span style="font-weight: 800; font-size: 20px; color: var(--n-blue-900); vertical-align: middle;">Nereus<span style="color: var(--n-blue-600); font-weight: 600;">Stream</span></span>
+    </div>
+    <div class="footer-tagline">Pulsar-native shared-storage streaming engine · Built on Oxia and object storage</div>
+    <div class="footer-links">
+      <a href="https://github.com/nereusstream/nereus" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/nereusstream/nereus/blob/main/docs/design/nereus-overall-architecture.md" target="_blank" rel="noopener">Design Docs</a>
+      <a href="https://github.com/nereusstream" target="_blank" rel="noopener">NereusStream Org</a>
+    </div>
+    <p class="footer-note">Design Phase · Shared-Storage Architecture · Apache 2.0</p>
+  </div>
+</footer>
+
+</body>
+</html>
