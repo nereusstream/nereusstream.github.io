@@ -339,7 +339,7 @@
   </div>
   <div class="hero-inner">
     <div class="hero-badge">
-      <span class="badge-dot"></span> <span data-i18n="hero.badge">Design Phase · Oxia-Powered · Storage Substrate</span>
+      <span class="badge-dot"></span> <span data-i18n="hero.badge">Design Phase · Metadata-Driven · Storage Substrate</span>
     </div>
     <h1 class="hero-title">
       <span class="t-nereus">Nereus</span>
@@ -347,7 +347,7 @@
     <p class="hero-sub" data-i18n="hero.sub">Stream Storage Substrate for Modern Messaging &amp; Streaming Systems</p>
     <p class="hero-desc" data-i18n="hero.desc">
       Pluggable stream storage substrate with a unified streamId + offset abstraction.
-      Oxia metadata plane for offset authority, fencing, and coordination.
+      Metadata and coordination plane for offset authority, fencing, and consistency.
       Multiple WAL and object-store storage profiles. Pulsar, KoP, and Kafka integrations
       as upper-layer adapters — not separate systems.
     </p>
@@ -369,7 +369,7 @@
       <div class="stat-divider"></div>
       <div class="stat-item">
         <span class="stat-icon">☑️</span>
-        <span class="stat-val">Oxia</span>
+        <span class="stat-val">Metadata</span>
         <span class="stat-label" data-i18n="hero.stat.meta">Metadata Plane</span>
       </div>
       <div class="stat-divider"></div>
@@ -423,9 +423,9 @@
         <div class="arch-row">
           <div class="arch-row-icon oxia">☑️</div>
           <div class="arch-row-body">
-            <h4 data-i18n="arch.layer3.title">Nereus Storage Core · Oxia Metadata Plane</h4>
-            <p data-i18n="arch.layer3.desc">Unified StreamStorage API: append / read / resolve / trim. Oxia is the offset authority — fencing, CAS, cursor state, index manifest. Generation and segment index provide immutable, compacted views of each stream.</p>
-            <div class="arch-tech" data-i18n="arch.layer3.tech">StreamStorage · streamId + offset · Generation · Segment · Checkpoint · Oxia</div>
+            <h4 data-i18n="arch.layer3.title">Nereus Storage Core · Metadata &amp; Coordination</h4>
+            <p data-i18n="arch.layer3.desc">Unified StreamStorage API: append / read / resolve / trim. The metadata plane is the offset authority — fencing, CAS, cursor state, index manifest. Generation and segment index provide immutable, compacted views of each stream.</p>
+            <div class="arch-tech" data-i18n="arch.layer3.tech">StreamStorage · streamId + offset · Generation · Segment · Checkpoint · Metadata Plane</div>
           </div>
         </div>
         <div class="arch-arrow">↓</div>
@@ -443,7 +443,7 @@
           <div class="arch-row-icon data">☁️</div>
           <div class="arch-row-body">
             <h4 data-i18n="arch.layer5.title">Shared Object Data Plane</h4>
-            <p data-i18n="arch.layer5.desc">Immutable WAL objects, per-stream compacted objects, SBT/SDT lakehouse tables, cursor/txn snapshots. Objects are immutable once committed — visibility is Oxia's domain, not the object store's.</p>
+            <p data-i18n="arch.layer5.desc">Immutable WAL objects, per-stream compacted objects, SBT/SDT lakehouse tables, cursor/txn snapshots. Objects are immutable once committed — visibility is controlled by the metadata plane, not the object store.</p>
             <div class="arch-tech" data-i18n="arch.layer5.tech">S3 · GCS · MinIO · Parquet · Iceberg</div>
           </div>
         </div>
@@ -473,7 +473,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td data-i18n="align.oxia.name">Oxia metadata service</td><td data-i18n="align.oxia.desc">Offset index, fencing, CAS, cursor state, transaction state, routing — Oxia owns visibility, not the broker or object store</td><td data-i18n="align.oxia.layer">Core</td></tr>
+          <tr><td data-i18n="align.oxia.name">Metadata &amp; coordination service</td><td data-i18n="align.oxia.desc">Offset index, fencing, CAS, cursor state, transaction state, routing — the metadata plane owns visibility, not the broker or object store</td><td data-i18n="align.oxia.layer">Core</td></tr>
           <tr><td data-i18n="align.api.name">StreamStorage API</td><td data-i18n="align.api.desc">Unified append / read / resolve / trim with streamId + offset. Protocol-neutral: no ledger, entry, topic, or partition in the core layer</td><td data-i18n="align.api.layer">Core</td></tr>
           <tr><td data-i18n="align.wal.name">Pluggable WAL</td><td data-i18n="align.wal.desc">BookKeeper WAL, Object WAL, Local WAL — selectable per topic or namespace; WAL and data storage can be mixed independently</td><td data-i18n="align.wal.layer">Core</td></tr>
           <tr><td data-i18n="align.data.name">Pluggable Data Store</td><td data-i18n="align.data.desc">BookKeeper ledgers, Object segments, Lakehouse tables — per-stream profile, migratable across generation boundaries</td><td data-i18n="align.data.layer">Core</td></tr>
@@ -528,8 +528,8 @@
       </div>
       <div class="feature-card">
         <div class="fc-icon">☑️</div>
-        <h3 class="fc-title" data-i18n="features.card6.title">Oxia: The Offset Authority</h3>
-        <p class="fc-desc" data-i18n="features.card6.desc">Oxia decides visibility, assigns offsets, fences stale commits. Object stores store bytes — not truth. The broker is stateless for correctness.</p>
+        <h3 class="fc-title" data-i18n="features.card6.title">Metadata-Driven Correctness</h3>
+        <p class="fc-desc" data-i18n="features.card6.desc">A dedicated metadata plane decides visibility, assigns offsets, and fences stale commits. Object stores store bytes — not truth. The broker is stateless for correctness.</p>
       </div>
       <div class="feature-card">
         <div class="fc-icon">🗄️</div>
@@ -539,7 +539,7 @@
       <div class="feature-card">
         <div class="fc-icon">📦</div>
         <h3 class="fc-title" data-i18n="features.card8.title">Immutable Objects + GC</h3>
-        <p class="fc-desc" data-i18n="features.card8.desc">WAL, compacted, snapshot, and table objects are immutable once committed. GC is driven by Oxia reference counting — not by object store list operations.</p>
+        <p class="fc-desc" data-i18n="features.card8.desc">WAL, compacted, snapshot, and table objects are immutable once committed. GC is driven by metadata-plane reference counting — not by object store list operations.</p>
       </div>
     </div>
   </div>
@@ -567,7 +567,7 @@
         <div class="roadmap-num">1</div>
         <div class="roadmap-body">
           <h4><span data-i18n="roadmap.p1.title">Nereus Storage Core</span> <span class="roadmap-badge" data-i18n="roadmap.p1.badge">Phase 1</span></h4>
-          <p data-i18n="roadmap.p1.desc">StreamStorage API (streamId + offset, append/read/resolve/trim), generation/segment/index, StorageProfile abstraction, Oxia metadata integration, cursor/checkpoint primitives. No Pulsar or Kafka dependencies at this layer.</p>
+          <p data-i18n="roadmap.p1.desc">StreamStorage API (streamId + offset, append/read/resolve/trim), generation/segment/index, StorageProfile abstraction, metadata plane integration, cursor/checkpoint primitives. No Pulsar or Kafka dependencies at this layer.</p>
         </div>
       </div>
       <div class="roadmap-item">
@@ -581,7 +581,7 @@
         <div class="roadmap-num">3</div>
         <div class="roadmap-body">
           <h4><span data-i18n="roadmap.p3.title">Object WAL + Object Segment Profiles</span> <span class="roadmap-badge" data-i18n="roadmap.p3.badge">Phase 3</span></h4>
-          <p data-i18n="roadmap.p3.desc">WalProfile=OBJECT_WAL + DataProfile=OBJECT_SEGMENT. True shared-storage: WAL and final data both on object store. Multi-stream WAL aggregation, per-stream visibility through Oxia offset index.</p>
+          <p data-i18n="roadmap.p3.desc">WalProfile=OBJECT_WAL + DataProfile=OBJECT_SEGMENT. True shared-storage: WAL and final data both on object store. Multi-stream WAL aggregation, per-stream visibility through the metadata offset index.</p>
         </div>
       </div>
       <div class="roadmap-item">
@@ -678,9 +678,9 @@ const _T = {
     "meta.keywords": "Nereus, stream storage substrate, Oxia, Pulsar, Kafka, KoP, shared-storage, lakehouse, storage profiles, WAL, object store, compaction, SBT, SDT",
     "meta.ogtitle": "Nereus — Stream Storage Substrate for Pulsar / KoP / Kafka / Lakehouse",
     "meta.ogdesc": "Pluggable stream storage substrate. Unified streamId + offset with WAL/object-store profiles. Pulsar, KoP, Kafka as upper adapters. Generation compaction and lakehouse tiering.",
-    "hero.badge": "Design Phase · Oxia-Powered · Storage Substrate",
+    "hero.badge": "Design Phase · Metadata-Driven · Storage Substrate",
     "hero.sub": "Stream Storage Substrate for Modern Messaging & Streaming Systems",
-    "hero.desc": "Pluggable stream storage substrate with a unified streamId + offset abstraction. Oxia metadata plane for offset authority, fencing, and coordination. Multiple WAL and object-store storage profiles. Pulsar, KoP, and Kafka integrations as upper-layer adapters — not separate systems.",
+    "hero.desc": "Pluggable stream storage substrate with a unified streamId + offset abstraction. Metadata and coordination plane for offset authority, fencing, and consistency. Multiple WAL and object-store storage profiles. Pulsar, KoP, and Kafka integrations as upper-layer adapters — not separate systems.",
     "hero.stat.arch": "Layered Architecture",
     "hero.stat.meta": "Metadata Plane",
     "hero.stat.data": "Data Plane",
@@ -696,13 +696,13 @@ const _T = {
     "arch.layer2.title": "Integration Layer · Protocol Adapters",
     "arch.layer2.desc": "Pulsar ManagedLedger replacement, KoP Kafka projection, and future Kafka log adapter. Each translates protocol-specific semantics (MessageId, Kafka offset, leader epoch) into the unified Storage API.",
     "arch.layer2.tech": "nereus-managed-ledger · nereus-pulsar-adapter · nereus-kop-adapter · nereus-kafka-log-adapter",
-    "arch.layer3.title": "Nereus Storage Core · Oxia Metadata Plane",
-    "arch.layer3.desc": "Unified StreamStorage API: append / read / resolve / trim. Oxia is the offset authority — fencing, CAS, cursor state, index manifest. Generation and segment index provide immutable, compacted views of each stream.",
-    "arch.layer3.tech": "StreamStorage · streamId + offset · Generation · Segment · Checkpoint · Oxia",
+    "arch.layer3.title": "Nereus Storage Core · Metadata & Coordination",
+    "arch.layer3.desc": "Unified StreamStorage API: append / read / resolve / trim. The metadata plane is the offset authority — fencing, CAS, cursor state, index manifest. Generation and segment index provide immutable, compacted views of each stream.",
+    "arch.layer3.tech": "StreamStorage · streamId + offset · Generation · Segment · Checkpoint · Metadata Plane",
     "arch.layer4.title": "Pluggable Storage Profiles",
     "arch.layer4.desc": "BookKeeper only, BK WAL + Object Store, Object WAL + Object Store, Local WAL + Object Store, Lakehouse tiering. Selectable per topic or namespace, migratable across generation boundaries.",
     "arch.layer5.title": "Shared Object Data Plane",
-    "arch.layer5.desc": "Immutable WAL objects, per-stream compacted objects, SBT/SDT lakehouse tables, cursor/txn snapshots. Objects are immutable once committed — visibility is Oxia's domain, not the object store's.",
+    "arch.layer5.desc": "Immutable WAL objects, per-stream compacted objects, SBT/SDT lakehouse tables, cursor/txn snapshots. Objects are immutable once committed — visibility is controlled by the metadata plane, not the object store.",
     "arch.layer5.tech": "S3 · GCS · MinIO · Parquet · Iceberg",
     "align.tag": "Design Alignment",
     "align.title": "A Storage Substrate, Not a Streaming Engine",
@@ -710,8 +710,8 @@ const _T = {
     "align.th.capability": "Capability",
     "align.th.design": "Nereus Design",
     "align.th.layer": "Layer",
-    "align.oxia.name": "Oxia metadata service",
-    "align.oxia.desc": "Offset index, fencing, CAS, cursor state, transaction state, routing — Oxia owns visibility, not the broker or object store",
+    "align.oxia.name": "Metadata & coordination service",
+    "align.oxia.desc": "Offset index, fencing, CAS, cursor state, transaction state, routing — the metadata plane owns visibility, not the broker or object store",
     "align.oxia.layer": "Core",
     "align.api.name": "StreamStorage API",
     "align.api.desc": "Unified append / read / resolve / trim with streamId + offset. Protocol-neutral: no ledger, entry, topic, or partition in the core layer",
@@ -753,12 +753,12 @@ const _T = {
     "features.card4.desc": "BookKeeper WAL for low latency, Object WAL for cost efficiency, Local WAL for edge. WAL and final data-store profiles are independently selectable.",
     "features.card5.title": "Upper-System Neutral",
     "features.card5.desc": "Pulsar, KoP, and Kafka KRaft are adapters — not Nereus itself. Each adapter translates its protocol into the same StreamStorage API. One storage core, many protocols.",
-    "features.card6.title": "Oxia: The Offset Authority",
-    "features.card6.desc": "Oxia decides visibility, assigns offsets, fences stale commits. Object stores store bytes — not truth. The broker is stateless for correctness.",
+    "features.card6.title": "Metadata-Driven Correctness",
+    "features.card6.desc": "A dedicated metadata plane decides visibility, assigns offsets, and fences stale commits. Object stores store bytes — not truth. The broker is stateless for correctness.",
     "features.card7.title": "Stream-Table Duality",
     "features.card7.desc": "SBT exposes streams as built-in Iceberg tables. SDT delivers to external catalogs. Lakehouse queries and streaming reads share the same compacted objects.",
     "features.card8.title": "Immutable Objects + GC",
-    "features.card8.desc": "WAL, compacted, snapshot, and table objects are immutable once committed. GC is driven by Oxia reference counting — not by object store list operations.",
+    "features.card8.desc": "WAL, compacted, snapshot, and table objects are immutable once committed. GC is driven by metadata-plane reference counting — not by object store list operations.",
     "roadmap.tag": "Implementation Roadmap",
     "roadmap.title": "7-Phase Plan: From Core to All Adapters",
     "roadmap.desc": "Build the storage core first, then attach adapters. Pulsar native first (lowest risk), KoP next (reuses Pulsar path), Kafka KRaft last (hardest).",
@@ -767,13 +767,13 @@ const _T = {
     "roadmap.p0.desc": "Gradle multi-module structure: nereus-api, nereus-core, nereus-storage-bk, nereus-object-store, nereus-managed-ledger, nereus-pulsar-adapter, nereus-kop-adapter. Fork workflow established.",
     "roadmap.p1.title": "Nereus Storage Core",
     "roadmap.p1.badge": "Phase 1",
-    "roadmap.p1.desc": "StreamStorage API (streamId + offset, append/read/resolve/trim), generation/segment/index, StorageProfile abstraction, Oxia metadata integration, cursor/checkpoint primitives. No Pulsar or Kafka dependencies at this layer.",
+    "roadmap.p1.desc": "StreamStorage API (streamId + offset, append/read/resolve/trim), generation/segment/index, StorageProfile abstraction, metadata plane integration, cursor/checkpoint primitives. No Pulsar or Kafka dependencies at this layer.",
     "roadmap.p2.title": "BookKeeper Profile",
     "roadmap.p2.badge": "Phase 2",
     "roadmap.p2.desc": "WalProfile=BOOKKEEPER_WAL + DataProfile=BOOKKEEPER_LEDGER, then BK_WAL + OBJECT_SEGMENT. Fast Pulsar integration, reuse BK's consensus and low-latency properties. Demonstration of WAL+Data profile separation.",
     "roadmap.p3.title": "Object WAL + Object Segment Profiles",
     "roadmap.p3.badge": "Phase 3",
-    "roadmap.p3.desc": "WalProfile=OBJECT_WAL + DataProfile=OBJECT_SEGMENT. True shared-storage: WAL and final data both on object store. Multi-stream WAL aggregation, per-stream visibility through Oxia offset index.",
+    "roadmap.p3.desc": "WalProfile=OBJECT_WAL + DataProfile=OBJECT_SEGMENT. True shared-storage: WAL and final data both on object store. Multi-stream WAL aggregation, per-stream visibility through the metadata offset index.",
     "roadmap.p4.title": "Pulsar ManagedLedger Adapter",
     "roadmap.p4.badge": "Phase 4",
     "roadmap.p4.desc": "ManagedLedger + ManagedCursor replacement via topic policy. MessageId → streamId + offset, Position mapping. Topic-level StorageProfile selection. First demonstration of multi-profile coexistence within one cluster.",
@@ -809,9 +809,9 @@ const _T = {
     "meta.keywords": "Nereus, 流存储基座, Oxia, Pulsar, Kafka, KoP, 共享存储, Lakehouse, 存储配置, WAL, 对象存储, compaction, SBT, SDT",
     "meta.ogtitle": "Nereus — 流存储基座 · 面向 Pulsar / KoP / Kafka / Lakehouse",
     "meta.ogdesc": "可插拔的流存储基座。统一的 streamId + offset 配合 WAL/对象存储配置。Pulsar、KoP、Kafka 作为上层适配器。Generation 级 compaction 与 Lakehouse tiering。",
-    "hero.badge": "设计阶段 · Oxia 驱动 · 存储基座",
+    "hero.badge": "设计阶段 · 元数据驱动 · 存储基座",
     "hero.sub": "面向现代消息与流系统的存储基座",
-    "hero.desc": "可插拔的流存储基座，提供统一的 streamId + offset 抽象。Oxia 元数据层负责 offset 权威分配、fencing 和协调。支持多种 WAL 和对象存储组合配置。Pulsar、KoP、Kafka 作为上层适配层集成——而非独立系统。",
+    "hero.desc": "可插拔的流存储基座，提供统一的 streamId + offset 抽象。元数据协调层负责 offset 权威分配、fencing 和一致性保证。支持多种 WAL 和对象存储组合配置。Pulsar、KoP、Kafka 作为上层适配层集成——而非独立系统。",
     "hero.stat.arch": "分层架构",
     "hero.stat.meta": "元数据层",
     "hero.stat.data": "数据层",
@@ -827,13 +827,13 @@ const _T = {
     "arch.layer2.title": "集成层 · 协议适配器",
     "arch.layer2.desc": "Pulsar ManagedLedger 替换、KoP Kafka 协议投影，以及未来的 Kafka log 适配器。各适配器将协议特定语义（MessageId、Kafka offset、leader epoch）转换为统一的 Storage API。",
     "arch.layer2.tech": "nereus-managed-ledger · nereus-pulsar-adapter · nereus-kop-adapter · nereus-kafka-log-adapter",
-    "arch.layer3.title": "Nereus 存储核心 · Oxia 元数据层",
-    "arch.layer3.desc": "统一的 StreamStorage API：append / read / resolve / trim。Oxia 是 offset 权威——fencing、CAS、游标状态、索引清单。Generation 和 Segment 索引提供对每个 stream 的不可变压缩视图。",
-    "arch.layer3.tech": "StreamStorage · streamId + offset · Generation · Segment · Checkpoint · Oxia",
+    "arch.layer3.title": "Nereus 存储核心 · 元数据与协调",
+    "arch.layer3.desc": "统一的 StreamStorage API：append / read / resolve / trim。元数据层是 offset 权威——fencing、CAS、游标状态、索引清单。Generation 和 Segment 索引提供对每个 stream 的不可变压缩视图。",
+    "arch.layer3.tech": "StreamStorage · streamId + offset · Generation · Segment · Checkpoint · 元数据层",
     "arch.layer4.title": "可插拔存储配置",
     "arch.layer4.desc": "纯 BookKeeper、BK WAL + 对象存储、Object WAL + 对象存储、Local WAL + 对象存储、Lakehouse tiering。可按 topic 或 namespace 选择，可在 generation 边界间迁移。",
     "arch.layer5.title": "共享对象数据层",
-    "arch.layer5.desc": "不可变 WAL 对象、per-stream 压缩对象、SBT/SDT lakehouse 表、游标/事务快照。所有对象一旦提交即不可变——可见性由 Oxia 控制，而非对象存储。",
+    "arch.layer5.desc": "不可变 WAL 对象、per-stream 压缩对象、SBT/SDT lakehouse 表、游标/事务快照。所有对象一旦提交即不可变——可见性由元数据层控制，而非对象存储。",
     "arch.layer5.tech": "S3 · GCS · MinIO · Parquet · Iceberg",
     "align.tag": "设计对齐",
     "align.title": "存储基座，而非流处理引擎",
@@ -841,8 +841,8 @@ const _T = {
     "align.th.capability": "能力",
     "align.th.design": "Nereus 设计",
     "align.th.layer": "层级",
-    "align.oxia.name": "Oxia 元数据服务",
-    "align.oxia.desc": "Offset 索引、fencing、CAS、游标状态、事务状态、路由——Oxia 拥有可见性，而非 broker 或对象存储",
+    "align.oxia.name": "元数据协调服务",
+    "align.oxia.desc": "Offset 索引、fencing、CAS、游标状态、事务状态、路由——元数据层拥有可见性，而非 broker 或对象存储",
     "align.oxia.layer": "核心",
     "align.api.name": "StreamStorage API",
     "align.api.desc": "基于 streamId + offset 的统一 append / read / resolve / trim。协议无关：核心层不出现 ledger、entry、topic 或 partition 概念",
@@ -884,12 +884,12 @@ const _T = {
     "features.card4.desc": "BookKeeper WAL 追求低延迟，Object WAL 追求成本效率，Local WAL 适用于边缘场景。WAL 与最终数据存储配置可独立选择。",
     "features.card5.title": "上层系统无关",
     "features.card5.desc": "Pulsar、KoP、Kafka KRaft 是适配器——不是 Nereus 本体。每个适配器将自身协议转换为同一个 StreamStorage API。一个存储核心，多种协议。",
-    "features.card6.title": "Oxia：Offset 权威",
-    "features.card6.desc": "Oxia 决定可见性、分配 offset、fence 过期提交。对象存储保存字节——而非真实来源。Broker 在正确性层面是无状态的。",
+    "features.card6.title": "元数据驱动的正确性",
+    "features.card6.desc": "专用元数据层决定可见性、分配 offset、fence 过期提交。对象存储保存字节——而非真实来源。Broker 在正确性层面是无状态的。",
     "features.card7.title": "流表二元性",
     "features.card7.desc": "SBT 将 stream 暴露为内置 Iceberg 表。SDT 交付到外部 catalog。Lakehouse 查询与流式读取共享相同的压缩对象。",
     "features.card8.title": "不可变对象 + GC",
-    "features.card8.desc": "WAL、压缩、快照和表对象一旦提交即不可变。GC 由 Oxia 引用计数驱动——而非对象存储 list 操作。",
+    "features.card8.desc": "WAL、压缩、快照和表对象一旦提交即不可变。GC 由元数据层引用计数驱动——而非对象存储 list 操作。",
     "roadmap.tag": "实施路线图",
     "roadmap.title": "七阶段计划：从核心到全部适配器",
     "roadmap.desc": "先构建存储核心，再接入适配器。Pulsar 原生优先（风险最低），KoP 其次（复用 Pulsar 路径），Kafka KRaft 最后（难度最高）。",
@@ -898,13 +898,13 @@ const _T = {
     "roadmap.p0.desc": "Gradle 多模块结构：nereus-api、nereus-core、nereus-storage-bk、nereus-object-store、nereus-managed-ledger、nereus-pulsar-adapter、nereus-kop-adapter。Fork 工作流已建立。",
     "roadmap.p1.title": "Nereus 存储核心",
     "roadmap.p1.badge": "Phase 1",
-    "roadmap.p1.desc": "StreamStorage API（streamId + offset，append/read/resolve/trim），generation/segment/index，StorageProfile 抽象，Oxia 元数据集成，游标/checkpoint 原语。该层无 Pulsar 或 Kafka 依赖。",
+    "roadmap.p1.desc": "StreamStorage API（streamId + offset，append/read/resolve/trim），generation/segment/index，StorageProfile 抽象，元数据层集成，游标/checkpoint 原语。该层无 Pulsar 或 Kafka 依赖。",
     "roadmap.p2.title": "BookKeeper 配置",
     "roadmap.p2.badge": "Phase 2",
     "roadmap.p2.desc": "WalProfile=BOOKKEEPER_WAL + DataProfile=BOOKKEEPER_LEDGER，然后 BK_WAL + OBJECT_SEGMENT。快速接入 Pulsar，复用 BK 的共识与低延迟能力。展示 WAL 与 Data 配置分离。",
     "roadmap.p3.title": "Object WAL + Object Segment 配置",
     "roadmap.p3.badge": "Phase 3",
-    "roadmap.p3.desc": "WalProfile=OBJECT_WAL + DataProfile=OBJECT_SEGMENT。真正的共享存储：WAL 和最终数据均在对象存储上。多流 WAL 聚合，通过 Oxia offset 索引实现 per-stream 可见性。",
+    "roadmap.p3.desc": "WalProfile=OBJECT_WAL + DataProfile=OBJECT_SEGMENT。真正的共享存储：WAL 和最终数据均在对象存储上。多流 WAL 聚合，通过元数据 offset 索引实现 per-stream 可见性。",
     "roadmap.p4.title": "Pulsar ManagedLedger 适配器",
     "roadmap.p4.badge": "Phase 4",
     "roadmap.p4.desc": "通过 topic policy 替换 ManagedLedger + ManagedCursor。MessageId → streamId + offset，Position 映射。Topic 级 StorageProfile 选择。首次展示同一集群内多配置共存。",
