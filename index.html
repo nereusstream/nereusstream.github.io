@@ -124,6 +124,12 @@
     background: rgba(14, 59, 181, 0.08); border: 1px solid rgba(14, 59, 181, 0.15);
     border-radius: 999px; padding: 6px 18px; margin-bottom: 28px;
   }
+  .hero-badge .early-stage {
+    color: #c2410c;
+    background: rgba(194, 65, 12, 0.1);
+    border: 1px solid rgba(194, 65, 12, 0.2);
+    border-radius: 999px; padding: 2px 10px; margin: -2px 0; font-size: 12px;
+  }
   .badge-dot {
     width: 8px; height: 8px; border-radius: 50%;
     background: var(--n-teal-500); box-shadow: 0 0 8px rgba(6, 182, 212, 0.6);
@@ -339,7 +345,7 @@
   </div>
   <div class="hero-inner">
     <div class="hero-badge">
-      <span class="badge-dot"></span> <span data-i18n="hero.badge">Design Phase · Metadata-Driven · Storage Substrate</span>
+      <span class="badge-dot"></span> <span class="early-stage" data-i18n="hero.early">Early Stage · AI-Assisted</span>&ensp;<span data-i18n="hero.badge">Design Phase · Metadata-Driven · Storage Substrate</span>
     </div>
     <h1 class="hero-title">
       <span class="t-nereus">Nereus</span>
@@ -678,6 +684,7 @@ const _T = {
     "meta.keywords": "Nereus, stream storage substrate, Oxia, Pulsar, Kafka, KoP, shared-storage, lakehouse, storage profiles, WAL, object store, compaction, SBT, SDT",
     "meta.ogtitle": "Nereus — Stream Storage Substrate for Pulsar / KoP / Kafka / Lakehouse",
     "meta.ogdesc": "Pluggable stream storage substrate. Unified streamId + offset with WAL/object-store profiles. Pulsar, KoP, Kafka as upper adapters. Generation compaction and lakehouse tiering.",
+    "hero.early": "Early Stage · AI-Assisted",
     "hero.badge": "Design Phase · Metadata-Driven · Storage Substrate",
     "hero.sub": "Stream Storage Substrate for Modern Messaging & Streaming Systems",
     "hero.desc": "Pluggable stream storage substrate with a unified streamId + offset abstraction. Metadata and coordination plane for offset authority, fencing, and consistency. Multiple WAL and object-store storage profiles. Pulsar, KoP, and Kafka integrations as upper-layer adapters — not separate systems.",
@@ -809,6 +816,7 @@ const _T = {
     "meta.keywords": "Nereus, 流存储基座, Oxia, Pulsar, Kafka, KoP, 共享存储, Lakehouse, 存储配置, WAL, 对象存储, compaction, SBT, SDT",
     "meta.ogtitle": "Nereus — 流存储基座 · 面向 Pulsar / KoP / Kafka / Lakehouse",
     "meta.ogdesc": "可插拔的流存储基座。统一的 streamId + offset 配合 WAL/对象存储配置。Pulsar、KoP、Kafka 作为上层适配器。Generation 级 compaction 与 Lakehouse tiering。",
+    "hero.early": "项目早期 · 暂用 AI 辅助设计与实施",
     "hero.badge": "设计阶段 · 元数据驱动 · 存储基座",
     "hero.sub": "面向现代消息与流系统的存储基座",
     "hero.desc": "可插拔的流存储基座，提供统一的 streamId + offset 抽象。元数据协调层负责 offset 权威分配、fencing 和一致性保证。支持多种 WAL 和对象存储组合配置。Pulsar、KoP、Kafka 作为上层适配层集成——而非独立系统。",
