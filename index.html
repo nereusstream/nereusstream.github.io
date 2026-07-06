@@ -214,8 +214,11 @@
   .arch-row-body p  { font-size: 14px; color: var(--n-text-muted); line-height: 1.6; }
   .arch-row-body .arch-tech { font-size: 12px; font-weight: 600; color: var(--n-blue-600); margin-top: 8px; }
   .arch-arrow {
-    font-size: 20px; font-weight: bold; color: var(--n-slate-300); flex-shrink: 0; width: 24px; text-align: center;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 36px; flex-shrink: 0;
   }
+  .arch-arrow-line { width: 2px; height: 22px; background: linear-gradient(to bottom, rgba(6,182,212,0.25), rgba(14,59,181,0.45)); border-radius: 1px; }
+  .arch-arrow-tip { width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 8px solid rgba(14,59,181,0.45); }
   .arch-row-inline { display: flex; gap: 16px; }
   .arch-row-inline .arch-row { flex: 1; }
 
@@ -416,7 +419,7 @@
             <div class="arch-tech" data-i18n="arch.layer1.tech">Pulsar · KoP · Kafka KRaft</div>
           </div>
         </div>
-        <div class="arch-arrow">↓</div>
+        <div class="arch-arrow"><div class="arch-arrow-line"></div><div class="arch-arrow-tip"></div></div>
         <div class="arch-row">
           <div class="arch-row-icon protocol">🔗</div>
           <div class="arch-row-body">
@@ -425,7 +428,7 @@
             <div class="arch-tech" data-i18n="arch.layer2.tech">nereus-managed-ledger · nereus-pulsar-adapter · nereus-kop-adapter · nereus-kafka-log-adapter</div>
           </div>
         </div>
-        <div class="arch-arrow">↓</div>
+        <div class="arch-arrow"><div class="arch-arrow-line"></div><div class="arch-arrow-tip"></div></div>
         <div class="arch-row">
           <div class="arch-row-icon oxia">☑️</div>
           <div class="arch-row-body">
@@ -434,7 +437,7 @@
             <div class="arch-tech" data-i18n="arch.layer3.tech">StreamStorage · streamId + offset · Generation · Segment · Checkpoint · Metadata Plane</div>
           </div>
         </div>
-        <div class="arch-arrow">↓</div>
+        <div class="arch-arrow"><div class="arch-arrow-line"></div><div class="arch-arrow-tip"></div></div>
         <div class="arch-row-inline">
           <div class="arch-row">
             <div class="arch-row-icon store">⚡</div>
@@ -444,13 +447,13 @@
             </div>
           </div>
         </div>
-        <div class="arch-arrow">↓</div>
+        <div class="arch-arrow"><div class="arch-arrow-line"></div><div class="arch-arrow-tip"></div></div>
         <div class="arch-row">
           <div class="arch-row-icon data">☁️</div>
           <div class="arch-row-body">
             <h4 data-i18n="arch.layer5.title">Shared Object Data Plane</h4>
             <p data-i18n="arch.layer5.desc">Immutable WAL objects, per-stream compacted objects, SBT/SDT lakehouse tables, cursor/txn snapshots. Objects are immutable once committed — visibility is controlled by the metadata plane, not the object store.</p>
-            <div class="arch-tech" data-i18n="arch.layer5.tech">S3 · GCS · MinIO · Parquet · Iceberg</div>
+            <div class="arch-tech" data-i18n="arch.layer5.tech">S3 · GCS · RustFS · Parquet · Iceberg / Paimon / Lance</div>
           </div>
         </div>
       </div>
@@ -485,7 +488,7 @@
           <tr><td data-i18n="align.data.name">Pluggable Data Store</td><td data-i18n="align.data.desc">BookKeeper ledgers, Object segments, Lakehouse tables — per-stream profile, migratable across generation boundaries</td><td data-i18n="align.data.layer">Core</td></tr>
           <tr><td data-i18n="align.profile.name">Topic-level StorageProfile</td><td data-i18n="align.profile.desc">Different topics in the same cluster can use different WAL+Data profiles. Profile migration goes through a generation boundary — never implicit mixing</td><td data-i18n="align.profile.layer">Core</td></tr>
           <tr><td data-i18n="align.compact.name">Compaction</td><td data-i18n="align.compact.desc">Generation replacement: same offset range, new physical object index, atomic swap. Readers switch to the highest visible generation</td><td data-i18n="align.compact.layer">Core</td></tr>
-          <tr><td data-i18n="align.lake.name">Lakehouse / stream-table duality</td><td data-i18n="align.lake.desc">SBT (built-in table) + SDT (external delivery) expose streams as Iceberg tables. Catalog updates are not on the ack path</td><td data-i18n="align.lake.layer">Core</td></tr>
+          <tr><td data-i18n="align.lake.name">Lakehouse / stream-table duality</td><td data-i18n="align.lake.desc">SBT (built-in table) + SDT (external delivery) expose streams as lakehouse tables (Iceberg / Paimon / Lance). Catalog updates are not on the ack path</td><td data-i18n="align.lake.layer">Core</td></tr>
           <tr><td data-i18n="align.broker.name">Stateless / leaderless broker</td><td data-i18n="align.broker.desc">Broker not a durable owner; preferred broker for locality only. No data movement on scale-in/out</td><td data-i18n="align.broker.layer">Routing</td></tr>
           <tr><td data-i18n="align.pulsar.name">Pulsar adapter</td><td data-i18n="align.pulsar.desc">ManagedLedger facade: MessageId/Position → streamId/offset. Full ManagedCursor compatibility, Shared/Key_Shared subscriptions</td><td data-i18n="align.pulsar.layer">Adapter</td></tr>
           <tr><td data-i18n="align.kop.name">KoP / Kafka adapter</td><td data-i18n="align.kop.desc">Kafka offset = stream record offset. Produce/Fetch mapping, group offset, transaction marker, __consumer_offsets</td><td data-i18n="align.kop.layer">Adapter</td></tr>
@@ -540,7 +543,7 @@
       <div class="feature-card">
         <div class="fc-icon">🗄️</div>
         <h3 class="fc-title" data-i18n="features.card7.title">Stream-Table Duality</h3>
-        <p class="fc-desc" data-i18n="features.card7.desc">SBT exposes streams as built-in Iceberg tables. SDT delivers to external catalogs. Lakehouse queries and streaming reads share the same compacted objects.</p>
+        <p class="fc-desc" data-i18n="features.card7.desc">SBT exposes streams as built-in lakehouse tables (Iceberg / Paimon / Lance). SDT delivers to external catalogs. Lakehouse queries and streaming reads share the same compacted objects.</p>
       </div>
       <div class="feature-card">
         <div class="fc-icon">📦</div>
@@ -608,7 +611,7 @@
         <div class="roadmap-num">6</div>
         <div class="roadmap-body">
           <h4><span data-i18n="roadmap.p6.title">Lakehouse Tiering &amp; Compaction</span> <span class="roadmap-badge" data-i18n="roadmap.p6.badge">Phase 6</span></h4>
-          <p data-i18n="roadmap.p6.desc">DataProfile=OBJECT_SEGMENT+LAKEHOUSE_TABLE. Flink-sync and internal compaction. SBT (built-in) + SDT (external delivery). Iceberg/Paimon table formats, generation overlay, atomic index replacement.</p>
+          <p data-i18n="roadmap.p6.desc">DataProfile=OBJECT_SEGMENT+LAKEHOUSE_TABLE. Flink-sync and internal compaction. SBT (built-in) + SDT (external delivery). Iceberg / Paimon / Lance table formats, generation overlay, atomic index replacement.</p>
         </div>
       </div>
       <div class="roadmap-item">
@@ -710,7 +713,7 @@ const _T = {
     "arch.layer4.desc": "BookKeeper only, BK WAL + Object Store, Object WAL + Object Store, Local WAL + Object Store, Lakehouse tiering. Selectable per topic or namespace, migratable across generation boundaries.",
     "arch.layer5.title": "Shared Object Data Plane",
     "arch.layer5.desc": "Immutable WAL objects, per-stream compacted objects, SBT/SDT lakehouse tables, cursor/txn snapshots. Objects are immutable once committed — visibility is controlled by the metadata plane, not the object store.",
-    "arch.layer5.tech": "S3 · GCS · MinIO · Parquet · Iceberg",
+    "arch.layer5.tech": "S3 · GCS · RustFS · Parquet · Iceberg / Paimon / Lance",
     "align.tag": "Design Alignment",
     "align.title": "A Storage Substrate, Not a Streaming Engine",
     "align.desc": "Nereus is the unified storage layer beneath Pulsar, KoP, and Kafka. It provides pluggable WAL and object-store profiles, generation-based compaction, and lakehouse tiering. Each upper system is an adapter — not a separate storage backend.",
@@ -736,7 +739,7 @@ const _T = {
     "align.compact.desc": "Generation replacement: same offset range, new physical object index, atomic swap. Readers switch to the highest visible generation",
     "align.compact.layer": "Core",
     "align.lake.name": "Lakehouse / stream-table duality",
-    "align.lake.desc": "SBT (built-in table) + SDT (external delivery) expose streams as Iceberg tables. Catalog updates are not on the ack path",
+    "align.lake.desc": "SBT (built-in table) + SDT (external delivery) expose streams as lakehouse tables (Iceberg / Paimon / Lance). Catalog updates are not on the ack path",
     "align.lake.layer": "Core",
     "align.broker.name": "Stateless / leaderless broker",
     "align.broker.desc": "Broker not a durable owner; preferred broker for locality only. No data movement on scale-in/out",
@@ -763,7 +766,7 @@ const _T = {
     "features.card6.title": "Metadata-Driven Correctness",
     "features.card6.desc": "A dedicated metadata plane decides visibility, assigns offsets, and fences stale commits. Object stores store bytes — not truth. The broker is stateless for correctness.",
     "features.card7.title": "Stream-Table Duality",
-    "features.card7.desc": "SBT exposes streams as built-in Iceberg tables. SDT delivers to external catalogs. Lakehouse queries and streaming reads share the same compacted objects.",
+    "features.card7.desc": "SBT exposes streams as built-in lakehouse tables (Iceberg / Paimon / Lance). SDT delivers to external catalogs. Lakehouse queries and streaming reads share the same compacted objects.",
     "features.card8.title": "Immutable Objects + GC",
     "features.card8.desc": "WAL, compacted, snapshot, and table objects are immutable once committed. GC is driven by metadata-plane reference counting — not by object store list operations.",
     "roadmap.tag": "Implementation Roadmap",
@@ -789,7 +792,7 @@ const _T = {
     "roadmap.p5.desc": "KoP reuses Pulsar-native storage path — no separate storage. Kafka offset=stream offset, fetch isolation, consumer group mapping, transaction markers, __consumer_offsets handling.",
     "roadmap.p6.title": "Lakehouse Tiering & Compaction",
     "roadmap.p6.badge": "Phase 6",
-    "roadmap.p6.desc": "DataProfile=OBJECT_SEGMENT+LAKEHOUSE_TABLE. Flink-sync and internal compaction. SBT (built-in) + SDT (external delivery). Iceberg/Paimon table formats, generation overlay, atomic index replacement.",
+    "roadmap.p6.desc": "DataProfile=OBJECT_SEGMENT+LAKEHOUSE_TABLE. Flink-sync and internal compaction. SBT (built-in) + SDT (external delivery). Iceberg / Paimon / Lance table formats, generation overlay, atomic index replacement.",
     "roadmap.p7.title": "Kafka KRaft Adapter",
     "roadmap.p7.badge": "Phase 7 · Long-term",
     "roadmap.p7.desc": "Kafka UnifiedLog + LogSegment replacement via nereus-kafka-log-adapter. Topic-partition → Nereus stream, leader epoch projection, KRaft metadata image integration. Hardest path — deferred to later phase.",
@@ -842,7 +845,7 @@ const _T = {
     "arch.layer4.desc": "纯 BookKeeper、BK WAL + 对象存储、Object WAL + 对象存储、Local WAL + 对象存储、Lakehouse tiering。可按 topic 或 namespace 选择，可在 generation 边界间迁移。",
     "arch.layer5.title": "共享对象数据层",
     "arch.layer5.desc": "不可变 WAL 对象、per-stream 压缩对象、SBT/SDT lakehouse 表、游标/事务快照。所有对象一旦提交即不可变——可见性由元数据层控制，而非对象存储。",
-    "arch.layer5.tech": "S3 · GCS · MinIO · Parquet · Iceberg",
+    "arch.layer5.tech": "S3 · GCS · RustFS · Parquet · Iceberg / Paimon / Lance",
     "align.tag": "设计对齐",
     "align.title": "存储基座，而非流处理引擎",
     "align.desc": "Nereus 是 Pulsar、KoP 和 Kafka 之下的统一存储层。提供可插拔的 WAL 和对象存储配置、基于 generation 的 compaction 和 Lakehouse tiering。每个上层系统都是适配器——而非独立存储后端。",
@@ -868,7 +871,7 @@ const _T = {
     "align.compact.desc": "Generation 替换：相同 offset 范围，新的物理对象索引，原子性切换。Reader 自动切换到最高可见 generation",
     "align.compact.layer": "核心",
     "align.lake.name": "Lakehouse / 流表二元性",
-    "align.lake.desc": "SBT（内置表）+ SDT（外部交付）将 stream 暴露为 Iceberg 表。catalog 更新不在确认路径上",
+    "align.lake.desc": "SBT（内置表）+ SDT（外部交付）将 stream 暴露为 lakehouse 表（Iceberg / Paimon / Lance）。catalog 更新不在确认路径上",
     "align.lake.layer": "核心",
     "align.broker.name": "无状态/无 leader broker",
     "align.broker.desc": "Broker 不是持久化所有者；仅用于就近性优化的 preferred broker。扩缩容无数据迁移",
@@ -895,7 +898,7 @@ const _T = {
     "features.card6.title": "元数据驱动的正确性",
     "features.card6.desc": "专用元数据层决定可见性、分配 offset、fence 过期提交。对象存储保存字节——而非真实来源。Broker 在正确性层面是无状态的。",
     "features.card7.title": "流表二元性",
-    "features.card7.desc": "SBT 将 stream 暴露为内置 Iceberg 表。SDT 交付到外部 catalog。Lakehouse 查询与流式读取共享相同的压缩对象。",
+    "features.card7.desc": "SBT 将 stream 暴露为内置 lakehouse 表（Iceberg / Paimon / Lance）。SDT 交付到外部 catalog。Lakehouse 查询与流式读取共享相同的压缩对象。",
     "features.card8.title": "不可变对象 + GC",
     "features.card8.desc": "WAL、压缩、快照和表对象一旦提交即不可变。GC 由元数据层引用计数驱动——而非对象存储 list 操作。",
     "roadmap.tag": "实施路线图",
@@ -921,7 +924,7 @@ const _T = {
     "roadmap.p5.desc": "KoP 复用 Pulsar 原生存储路径——无独立存储。Kafka offset = stream offset，fetch 隔离，consumer group 映射，事务标记，__consumer_offsets 处理。",
     "roadmap.p6.title": "Lakehouse Tiering 与 Compaction",
     "roadmap.p6.badge": "Phase 6",
-    "roadmap.p6.desc": "DataProfile=OBJECT_SEGMENT+LAKEHOUSE_TABLE。Flink 同步和内部 compaction。SBT（内置）+ SDT（外部交付）。Iceberg/Paimon 表格式，generation overlay，原子索引替换。",
+    "roadmap.p6.desc": "DataProfile=OBJECT_SEGMENT+LAKEHOUSE_TABLE。Flink 同步和内部 compaction。SBT（内置）+ SDT（外部交付）。Iceberg / Paimon / Lance 表格式，generation overlay，原子索引替换。",
     "roadmap.p7.title": "Kafka KRaft 适配器",
     "roadmap.p7.badge": "Phase 7 · 长期目标",
     "roadmap.p7.desc": "通过 nereus-kafka-log-adapter 替换 Kafka UnifiedLog + LogSegment。Topic-partition → Nereus stream，leader epoch 投影，KRaft 元数据镜像集成。难度最高——推迟到后期阶段。",
