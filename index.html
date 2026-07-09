@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title data-i18n-meta="meta.title" data-i18n="meta.title">Nereus — Stream Storage Substrate for Pulsar / KoP / Kafka / Lakehouse</title>
-<meta name="description" data-i18n-meta="meta.desc" content="Nereus is a pluggable stream storage substrate for modern messaging and streaming systems. Unified streamId + offset abstraction, pluggable WAL and object-store profiles, generation-based compaction, and lakehouse tiering. Pulsar, KoP, Kafka as upper adapters." />
-<meta name="keywords" data-i18n-meta="meta.keywords" content="Nereus, stream storage substrate, Oxia, Pulsar, Kafka, KoP, shared-storage, lakehouse, storage profiles, WAL, object store, compaction, SBT, SDT" />
-<meta property="og:title" data-i18n-meta="meta.ogtitle" content="Nereus — Stream Storage Substrate for Pulsar / KoP / Kafka / Lakehouse" />
-<meta property="og:description" data-i18n-meta="meta.ogdesc" content="Pluggable stream storage substrate. Unified streamId + offset with WAL/object-store profiles. Pulsar, KoP, Kafka as upper adapters. Generation compaction and lakehouse tiering." />
+<title data-i18n-meta="meta.title" data-i18n="meta.title">Nereus — Configurable Stream Storage for Pulsar, KoP, Kafka</title>
+<meta name="description" data-i18n-meta="meta.desc" content="Nereus is a profile-aware shared stream storage engine: one streamId + offset truth, Oxia metadata coordination, configurable BookKeeper/Object WAL profiles, synchronous visibility, asynchronous object materialization, and Pulsar/KoP/Kafka adapters." />
+<meta name="keywords" data-i18n-meta="meta.keywords" content="Nereus, stream storage, configurable storage profiles, sync visibility, async object materialization, Oxia, Pulsar, Kafka, KoP, BookKeeper WAL, Object WAL, shared storage, lakehouse" />
+<meta property="og:title" data-i18n-meta="meta.ogtitle" content="Nereus — Configurable Stream Storage Profiles" />
+<meta property="og:description" data-i18n-meta="meta.ogdesc" content="Configurable shared stream storage with BookKeeper/Object WAL profiles, sync visibility, async object materialization, and one streamId + offset truth." />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="NereusStream" />
 <link rel="icon" type="image/png" href="logo-icon.png" />
@@ -222,6 +222,45 @@
   .arch-row-inline { display: flex; gap: 16px; }
   .arch-row-inline .arch-row { flex: 1; }
 
+
+
+  /* ── Storage Profiles ───────────────────── */
+  .profile-layout {
+    max-width: 980px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px;
+  }
+  .profile-baseline {
+    width: min(100%, 620px); margin: 0 auto;
+  }
+  .profile-matrix {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; align-items: stretch;
+  }
+  .profile-column { min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+  .profile-column-title {
+    align-self: center; width: fit-content; max-width: 100%; text-align: center;
+    padding: 6px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--n-blue-700); background: rgba(14,59,181,0.06);
+    border: 1px solid rgba(14,59,181,0.1);
+  }
+  .profile-card {
+    min-height: 206px; min-width: 0; padding: 24px; border-radius: 16px;
+    background: var(--n-card-bg); border: 1px solid var(--n-border);
+    box-shadow: var(--n-card-shadow); display: flex; flex-direction: column; gap: 12px; overflow: hidden;
+    transition: transform .3s, box-shadow .3s, border-color .3s;
+  }
+  .profile-card:hover { transform: translateY(-2px); box-shadow: var(--n-card-hover); border-color: rgba(14,59,181,0.15); }
+  .profile-card.sync { border-top: 4px solid var(--n-blue-500); }
+  .profile-card.async { border-top: 4px solid var(--n-teal-500); }
+  .profile-card.wal-only { border-top: 4px solid #64748b; min-height: 178px; }
+  .profile-head { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; min-width: 0; }
+  .profile-name { max-width: 100%; font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; font-weight: 800; line-height: 1.35; color: var(--n-blue-900); overflow-wrap: anywhere; word-break: break-word; }
+  .profile-pill { max-width: 100%; flex-shrink: 0; font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; border-radius: 999px; padding: 4px 8px; white-space: nowrap; }
+  .profile-pill.sync { color: var(--n-blue-700); background: rgba(14,59,181,0.08); }
+  .profile-pill.async { color: #0e7490; background: rgba(6,182,212,0.12); }
+  .profile-pill.wal-only { color: #475569; background: #f1f5f9; }
+  .profile-line { font-size: 13px; color: var(--n-text-muted); line-height: 1.5; }
+  .profile-line strong { color: var(--n-text-main); font-weight: 700; }
+  .profile-note { margin-top: 28px; padding: 18px 22px; border-radius: 12px; background: rgba(14,59,181,0.05); border: 1px solid rgba(14,59,181,0.12); color: var(--n-text-muted); font-size: 14px; line-height: 1.6; }
+
   /* ── Features Grid ──────────────────────── */
   .feature-grid {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;
@@ -314,6 +353,9 @@
     .nav-links a.desktop-only { display: none; }
     .hero-stats { gap: 20px; }
     .arch-row-inline { flex-direction: column; gap: 16px; }
+    .profile-matrix { grid-template-columns: 1fr; }
+    .profile-card { min-height: auto; padding: 20px; }
+    .profile-card.wal-only { min-height: auto; }
     .align-table { font-size: 13px; }
     .align-table th, .align-table td { padding: 12px 14px; }
   }
@@ -330,6 +372,7 @@
     </a>
     <div class="nav-links">
       <a href="#architecture" data-i18n="nav.architecture">Architecture</a>
+      <a href="#profiles" data-i18n="nav.profiles">Profiles</a>
       <a href="#features" data-i18n="nav.features">Features</a>
       <a href="#roadmap" data-i18n="nav.roadmap">Roadmap</a>
       <a href="#get-started" data-i18n="nav.get-started">Get Started</a>
@@ -348,17 +391,16 @@
   </div>
   <div class="hero-inner">
     <div class="hero-badge">
-      <span class="badge-dot"></span> <span class="early-stage" data-i18n="hero.early">Early Stage · AI-Assisted Design &amp; Implementation</span>&ensp;<span data-i18n="hero.badge">Design Phase · Metadata-Driven · Storage Substrate</span>
+      <span class="badge-dot"></span> <span class="early-stage" data-i18n="hero.early">Early Stage · AI-Assisted Design &amp; Implementation</span>&ensp;<span data-i18n="hero.badge">Design Phase · Profile-Aware Shared Storage</span>
     </div>
     <h1 class="hero-title">
       <span class="t-nereus">Nereus</span>
     </h1>
-    <p class="hero-sub" data-i18n="hero.sub">Stream Storage Substrate for Modern Messaging &amp; Streaming Systems</p>
+    <p class="hero-sub" data-i18n="hero.sub">Configurable Stream Storage Profiles for Pulsar, KoP, and Kafka</p>
     <p class="hero-desc" data-i18n="hero.desc">
-      Pluggable stream storage substrate with a unified streamId + offset abstraction.
-      Metadata and coordination plane for offset authority, fencing, and consistency.
-      Multiple WAL and object-store storage profiles. Pulsar, KoP, and Kafka integrations
-      as upper-layer adapters — not separate systems.
+      Nereus now models storage as selectable topic-level profiles: BookKeeper-only,
+      BookKeeper WAL with sync or async object materialization, and Object WAL with sync or async
+      object materialization. Every mode keeps one streamId + offset truth.
     </p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="https://github.com/nereusstream/nereus" target="_blank" rel="noopener">
@@ -378,20 +420,20 @@
       <div class="stat-divider"></div>
       <div class="stat-item">
         <span class="stat-icon">☑️</span>
-        <span class="stat-val">Metadata</span>
-        <span class="stat-label" data-i18n="hero.stat.meta">Metadata Plane</span>
+        <span class="stat-val">Oxia</span>
+        <span class="stat-label" data-i18n="hero.stat.meta">Oxia Metadata</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
         <span class="stat-icon">📦</span>
-        <span class="stat-val">Object</span>
-        <span class="stat-label" data-i18n="hero.stat.data">Data Plane</span>
+        <span class="stat-val">5</span>
+        <span class="stat-label" data-i18n="hero.stat.data">Storage Profiles</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
         <span class="stat-icon">⚡</span>
-        <span class="stat-val">7</span>
-        <span class="stat-label" data-i18n="hero.stat.phases">Phases</span>
+        <span class="stat-val">8</span>
+        <span class="stat-label" data-i18n="hero.stat.phases">Futures</span>
       </div>
     </div>
   </div>
@@ -402,11 +444,11 @@
   <div class="section-inner">
     <div class="section-header">
       <div class="section-tag" data-i18n="arch.tag">Architecture</div>
-      <h2 class="section-title" data-i18n="arch.title">Storage Core + Upper Adapters + Pluggable Profiles</h2>
+      <h2 class="section-title" data-i18n="arch.title">One Storage Core, Two Write Modes, Multiple Protocol Paths</h2>
       <p class="section-desc" data-i18n-html="arch.desc">
         The single internal coordinate —
         <code style="background:rgba(14,59,181,0.06);padding:2px 8px;border-radius:6px;font-size:14px;color:var(--n-blue-700);font-weight:600;">streamId + offset</code>
-        — powers every upper system. Pulsar, KoP, and Kafka are adapters, not separate storage engines.
+        — powers synchronous visibility, asynchronous object materialization, Pulsar native, KoP, and future Kafka-native paths.
       </p>
     </div>
     <div class="arch-visual">
@@ -414,27 +456,27 @@
         <div class="arch-row">
           <div class="arch-row-icon protocol">🔌</div>
           <div class="arch-row-body">
-            <h4 data-i18n="arch.layer1.title">Upper Systems / Protocols</h4>
-            <p data-i18n="arch.layer1.desc">Pulsar native protocol, KoP (Kafka-on-Pulsar) projection, and future Kafka KRaft direct integration. All map to the same streamId + offset truth — no separate storage backends per protocol.</p>
-            <div class="arch-tech" data-i18n="arch.layer1.tech">Pulsar · KoP · Kafka KRaft</div>
+            <h4 data-i18n="arch.layer1.title">Client Protocols and Integration Paths</h4>
+            <p data-i18n="arch.layer1.desc">Pulsar native with Oxia, KoP on Pulsar Broker with Oxia, and future Kafka native with KRaft. All are projections over the same Nereus stream truth rather than separate durable logs.</p>
+            <div class="arch-tech" data-i18n="arch.layer1.tech">Pulsar native · KoP · Kafka KRaft</div>
           </div>
         </div>
         <div class="arch-arrow"><div class="arch-arrow-line"></div><div class="arch-arrow-tip"></div></div>
         <div class="arch-row">
           <div class="arch-row-icon protocol">🔗</div>
           <div class="arch-row-body">
-            <h4 data-i18n="arch.layer2.title">Integration Layer · Protocol Adapters</h4>
-            <p data-i18n="arch.layer2.desc">Pulsar ManagedLedger replacement, KoP Kafka projection, and future Kafka log adapter. Each translates protocol-specific semantics (MessageId, Kafka offset, leader epoch) into the unified Storage API.</p>
-            <div class="arch-tech" data-i18n="arch.layer2.tech">nereus-managed-ledger · nereus-pulsar-adapter · nereus-kop-adapter · nereus-kafka-log-adapter</div>
+            <h4 data-i18n="arch.layer2.title">Protocol Adapters</h4>
+            <p data-i18n="arch.layer2.desc">ManagedLedger facade, KoP projection, and future Kafka log adapter translate MessageId, Position, Kafka offset, and leader epoch into StreamStorage operations.</p>
+            <div class="arch-tech" data-i18n="arch.layer2.tech">nereus-managed-ledger · nereus-pulsar-adapter · nereus-kop-adapter · future kafka-log-adapter</div>
           </div>
         </div>
         <div class="arch-arrow"><div class="arch-arrow-line"></div><div class="arch-arrow-tip"></div></div>
         <div class="arch-row">
           <div class="arch-row-icon oxia">☑️</div>
           <div class="arch-row-body">
-            <h4 data-i18n="arch.layer3.title">Nereus Storage Core · Metadata &amp; Coordination</h4>
-            <p data-i18n="arch.layer3.desc">Unified StreamStorage API: append / read / resolve / trim. The metadata plane is the offset authority — fencing, CAS, cursor state, index manifest. Generation and segment index provide immutable, compacted views of each stream.</p>
-            <div class="arch-tech" data-i18n="arch.layer3.tech">StreamStorage · streamId + offset · Generation · Segment · Checkpoint · Metadata Plane</div>
+            <h4 data-i18n="arch.layer3.title">Nereus Storage Core · Offset Authority</h4>
+            <p data-i18n="arch.layer3.desc">StreamStorage owns append/read/resolve/trim. Oxia records stream heads, append sessions, fencing, committed offsets, offset index, cursor state, object manifests, and materialization checkpoints.</p>
+            <div class="arch-tech" data-i18n="arch.layer3.tech">StreamStorage · Oxia · streamId + offset · offset index · generation overlay</div>
           </div>
         </div>
         <div class="arch-arrow"><div class="arch-arrow-line"></div><div class="arch-arrow-tip"></div></div>
@@ -442,8 +484,8 @@
           <div class="arch-row">
             <div class="arch-row-icon store">⚡</div>
             <div class="arch-row-body">
-              <h4 data-i18n="arch.layer4.title">Pluggable Storage Profiles</h4>
-              <p data-i18n="arch.layer4.desc">BookKeeper only, BK WAL + Object Store, Object WAL + Object Store, Local WAL + Object Store, Lakehouse tiering. Selectable per topic or namespace, migratable across generation boundaries.</p>
+              <h4 data-i18n="arch.layer4.title">Profile Selection</h4>
+              <p data-i18n="arch.layer4.desc">Five canonical profiles: BK-only, BK sync object, BK async object, Object WAL sync object, and Object WAL async object. OBJECT_WAL remains a legacy alias for OBJECT_WAL_SYNC_OBJECT.</p>
             </div>
           </div>
         </div>
@@ -451,12 +493,85 @@
         <div class="arch-row">
           <div class="arch-row-icon data">☁️</div>
           <div class="arch-row-body">
-            <h4 data-i18n="arch.layer5.title">Shared Object Data Plane</h4>
-            <p data-i18n="arch.layer5.desc">Immutable WAL objects, per-stream compacted objects, SBT/SDT lakehouse tables, cursor/txn snapshots. Objects are immutable once committed — visibility is controlled by the metadata plane, not the object store.</p>
-            <div class="arch-tech" data-i18n="arch.layer5.tech">S3 · GCS · RustFS · Parquet · Iceberg / Paimon / Lance</div>
+            <h4 data-i18n="arch.layer5.title">Shared Data and Materialization Plane</h4>
+            <p data-i18n="arch.layer5.desc">Primary WAL ranges, immutable WAL objects, read-optimized compacted objects, cursor/txn snapshots, and SBT/SDT lakehouse files. Visibility comes from metadata; async materializers can lag without changing stream truth.</p>
+            <div class="arch-tech" data-i18n="arch.layer5.tech">BookKeeper · Object WAL · S3/GCS/RustFS · Parquet · Iceberg/Delta/Hudi</div>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── Storage Profiles ──────────── -->
+<section class="section" id="profiles" style="background:#f8fafc;">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag" data-i18n="profiles.tag">Storage Profiles</div>
+      <h2 class="section-title" data-i18n="profiles.title">Choose Sync or Async Object Materialization Per Topic</h2>
+      <p class="section-desc" data-i18n="profiles.desc">
+        Nereus separates the primary WAL from object materialization. A topic can run with BookKeeper only,
+        synchronous object visibility, or asynchronous object materialization while preserving the same streamId + offset truth.
+      </p>
+    </div>
+    <div class="profile-layout">
+      <div class="profile-card wal-only profile-baseline">
+        <div class="profile-head">
+          <h3 class="profile-name" data-i18n="profiles.bkonly.name">BOOKKEEPER_WAL_ONLY</h3>
+          <span class="profile-pill wal-only" data-i18n="profiles.badge.walonly">WAL only</span>
+        </div>
+        <p class="profile-line" data-i18n-html="profiles.bkonly.wal"><strong>Primary WAL:</strong> BookKeeper</p>
+        <p class="profile-line" data-i18n-html="profiles.bkonly.object"><strong>Object materialization:</strong> disabled</p>
+        <p class="profile-line" data-i18n-html="profiles.bkonly.ack"><strong>Ack boundary:</strong> BK durable + stable projection</p>
+      </div>
+      <div class="profile-matrix">
+        <div class="profile-column">
+          <div class="profile-column-title" data-i18n="profiles.column.bk">BookKeeper WAL + Objects</div>
+          <div class="profile-card sync">
+            <div class="profile-head">
+              <h3 class="profile-name" data-i18n="profiles.bksync.name">BOOKKEEPER_WAL_SYNC_OBJECT</h3>
+              <span class="profile-pill sync" data-i18n="profiles.badge.sync">Sync visibility</span>
+            </div>
+            <p class="profile-line" data-i18n-html="profiles.bksync.wal"><strong>Primary WAL:</strong> BookKeeper</p>
+            <p class="profile-line" data-i18n-html="profiles.bksync.object"><strong>Object materialization:</strong> synchronous</p>
+            <p class="profile-line" data-i18n-html="profiles.bksync.ack"><strong>Ack boundary:</strong> BK durable + Oxia visible/index commit</p>
+          </div>
+          <div class="profile-card async">
+            <div class="profile-head">
+              <h3 class="profile-name" data-i18n="profiles.bkasync.name">BOOKKEEPER_WAL_ASYNC_OBJECT</h3>
+              <span class="profile-pill async" data-i18n="profiles.badge.async">Async object</span>
+            </div>
+            <p class="profile-line" data-i18n-html="profiles.bkasync.wal"><strong>Primary WAL:</strong> BookKeeper</p>
+            <p class="profile-line" data-i18n-html="profiles.bkasync.object"><strong>Object materialization:</strong> background worker</p>
+            <p class="profile-line" data-i18n-html="profiles.bkasync.ack"><strong>Ack boundary:</strong> BK durable fast ack + stable projection</p>
+          </div>
+        </div>
+        <div class="profile-column">
+          <div class="profile-column-title" data-i18n="profiles.column.object">Object WAL + Objects</div>
+          <div class="profile-card sync">
+            <div class="profile-head">
+              <h3 class="profile-name" data-i18n="profiles.objsync.name">OBJECT_WAL_SYNC_OBJECT</h3>
+              <span class="profile-pill sync" data-i18n="profiles.badge.sync">Sync visibility</span>
+            </div>
+            <p class="profile-line" data-i18n-html="profiles.objsync.wal"><strong>Primary WAL:</strong> Object WAL</p>
+            <p class="profile-line" data-i18n-html="profiles.objsync.object"><strong>Object materialization:</strong> synchronous</p>
+            <p class="profile-line" data-i18n-html="profiles.objsync.ack"><strong>Ack boundary:</strong> Object WAL durable + Oxia visible/index commit</p>
+          </div>
+          <div class="profile-card async">
+            <div class="profile-head">
+              <h3 class="profile-name" data-i18n="profiles.objasync.name">OBJECT_WAL_ASYNC_OBJECT</h3>
+              <span class="profile-pill async" data-i18n="profiles.badge.async">Async object</span>
+            </div>
+            <p class="profile-line" data-i18n-html="profiles.objasync.wal"><strong>Primary WAL:</strong> Object WAL</p>
+            <p class="profile-line" data-i18n-html="profiles.objasync.object"><strong>Object materialization:</strong> background read-optimized objects</p>
+            <p class="profile-line" data-i18n-html="profiles.objasync.ack"><strong>Ack boundary:</strong> Object WAL durable fast ack + stable projection</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="profile-note" data-i18n="profiles.note">
+      StorageProfile.OBJECT_WAL is kept as a legacy Phase 1 alias and canonicalizes to OBJECT_WAL_SYNC_OBJECT. StorageProfile.defaultDurabilityLevel() is the code-level branch point: sync object profiles use WAL_DURABLE_AND_INDEX_COMMITTED; async and WAL-only profiles use WAL_DURABLE.
     </div>
   </div>
 </section>
@@ -466,10 +581,10 @@
   <div class="section-inner">
     <div class="section-header">
       <div class="section-tag" data-i18n="align.tag">Design Alignment</div>
-      <h2 class="section-title" data-i18n="align.title">A Storage Substrate, Not a Streaming Engine</h2>
+      <h2 class="section-title" data-i18n="align.title">A Profile-Aware Storage Engine, Not a Protocol Fork</h2>
       <p class="section-desc" data-i18n="align.desc">
-        Nereus is the unified storage layer beneath Pulsar, KoP, and Kafka. It provides pluggable WAL and object-store profiles,
-        generation-based compaction, and lakehouse tiering. Each upper system is an adapter — not a separate storage backend.
+        Nereus is the unified storage layer beneath Pulsar, KoP, and future Kafka-native integration. Storage profiles select the primary WAL
+        and object materialization mode; adapters project protocol semantics onto the same streamId + offset truth.
       </p>
     </div>
     <div style="overflow-x:auto; padding: 10px 0;">
@@ -484,11 +599,12 @@
         <tbody>
           <tr><td data-i18n="align.oxia.name">Metadata &amp; coordination service</td><td data-i18n="align.oxia.desc">Offset index, fencing, CAS, cursor state, transaction state, routing — the metadata plane owns visibility, not the broker or object store</td><td data-i18n="align.oxia.layer">Core</td></tr>
           <tr><td data-i18n="align.api.name">StreamStorage API</td><td data-i18n="align.api.desc">Unified append / read / resolve / trim with streamId + offset. Protocol-neutral: no ledger, entry, topic, or partition in the core layer</td><td data-i18n="align.api.layer">Core</td></tr>
-          <tr><td data-i18n="align.wal.name">Pluggable WAL</td><td data-i18n="align.wal.desc">BookKeeper WAL, Object WAL, Local WAL — selectable per topic or namespace; WAL and data storage can be mixed independently</td><td data-i18n="align.wal.layer">Core</td></tr>
-          <tr><td data-i18n="align.data.name">Pluggable Data Store</td><td data-i18n="align.data.desc">BookKeeper ledgers, Object segments, Lakehouse tables — per-stream profile, migratable across generation boundaries</td><td data-i18n="align.data.layer">Core</td></tr>
-          <tr><td data-i18n="align.profile.name">Topic-level StorageProfile</td><td data-i18n="align.profile.desc">Different topics in the same cluster can use different WAL+Data profiles. Profile migration goes through a generation boundary — never implicit mixing</td><td data-i18n="align.profile.layer">Core</td></tr>
-          <tr><td data-i18n="align.compact.name">Compaction</td><td data-i18n="align.compact.desc">Generation replacement: same offset range, new physical object index, atomic swap. Readers switch to the highest visible generation</td><td data-i18n="align.compact.layer">Core</td></tr>
-          <tr><td data-i18n="align.lake.name">Lakehouse / stream-table duality</td><td data-i18n="align.lake.desc">SBT (built-in table) + SDT (external delivery) expose streams as lakehouse tables (Iceberg / Paimon / Lance). Catalog updates are not on the ack path</td><td data-i18n="align.lake.layer">Core</td></tr>
+          <tr><td data-i18n="align.wal.name">Pluggable WAL</td><td data-i18n="align.wal.desc">BookKeeper WAL and Object WAL are primary WAL choices. They can run as sync object profiles, async object profiles, or BK-only mode depending on topic policy.</td><td data-i18n="align.wal.layer">Core</td></tr>
+          <tr><td data-i18n="align.data.name">Object materialization</td><td data-i18n="align.data.desc">Sync-visibility profiles publish object-backed visibility on the append path. Async-materialization profiles fast-ack after primary WAL durability and stable projection, then materialize read-optimized objects in the background.</td><td data-i18n="align.data.layer">Core</td></tr>
+          <tr><td data-i18n="align.profile.name">Topic-level StorageProfile</td><td data-i18n="align.profile.desc">Canonical profiles are BK-only, BK sync object, BK async object, Object WAL sync object, and Object WAL async object. The legacy OBJECT_WAL name maps to OBJECT_WAL_SYNC_OBJECT.</td><td data-i18n="align.profile.layer">Core</td></tr>
+          <tr><td data-i18n="align.modes.name">Sync visibility / Async materialization modes</td><td data-i18n="align.modes.desc">Sync profiles wait for WAL durable + Oxia visible index commit; async profiles fast-ack after primary WAL durability and stable projection, then materialize objects in the background.</td><td data-i18n="align.modes.layer">Core</td></tr>
+          <tr><td data-i18n="align.compact.name">Compaction</td><td data-i18n="align.compact.desc">Generation replacement keeps offsets stable while switching physical object targets. The same worker path powers compaction and asynchronous object materialization.</td><td data-i18n="align.compact.layer">Core</td></tr>
+          <tr><td data-i18n="align.lake.name">Lakehouse / stream-table duality</td><td data-i18n="align.lake.desc">SBT and SDT expose already committed/materialized stream ranges as lakehouse files. Catalog commits never lead stream truth or block producer ack.</td><td data-i18n="align.lake.layer">Core</td></tr>
           <tr><td data-i18n="align.broker.name">Stateless / leaderless broker</td><td data-i18n="align.broker.desc">Broker not a durable owner; preferred broker for locality only. No data movement on scale-in/out</td><td data-i18n="align.broker.layer">Routing</td></tr>
           <tr><td data-i18n="align.pulsar.name">Pulsar adapter</td><td data-i18n="align.pulsar.desc">ManagedLedger facade: MessageId/Position → streamId/offset. Full ManagedCursor compatibility, Shared/Key_Shared subscriptions</td><td data-i18n="align.pulsar.layer">Adapter</td></tr>
           <tr><td data-i18n="align.kop.name">KoP / Kafka adapter</td><td data-i18n="align.kop.desc">Kafka offset = stream record offset. Produce/Fetch mapping, group offset, transaction marker, __consumer_offsets</td><td data-i18n="align.kop.layer">Adapter</td></tr>
@@ -503,52 +619,52 @@
   <div class="section-inner">
     <div class="section-header">
       <div class="section-tag" data-i18n="features.tag">Core Design</div>
-      <h2 class="section-title" data-i18n="features.title">One Storage Core, Many Upper Systems</h2>
+      <h2 class="section-title" data-i18n="features.title">Five Profiles, One Stream Truth</h2>
       <p class="section-desc" data-i18n="features.desc">
-        Nereus is not a Pulsar variant or a Kafka variant — it is the unified stream storage layer beneath both.
-        Topic-level profiles, generation migration, and protocol-neutral abstractions make it a true substrate.
+        Nereus is no longer a single synchronous-profile design. The current design separates storage profiles,
+        ack boundaries, materialization lag, protocol projection, and future implementation gates.
       </p>
     </div>
     <div class="feature-grid">
       <div class="feature-card">
         <div class="fc-icon">🔲</div>
-        <h3 class="fc-title" data-i18n="features.card1.title">Topic-level Storage Profile</h3>
-        <p class="fc-desc" data-i18n="features.card1.desc">Same cluster, different topics, different storage backends. Pick BookKeeper-only, Object-WAL + Object-Store, or Lakehouse — per topic or per namespace.</p>
+        <h3 class="fc-title" data-i18n="features.card1.title">Five Canonical Profiles</h3>
+        <p class="fc-desc" data-i18n="features.card1.desc">BK-only, BK sync object, BK async object, Object WAL sync object, and Object WAL async object are explicit API and metadata choices.</p>
       </div>
       <div class="feature-card">
         <div class="fc-icon">🔄</div>
-        <h3 class="fc-title" data-i18n="features.card2.title">Generation Migration</h3>
-        <p class="fc-desc" data-i18n="features.card2.desc">Migrate a topic from BK to Object Store across a generation boundary. No implicit mixing, no dual-write — clean, atomic profile transitions.</p>
+        <h3 class="fc-title" data-i18n="features.card2.title">Two Write Modes</h3>
+        <p class="fc-desc" data-i18n="features.card2.desc">Sync-visibility profiles wait for visible/read index publication. Async-materialization profiles fast-ack after primary WAL durability and stable projection.</p>
       </div>
       <div class="feature-card">
         <div class="fc-icon">📐</div>
         <h3 class="fc-title" data-i18n="features.card3.title">Unified streamId + offset</h3>
-        <p class="fc-desc" data-i18n="features.card3.desc">Pulsar MessageId, Kafka offset, Lakehouse row position — all just projections of a single streamId + offset coordinate. No protocol leakage into the storage layer.</p>
+        <p class="fc-desc" data-i18n="features.card3.desc">Pulsar MessageId, ManagedLedger Position, Kafka offset, cursor progress, compaction, and lakehouse snapshots all project from one internal coordinate.</p>
       </div>
       <div class="feature-card">
         <div class="fc-icon">⚡</div>
-        <h3 class="fc-title" data-i18n="features.card4.title">Pluggable WAL Profiles</h3>
-        <p class="fc-desc" data-i18n="features.card4.desc">BookKeeper WAL for low latency, Object WAL for cost efficiency, Local WAL for edge. WAL and final data-store profiles are independently selectable.</p>
+        <h3 class="fc-title" data-i18n="features.card4.title">Profile-aware Future Gates</h3>
+        <p class="fc-desc" data-i18n="features.card4.desc">Each Future must state how sync, async, BK-only, BookKeeper WAL, and Object WAL paths behave instead of assuming one OBJECT_WAL path.</p>
       </div>
       <div class="feature-card">
         <div class="fc-icon">🔌</div>
-        <h3 class="fc-title" data-i18n="features.card5.title">Upper-System Neutral</h3>
-        <p class="fc-desc" data-i18n="features.card5.desc">Pulsar, KoP, and Kafka KRaft are adapters — not Nereus itself. Each adapter translates its protocol into the same StreamStorage API. One storage core, many protocols.</p>
+        <h3 class="fc-title" data-i18n="features.card5.title">Three Integration Paths</h3>
+        <p class="fc-desc" data-i18n="features.card5.desc">Pulsar native with Oxia, Pulsar Broker + KoP with Oxia, and future Kafka native with KRaft all reuse the same storage core.</p>
       </div>
       <div class="feature-card">
         <div class="fc-icon">☑️</div>
         <h3 class="fc-title" data-i18n="features.card6.title">Metadata-Driven Correctness</h3>
-        <p class="fc-desc" data-i18n="features.card6.desc">A dedicated metadata plane decides visibility, assigns offsets, and fences stale commits. Object stores store bytes — not truth. The broker is stateless for correctness.</p>
+        <p class="fc-desc" data-i18n="features.card6.desc">Oxia remains the offset, fencing, manifest, cursor, and visibility authority. Object storage and BookKeeper store bytes, not stream truth.</p>
       </div>
       <div class="feature-card">
         <div class="fc-icon">🗄️</div>
-        <h3 class="fc-title" data-i18n="features.card7.title">Stream-Table Duality</h3>
-        <p class="fc-desc" data-i18n="features.card7.desc">SBT exposes streams as built-in lakehouse tables (Iceberg / Paimon / Lance). SDT delivers to external catalogs. Lakehouse queries and streaming reads share the same compacted objects.</p>
+        <h3 class="fc-title" data-i18n="features.card7.title">Async Materialization Lag</h3>
+        <p class="fc-desc" data-i18n="features.card7.desc">Async-materialization paths track materialization tasks, checkpoints, lag records, lag bytes, and primary WAL retention protection as first-class operations.</p>
       </div>
       <div class="feature-card">
         <div class="fc-icon">📦</div>
-        <h3 class="fc-title" data-i18n="features.card8.title">Immutable Objects + GC</h3>
-        <p class="fc-desc" data-i18n="features.card8.desc">WAL, compacted, snapshot, and table objects are immutable once committed. GC is driven by metadata-plane reference counting — not by object store list operations.</p>
+        <h3 class="fc-title" data-i18n="features.card8.title">Remote Storage Compatibility</h3>
+        <p class="fc-desc" data-i18n="features.card8.desc">When Nereus object materialization owns a topic, Kafka Remote Log Storage and Pulsar offload must be mapped or rejected to avoid a second remote log.</p>
       </div>
     </div>
   </div>
@@ -559,9 +675,9 @@
   <div class="section-inner">
     <div class="section-header">
       <div class="section-tag" data-i18n="roadmap.tag">Implementation Roadmap</div>
-      <h2 class="section-title" data-i18n="roadmap.title">7-Phase Plan: From Core to All Adapters</h2>
+      <h2 class="section-title" data-i18n="roadmap.title">8 Futures: Profile-Aware From Core to Protocol Semantics</h2>
       <p class="section-desc" data-i18n="roadmap.desc">
-        Build the storage core first, then attach adapters. Pulsar native first (lowest risk), KoP next (reuses Pulsar path), Kafka KRaft last (hardest).
+        The storage core comes first, but every future now has to explain both synchronous visibility and asynchronous object materialization behavior.
       </p>
     </div>
     <div class="roadmap-list">
@@ -569,56 +685,63 @@
         <div class="roadmap-num done">0</div>
         <div class="roadmap-body">
           <h4><span data-i18n="roadmap.p0.title">Project Scaffolding &amp; Module Boundaries</span> <span class="roadmap-badge done" data-i18n="roadmap.p0.badge">Done</span></h4>
-          <p data-i18n="roadmap.p0.desc">Gradle multi-module structure: nereus-api, nereus-core, nereus-storage-bk, nereus-object-store, nereus-managed-ledger, nereus-pulsar-adapter, nereus-kop-adapter. Fork workflow established.</p>
+          <p data-i18n="roadmap.p0.desc">Standalone Gradle repository, module boundaries, design-doc index, and fork workflow. Phase 0 is complete.</p>
         </div>
       </div>
       <div class="roadmap-item">
         <div class="roadmap-num">1</div>
         <div class="roadmap-body">
-          <h4><span data-i18n="roadmap.p1.title">Nereus Storage Core</span> <span class="roadmap-badge" data-i18n="roadmap.p1.badge">Phase 1</span></h4>
-          <p data-i18n="roadmap.p1.desc">StreamStorage API (streamId + offset, append/read/resolve/trim), generation/segment/index, StorageProfile abstraction, metadata plane integration, cursor/checkpoint primitives. No Pulsar or Kafka dependencies at this layer.</p>
+          <h4><span data-i18n="roadmap.p1.title">Core StreamStorage + Object WAL</span> <span class="roadmap-badge" data-i18n="roadmap.p1.badge">Future 1</span></h4>
+          <p data-i18n="roadmap.p1.desc">Protocol-neutral StreamStorage API, streamId + offset truth, append sessions, Object WAL layout, Oxia stream-head commit, offset index, read resolver, and profile-aware API boundaries.</p>
         </div>
       </div>
       <div class="roadmap-item">
         <div class="roadmap-num">2</div>
         <div class="roadmap-body">
-          <h4><span data-i18n="roadmap.p2.title">BookKeeper Profile</span> <span class="roadmap-badge" data-i18n="roadmap.p2.badge">Phase 2</span></h4>
-          <p data-i18n="roadmap.p2.desc">WalProfile=BOOKKEEPER_WAL + DataProfile=BOOKKEEPER_LEDGER, then BK_WAL + OBJECT_SEGMENT. Fast Pulsar integration, reuse BK's consensus and low-latency properties. Demonstration of WAL+Data profile separation.</p>
+          <h4><span data-i18n="roadmap.p2.title">ManagedLedger Facade</span> <span class="roadmap-badge" data-i18n="roadmap.p2.badge">Future 2</span></h4>
+          <p data-i18n="roadmap.p2.desc">Pulsar storage class integration through a ManagedLedger-compatible facade. MessageId and Position are projections over Nereus stream ranges, not storage truth.</p>
         </div>
       </div>
       <div class="roadmap-item">
         <div class="roadmap-num">3</div>
         <div class="roadmap-body">
-          <h4><span data-i18n="roadmap.p3.title">Object WAL + Object Segment Profiles</span> <span class="roadmap-badge" data-i18n="roadmap.p3.badge">Phase 3</span></h4>
-          <p data-i18n="roadmap.p3.desc">WalProfile=OBJECT_WAL + DataProfile=OBJECT_SEGMENT. True shared-storage: WAL and final data both on object store. Multi-stream WAL aggregation, per-stream visibility through the metadata offset index.</p>
+          <h4><span data-i18n="roadmap.p3.title">Cursor / Subscription State</span> <span class="roadmap-badge" data-i18n="roadmap.p3.badge">Future 3</span></h4>
+          <p data-i18n="roadmap.p3.desc">Oxia-backed cursor state, mark-delete offsets, individual ack ranges, cursor snapshots, retention low-watermark, and subscription recovery.</p>
         </div>
       </div>
       <div class="roadmap-item">
         <div class="roadmap-num">4</div>
         <div class="roadmap-body">
-          <h4><span data-i18n="roadmap.p4.title">Pulsar ManagedLedger Adapter</span> <span class="roadmap-badge" data-i18n="roadmap.p4.badge">Phase 4</span></h4>
-          <p data-i18n="roadmap.p4.desc">ManagedLedger + ManagedCursor replacement via topic policy. MessageId → streamId + offset, Position mapping. Topic-level StorageProfile selection. First demonstration of multi-profile coexistence within one cluster.</p>
+          <h4><span data-i18n="roadmap.p4.title">Compaction + Async Materialization</span> <span class="roadmap-badge" data-i18n="roadmap.p4.badge">Future 4</span></h4>
+          <p data-i18n="roadmap.p4.desc">Generation replacement, per-stream compacted objects, highest-generation read resolver, old generation fallback, and async materialization lag / WAL retention protection.</p>
         </div>
       </div>
       <div class="roadmap-item">
         <div class="roadmap-num">5</div>
         <div class="roadmap-body">
-          <h4><span data-i18n="roadmap.p5.title">KoP Adapter</span> <span class="roadmap-badge" data-i18n="roadmap.p5.badge">Phase 5</span></h4>
-          <p data-i18n="roadmap.p5.desc">KoP reuses Pulsar-native storage path — no separate storage. Kafka offset=stream offset, fetch isolation, consumer group mapping, transaction markers, __consumer_offsets handling.</p>
+          <h4><span data-i18n="roadmap.p5.title">KoP / Kafka Compatibility</span> <span class="roadmap-badge" data-i18n="roadmap.p5.badge">Future 5</span></h4>
+          <p data-i18n="roadmap.p5.desc">Kafka offset equals stream record offset. Produce/Fetch mapping, group offsets, transaction markers, leader epoch projection, and topic compaction projection reuse the same Nereus storage truth.</p>
         </div>
       </div>
       <div class="roadmap-item">
         <div class="roadmap-num">6</div>
         <div class="roadmap-body">
-          <h4><span data-i18n="roadmap.p6.title">Lakehouse Tiering &amp; Compaction</span> <span class="roadmap-badge" data-i18n="roadmap.p6.badge">Phase 6</span></h4>
-          <p data-i18n="roadmap.p6.desc">DataProfile=OBJECT_SEGMENT+LAKEHOUSE_TABLE. Flink-sync and internal compaction. SBT (built-in) + SDT (external delivery). Iceberg / Paimon / Lance table formats, generation overlay, atomic index replacement.</p>
+          <h4><span data-i18n="roadmap.p6.title">Lakehouse SBT / SDT</span> <span class="roadmap-badge" data-i18n="roadmap.p6.badge">Future 6</span></h4>
+          <p data-i18n="roadmap.p6.desc">Stream-Backed Tables, external Stream-Delivered-to-Table flows, Iceberg-first catalog commit, repair state, delivery idempotence, and lag metrics. Catalog commits stay off the producer ack path.</p>
         </div>
       </div>
       <div class="roadmap-item">
         <div class="roadmap-num">7</div>
         <div class="roadmap-body">
-          <h4><span data-i18n="roadmap.p7.title">Kafka KRaft Adapter</span> <span class="roadmap-badge" data-i18n="roadmap.p7.badge">Phase 7 · Long-term</span></h4>
-          <p data-i18n="roadmap.p7.desc">Kafka UnifiedLog + LogSegment replacement via nereus-kafka-log-adapter. Topic-partition → Nereus stream, leader epoch projection, KRaft metadata image integration. Hardest path — deferred to later phase.</p>
+          <h4><span data-i18n="roadmap.p7.title">Routing / Brown-out / Elasticity</span> <span class="roadmap-badge" data-i18n="roadmap.p7.badge">Future 7</span></h4>
+          <p data-i18n="roadmap.p7.desc">Broker sessions, zone-aware routing, preferred broker, append session transfer, degraded broker brown-out, cache invalidation, and Pulsar/Kafka routing projection.</p>
+        </div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-num">8</div>
+        <div class="roadmap-body">
+          <h4><span data-i18n="roadmap.p8.title">Advanced Pulsar Semantics</span> <span class="roadmap-badge" data-i18n="roadmap.p8.badge">Future 8</span></h4>
+          <p data-i18n="roadmap.p8.desc">Key_Shared, delayed delivery, pending ack transactions, replicated subscriptions, schema/system topic bootstrap, topic compaction compatibility, and geo-replication.</p>
         </div>
       </div>
     </div>
@@ -632,7 +755,7 @@
       <div class="section-tag" data-i18n="start.tag">Get Involved</div>
       <h2 class="section-title" data-i18n="start.title">Explore &amp; Contribute</h2>
       <p class="section-desc" data-i18n="start.desc">
-        Nereus is in the design phase. Start with the architecture overview, then dive into individual future design docs.
+        Nereus is in the design and early implementation phase. Start with the profile-aware architecture, then review the async materialization design and future gates.
       </p>
     </div>
     <div class="terminal">
@@ -646,7 +769,9 @@
         <div class="t-line"><span class="t-prompt">$</span><span class="t-cmd">cat docs/design/nereus-overall-architecture.md</span></div>
         <div class="t-line" style="margin-top:12px;"><span class="t-comment" data-i18n="terminal.index"># Browse the design index</span></div>
         <div class="t-line"><span class="t-prompt">$</span><span class="t-cmd">cat docs/design/nereus-design-index.md</span></div>
-        <div class="t-line" style="margin-top:12px;"><span class="t-out" data-i18n="terminal.out">→ Design docs · 7 phases · Storage Core + Adapters</span></div>
+        <div class="t-line" style="margin-top:12px;"><span class="t-comment" data-i18n="terminal.async"># Review the async materialization path</span></div>
+        <div class="t-line"><span class="t-prompt">$</span><span class="t-cmd">rg "async materialization" docs/design docs/phase-1-core-stream-storage</span></div>
+        <div class="t-line" style="margin-top:12px;"><span class="t-out" data-i18n="terminal.out">→ Design docs · 8 futures · 5 storage profiles · 2 write modes</span></div>
       </div>
     </div>
     <div style="display:flex;gap:16px;justify-content:center;margin-top:36px;flex-wrap:wrap;">
@@ -663,13 +788,13 @@
       <img src="logo-icon.png" alt="NereusStream Logo" style="height: 36px; vertical-align: middle; margin-right: 8px;">
       <span style="font-weight: 800; font-size: 20px; color: var(--n-blue-900); vertical-align: middle;">Nereus<span style="color: var(--n-blue-600); font-weight: 600;">Stream</span></span>
     </div>
-    <div class="footer-tagline" data-i18n="footer.tagline">Stream storage substrate for modern messaging &amp; streaming systems · Pulsar / KoP / Kafka / Lakehouse</div>
+    <div class="footer-tagline" data-i18n="footer.tagline">Profile-aware shared stream storage · Sync visibility · Async materialization · Pulsar / KoP / Kafka / Lakehouse</div>
     <div class="footer-links">
       <a href="https://github.com/nereusstream/nereus" target="_blank" rel="noopener">GitHub</a>
       <a href="https://github.com/nereusstream/nereus/blob/main/docs/design/nereus-overall-architecture.md" target="_blank" rel="noopener">Design Docs</a>
       <a href="https://github.com/nereusstream" target="_blank" rel="noopener">NereusStream Org</a>
     </div>
-    <p class="footer-note">Design Phase · Storage Substrate Architecture · Apache 2.0</p>
+    <p class="footer-note">Design Phase · Profile-Aware Storage Architecture · Apache 2.0</p>
   </div>
 </footer>
 
@@ -682,41 +807,41 @@ const _T = {
     "nav.roadmap": "Roadmap",
     "nav.get-started": "Get Started",
     "nav.lang": "中文",
-    "meta.title": "Nereus — Stream Storage Substrate for Pulsar / KoP / Kafka / Lakehouse",
-    "meta.desc": "Nereus is a pluggable stream storage substrate for modern messaging and streaming systems. Unified streamId + offset abstraction, pluggable WAL and object-store profiles, generation-based compaction, and lakehouse tiering. Pulsar, KoP, Kafka as upper adapters.",
-    "meta.keywords": "Nereus, stream storage substrate, Oxia, Pulsar, Kafka, KoP, shared-storage, lakehouse, storage profiles, WAL, object store, compaction, SBT, SDT",
-    "meta.ogtitle": "Nereus — Stream Storage Substrate for Pulsar / KoP / Kafka / Lakehouse",
-    "meta.ogdesc": "Pluggable stream storage substrate. Unified streamId + offset with WAL/object-store profiles. Pulsar, KoP, Kafka as upper adapters. Generation compaction and lakehouse tiering.",
+    "meta.title": "Nereus — Configurable Stream Storage for Pulsar, KoP, Kafka",
+    "meta.desc": "Nereus is a profile-aware shared stream storage engine: one streamId + offset truth, Oxia metadata coordination, configurable BookKeeper/Object WAL profiles, synchronous visibility, asynchronous object materialization, and Pulsar/KoP/Kafka adapters.",
+    "meta.keywords": "Nereus, stream storage, configurable storage profiles, sync visibility, async object materialization, Oxia, Pulsar, Kafka, KoP, BookKeeper WAL, Object WAL, shared storage, lakehouse",
+    "meta.ogtitle": "Nereus — Configurable Stream Storage Profiles",
+    "meta.ogdesc": "Configurable shared stream storage with BookKeeper/Object WAL profiles, sync visibility, async object materialization, and one streamId + offset truth.",
     "hero.early": "Early Stage · AI-Assisted Design & Implementation",
-    "hero.badge": "Design Phase · Metadata-Driven · Storage Substrate",
-    "hero.sub": "Stream Storage Substrate for Modern Messaging & Streaming Systems",
-    "hero.desc": "Pluggable stream storage substrate with a unified streamId + offset abstraction. Metadata and coordination plane for offset authority, fencing, and consistency. Multiple WAL and object-store storage profiles. Pulsar, KoP, and Kafka integrations as upper-layer adapters — not separate systems.",
+    "hero.badge": "Design Phase · Profile-Aware Shared Storage",
+    "hero.sub": "Configurable Stream Storage Profiles for Pulsar, KoP, and Kafka",
+    "hero.desc": "Nereus now models storage as selectable topic-level profiles: BookKeeper-only, BookKeeper WAL with sync or async object materialization, and Object WAL with sync or async object materialization. Every mode keeps one streamId + offset truth.",
     "hero.stat.arch": "Layered Architecture",
-    "hero.stat.meta": "Metadata Plane",
-    "hero.stat.data": "Data Plane",
-    "hero.stat.phases": "Phases",
+    "hero.stat.meta": "Oxia Metadata",
+    "hero.stat.data": "Storage Profiles",
+    "hero.stat.phases": "Futures",
     "btn.github": "GitHub",
     "btn.design": "Read the Design",
     "arch.tag": "Architecture",
-    "arch.title": "Storage Core + Upper Adapters + Pluggable Profiles",
-    "arch.desc": "The single internal coordinate — <code style=\"background:rgba(14,59,181,0.06);padding:2px 8px;border-radius:6px;font-size:14px;color:var(--n-blue-700);font-weight:600;\">streamId + offset</code> — powers every upper system. Pulsar, KoP, and Kafka are adapters, not separate storage engines.",
-    "arch.layer1.title": "Upper Systems / Protocols",
-    "arch.layer1.desc": "Pulsar native protocol, KoP (Kafka-on-Pulsar) projection, and future Kafka KRaft direct integration. All map to the same streamId + offset truth — no separate storage backends per protocol.",
-    "arch.layer1.tech": "Pulsar · KoP · Kafka KRaft",
-    "arch.layer2.title": "Integration Layer · Protocol Adapters",
-    "arch.layer2.desc": "Pulsar ManagedLedger replacement, KoP Kafka projection, and future Kafka log adapter. Each translates protocol-specific semantics (MessageId, Kafka offset, leader epoch) into the unified Storage API.",
-    "arch.layer2.tech": "nereus-managed-ledger · nereus-pulsar-adapter · nereus-kop-adapter · nereus-kafka-log-adapter",
-    "arch.layer3.title": "Nereus Storage Core · Metadata & Coordination",
-    "arch.layer3.desc": "Unified StreamStorage API: append / read / resolve / trim. The metadata plane is the offset authority — fencing, CAS, cursor state, index manifest. Generation and segment index provide immutable, compacted views of each stream.",
-    "arch.layer3.tech": "StreamStorage · streamId + offset · Generation · Segment · Checkpoint · Metadata Plane",
-    "arch.layer4.title": "Pluggable Storage Profiles",
-    "arch.layer4.desc": "BookKeeper only, BK WAL + Object Store, Object WAL + Object Store, Local WAL + Object Store, Lakehouse tiering. Selectable per topic or namespace, migratable across generation boundaries.",
-    "arch.layer5.title": "Shared Object Data Plane",
-    "arch.layer5.desc": "Immutable WAL objects, per-stream compacted objects, SBT/SDT lakehouse tables, cursor/txn snapshots. Objects are immutable once committed — visibility is controlled by the metadata plane, not the object store.",
-    "arch.layer5.tech": "S3 · GCS · RustFS · Parquet · Iceberg / Paimon / Lance",
+    "arch.title": "One Storage Core, Two Write Modes, Multiple Protocol Paths",
+    "arch.desc": "The single internal coordinate — <code style=\"background:rgba(14,59,181,0.06);padding:2px 8px;border-radius:6px;font-size:14px;color:var(--n-blue-700);font-weight:600;\">streamId + offset</code> — powers synchronous visibility, asynchronous object materialization, Pulsar native, KoP, and future Kafka-native paths.",
+    "arch.layer1.title": "Client Protocols and Integration Paths",
+    "arch.layer1.desc": "Pulsar native with Oxia, KoP on Pulsar Broker with Oxia, and future Kafka native with KRaft. All are projections over the same Nereus stream truth rather than separate durable logs.",
+    "arch.layer1.tech": "Pulsar native · KoP · Kafka KRaft",
+    "arch.layer2.title": "Protocol Adapters",
+    "arch.layer2.desc": "ManagedLedger facade, KoP projection, and future Kafka log adapter translate MessageId, Position, Kafka offset, and leader epoch into StreamStorage operations.",
+    "arch.layer2.tech": "nereus-managed-ledger · nereus-pulsar-adapter · nereus-kop-adapter · future kafka-log-adapter",
+    "arch.layer3.title": "Nereus Storage Core · Offset Authority",
+    "arch.layer3.desc": "StreamStorage owns append/read/resolve/trim. Oxia records stream heads, append sessions, fencing, committed offsets, offset index, cursor state, object manifests, and materialization checkpoints.",
+    "arch.layer3.tech": "StreamStorage · Oxia · streamId + offset · offset index · generation overlay",
+    "arch.layer4.title": "Profile Selection",
+    "arch.layer4.desc": "Five canonical profiles: BK-only, BK sync object, BK async object, Object WAL sync object, and Object WAL async object. OBJECT_WAL remains a legacy alias for OBJECT_WAL_SYNC_OBJECT.",
+    "arch.layer5.title": "Shared Data and Materialization Plane",
+    "arch.layer5.desc": "Primary WAL ranges, immutable WAL objects, read-optimized compacted objects, cursor/txn snapshots, and SBT/SDT lakehouse files. Visibility comes from metadata; async materializers can lag without changing stream truth.",
+    "arch.layer5.tech": "BookKeeper · Object WAL · S3/GCS/RustFS · Parquet · Iceberg/Delta/Hudi",
     "align.tag": "Design Alignment",
-    "align.title": "A Storage Substrate, Not a Streaming Engine",
-    "align.desc": "Nereus is the unified storage layer beneath Pulsar, KoP, and Kafka. It provides pluggable WAL and object-store profiles, generation-based compaction, and lakehouse tiering. Each upper system is an adapter — not a separate storage backend.",
+    "align.title": "A Profile-Aware Storage Engine, Not a Protocol Fork",
+    "align.desc": "Nereus is the unified storage layer beneath Pulsar, KoP, and future Kafka-native integration. Storage profiles select the primary WAL and object materialization mode; adapters project protocol semantics onto the same streamId + offset truth.",
     "align.th.capability": "Capability",
     "align.th.design": "Nereus Design",
     "align.th.layer": "Layer",
@@ -727,19 +852,19 @@ const _T = {
     "align.api.desc": "Unified append / read / resolve / trim with streamId + offset. Protocol-neutral: no ledger, entry, topic, or partition in the core layer",
     "align.api.layer": "Core",
     "align.wal.name": "Pluggable WAL",
-    "align.wal.desc": "BookKeeper WAL, Object WAL, Local WAL — selectable per topic or namespace; WAL and data storage can be mixed independently",
+    "align.wal.desc": "BookKeeper WAL and Object WAL are primary WAL choices. They can run as sync object profiles, async object profiles, or BK-only mode depending on topic policy.",
     "align.wal.layer": "Core",
-    "align.data.name": "Pluggable Data Store",
-    "align.data.desc": "BookKeeper ledgers, Object segments, Lakehouse tables — per-stream profile, migratable across generation boundaries",
+    "align.data.name": "Object materialization",
+    "align.data.desc": "Sync-visibility profiles publish object-backed visibility on the append path. Async-materialization profiles fast-ack after primary WAL durability and stable projection, then materialize read-optimized objects in the background.",
     "align.data.layer": "Core",
     "align.profile.name": "Topic-level StorageProfile",
-    "align.profile.desc": "Different topics in the same cluster can use different WAL+Data profiles. Profile migration goes through a generation boundary — never implicit mixing",
+    "align.profile.desc": "Canonical profiles are BK-only, BK sync object, BK async object, Object WAL sync object, and Object WAL async object. The legacy OBJECT_WAL name maps to OBJECT_WAL_SYNC_OBJECT.",
     "align.profile.layer": "Core",
     "align.compact.name": "Compaction",
-    "align.compact.desc": "Generation replacement: same offset range, new physical object index, atomic swap. Readers switch to the highest visible generation",
+    "align.compact.desc": "Generation replacement keeps offsets stable while switching physical object targets. The same worker path powers compaction and asynchronous materialization.",
     "align.compact.layer": "Core",
     "align.lake.name": "Lakehouse / stream-table duality",
-    "align.lake.desc": "SBT (built-in table) + SDT (external delivery) expose streams as lakehouse tables (Iceberg / Paimon / Lance). Catalog updates are not on the ack path",
+    "align.lake.desc": "SBT and SDT expose already committed/materialized stream ranges as lakehouse files. Catalog commits never lead stream truth or block producer ack.",
     "align.lake.layer": "Core",
     "align.broker.name": "Stateless / leaderless broker",
     "align.broker.desc": "Broker not a durable owner; preferred broker for locality only. No data movement on scale-in/out",
@@ -751,61 +876,98 @@ const _T = {
     "align.kop.desc": "Kafka offset = stream record offset. Produce/Fetch mapping, group offset, transaction marker, __consumer_offsets",
     "align.kop.layer": "Adapter",
     "features.tag": "Core Design",
-    "features.title": "One Storage Core, Many Upper Systems",
-    "features.desc": "Nereus is not a Pulsar variant or a Kafka variant — it is the unified stream storage layer beneath both. Topic-level profiles, generation migration, and protocol-neutral abstractions make it a true substrate.",
-    "features.card1.title": "Topic-level Storage Profile",
-    "features.card1.desc": "Same cluster, different topics, different storage backends. Pick BookKeeper-only, Object-WAL + Object-Store, or Lakehouse — per topic or per namespace.",
-    "features.card2.title": "Generation Migration",
-    "features.card2.desc": "Migrate a topic from BK to Object Store across a generation boundary. No implicit mixing, no dual-write — clean, atomic profile transitions.",
+    "features.title": "Five Profiles, One Stream Truth",
+    "features.desc": "Nereus is no longer a single synchronous-profile design. The current design separates storage profiles, ack boundaries, materialization lag, protocol projection, and future implementation gates.",
+    "features.card1.title": "Five Canonical Profiles",
+    "features.card1.desc": "BK-only, BK sync object, BK async object, Object WAL sync object, and Object WAL async object are explicit API and metadata choices.",
+    "features.card2.title": "Two Write Modes",
+    "features.card2.desc": "Sync-visibility profiles wait for visible/read index publication. Async-materialization profiles fast-ack after primary WAL durability and stable projection.",
     "features.card3.title": "Unified streamId + offset",
-    "features.card3.desc": "Pulsar MessageId, Kafka offset, Lakehouse row position — all just projections of a single streamId + offset coordinate. No protocol leakage into the storage layer.",
-    "features.card4.title": "Pluggable WAL Profiles",
-    "features.card4.desc": "BookKeeper WAL for low latency, Object WAL for cost efficiency, Local WAL for edge. WAL and final data-store profiles are independently selectable.",
-    "features.card5.title": "Upper-System Neutral",
-    "features.card5.desc": "Pulsar, KoP, and Kafka KRaft are adapters — not Nereus itself. Each adapter translates its protocol into the same StreamStorage API. One storage core, many protocols.",
+    "features.card3.desc": "Pulsar MessageId, ManagedLedger Position, Kafka offset, cursor progress, compaction, and lakehouse snapshots all project from one internal coordinate.",
+    "features.card4.title": "Profile-aware Future Gates",
+    "features.card4.desc": "Each Future must state how sync, async, BK-only, BookKeeper WAL, and Object WAL paths behave instead of assuming one OBJECT_WAL path.",
+    "features.card5.title": "Three Integration Paths",
+    "features.card5.desc": "Pulsar native with Oxia, Pulsar Broker + KoP with Oxia, and future Kafka native with KRaft all reuse the same storage core.",
     "features.card6.title": "Metadata-Driven Correctness",
-    "features.card6.desc": "A dedicated metadata plane decides visibility, assigns offsets, and fences stale commits. Object stores store bytes — not truth. The broker is stateless for correctness.",
-    "features.card7.title": "Stream-Table Duality",
-    "features.card7.desc": "SBT exposes streams as built-in lakehouse tables (Iceberg / Paimon / Lance). SDT delivers to external catalogs. Lakehouse queries and streaming reads share the same compacted objects.",
-    "features.card8.title": "Immutable Objects + GC",
-    "features.card8.desc": "WAL, compacted, snapshot, and table objects are immutable once committed. GC is driven by metadata-plane reference counting — not by object store list operations.",
+    "features.card6.desc": "Oxia remains the offset, fencing, manifest, cursor, and visibility authority. Object storage and BookKeeper store bytes, not stream truth.",
+    "features.card7.title": "Async Materialization Lag",
+    "features.card7.desc": "Async-materialization paths track materialization tasks, checkpoints, lag records, lag bytes, and primary WAL retention protection as first-class operations.",
+    "features.card8.title": "Remote Storage Compatibility",
+    "features.card8.desc": "When Nereus object materialization owns a topic, Kafka Remote Log Storage and Pulsar offload must be mapped or rejected to avoid a second remote log.",
     "roadmap.tag": "Implementation Roadmap",
-    "roadmap.title": "7-Phase Plan: From Core to All Adapters",
-    "roadmap.desc": "Build the storage core first, then attach adapters. Pulsar native first (lowest risk), KoP next (reuses Pulsar path), Kafka KRaft last (hardest).",
+    "roadmap.title": "8 Futures: Profile-Aware From Core to Protocol Semantics",
+    "roadmap.desc": "The storage core comes first, but every future now has to explain both synchronous visibility and asynchronous object materialization behavior.",
     "roadmap.p0.title": "Project Scaffolding & Module Boundaries",
     "roadmap.p0.badge": "Done",
-    "roadmap.p0.desc": "Gradle multi-module structure: nereus-api, nereus-core, nereus-storage-bk, nereus-object-store, nereus-managed-ledger, nereus-pulsar-adapter, nereus-kop-adapter. Fork workflow established.",
-    "roadmap.p1.title": "Nereus Storage Core",
-    "roadmap.p1.badge": "Phase 1",
-    "roadmap.p1.desc": "StreamStorage API (streamId + offset, append/read/resolve/trim), generation/segment/index, StorageProfile abstraction, metadata plane integration, cursor/checkpoint primitives. No Pulsar or Kafka dependencies at this layer.",
-    "roadmap.p2.title": "BookKeeper Profile",
-    "roadmap.p2.badge": "Phase 2",
-    "roadmap.p2.desc": "WalProfile=BOOKKEEPER_WAL + DataProfile=BOOKKEEPER_LEDGER, then BK_WAL + OBJECT_SEGMENT. Fast Pulsar integration, reuse BK's consensus and low-latency properties. Demonstration of WAL+Data profile separation.",
-    "roadmap.p3.title": "Object WAL + Object Segment Profiles",
-    "roadmap.p3.badge": "Phase 3",
-    "roadmap.p3.desc": "WalProfile=OBJECT_WAL + DataProfile=OBJECT_SEGMENT. True shared-storage: WAL and final data both on object store. Multi-stream WAL aggregation, per-stream visibility through the metadata offset index.",
-    "roadmap.p4.title": "Pulsar ManagedLedger Adapter",
-    "roadmap.p4.badge": "Phase 4",
-    "roadmap.p4.desc": "ManagedLedger + ManagedCursor replacement via topic policy. MessageId → streamId + offset, Position mapping. Topic-level StorageProfile selection. First demonstration of multi-profile coexistence within one cluster.",
-    "roadmap.p5.title": "KoP Adapter",
-    "roadmap.p5.badge": "Phase 5",
-    "roadmap.p5.desc": "KoP reuses Pulsar-native storage path — no separate storage. Kafka offset=stream offset, fetch isolation, consumer group mapping, transaction markers, __consumer_offsets handling.",
-    "roadmap.p6.title": "Lakehouse Tiering & Compaction",
-    "roadmap.p6.badge": "Phase 6",
-    "roadmap.p6.desc": "DataProfile=OBJECT_SEGMENT+LAKEHOUSE_TABLE. Flink-sync and internal compaction. SBT (built-in) + SDT (external delivery). Iceberg / Paimon / Lance table formats, generation overlay, atomic index replacement.",
-    "roadmap.p7.title": "Kafka KRaft Adapter",
-    "roadmap.p7.badge": "Phase 7 · Long-term",
-    "roadmap.p7.desc": "Kafka UnifiedLog + LogSegment replacement via nereus-kafka-log-adapter. Topic-partition → Nereus stream, leader epoch projection, KRaft metadata image integration. Hardest path — deferred to later phase.",
+    "roadmap.p0.desc": "Standalone Gradle repository, module boundaries, design-doc index, and fork workflow. Phase 0 is complete.",
+    "roadmap.p1.title": "Core StreamStorage + Object WAL",
+    "roadmap.p1.badge": "Future 1",
+    "roadmap.p1.desc": "Protocol-neutral StreamStorage API, streamId + offset truth, append sessions, Object WAL layout, Oxia stream-head commit, offset index, read resolver, and profile-aware API boundaries.",
+    "roadmap.p2.title": "ManagedLedger Facade",
+    "roadmap.p2.badge": "Future 2",
+    "roadmap.p2.desc": "Pulsar storage class integration through a ManagedLedger-compatible facade. MessageId and Position are projections over Nereus stream ranges, not storage truth.",
+    "roadmap.p3.title": "Cursor / Subscription State",
+    "roadmap.p3.badge": "Future 3",
+    "roadmap.p3.desc": "Oxia-backed cursor state, mark-delete offsets, individual ack ranges, cursor snapshots, retention low-watermark, and subscription recovery.",
+    "roadmap.p4.title": "Compaction + Async Materialization",
+    "roadmap.p4.badge": "Future 4",
+    "roadmap.p4.desc": "Generation replacement, per-stream compacted objects, highest-generation read resolver, old generation fallback, and async materialization lag / WAL retention protection.",
+    "roadmap.p5.title": "KoP / Kafka Compatibility",
+    "roadmap.p5.badge": "Future 5",
+    "roadmap.p5.desc": "Kafka offset equals stream record offset. Produce/Fetch mapping, group offsets, transaction markers, leader epoch projection, and topic compaction projection reuse the same Nereus storage truth.",
+    "roadmap.p6.title": "Lakehouse SBT / SDT",
+    "roadmap.p6.badge": "Future 6",
+    "roadmap.p6.desc": "Stream-Backed Tables, external Stream-Delivered-to-Table flows, Iceberg-first catalog commit, repair state, delivery idempotence, and lag metrics. Catalog commits stay off the producer ack path.",
+    "roadmap.p7.title": "Routing / Brown-out / Elasticity",
+    "roadmap.p7.badge": "Future 7",
+    "roadmap.p7.desc": "Broker sessions, zone-aware routing, preferred broker, append session transfer, degraded broker brown-out, cache invalidation, and Pulsar/Kafka routing projection.",
     "start.tag": "Get Involved",
     "start.title": "Explore & Contribute",
-    "start.desc": "Nereus is in the design phase. Start with the architecture overview, then dive into individual future design docs.",
+    "start.desc": "Nereus is in the design and early implementation phase. Start with the profile-aware architecture, then review the async materialization design and future gates.",
     "start.btn.arch": "Architecture Overview",
     "start.btn.gh": "GitHub Organization",
     "terminal.clone": "# Clone the design repository",
     "terminal.arch": "# Read the overall architecture",
     "terminal.index": "# Browse the design index",
-    "terminal.out": "→ Design docs · 7 phases · Storage Core + Adapters",
-    "footer.tagline": "Stream storage substrate for modern messaging & streaming systems · Pulsar / KoP / Kafka / Lakehouse"
+    "terminal.out": "→ Design docs · 8 futures · 5 storage profiles · 2 write modes",
+    "footer.tagline": "Profile-aware shared stream storage · Sync visibility · Async materialization · Pulsar / KoP / Kafka / Lakehouse",
+    "nav.profiles": "Profiles",
+    "profiles.tag": "Storage Profiles",
+    "profiles.title": "Choose Sync or Async Object Materialization Per Topic",
+    "profiles.desc": "Nereus separates the primary WAL from object materialization. A topic can run with BookKeeper only, synchronous object visibility, or asynchronous object materialization while preserving the same streamId + offset truth.",
+    "profiles.badge.walonly": "WAL only",
+    "profiles.badge.sync": "Sync visibility",
+    "profiles.badge.async": "Async object",
+    "profiles.column.object": "Object WAL + Objects",
+    "profiles.column.bk": "BookKeeper WAL + Objects",
+    "profiles.bkonly.name": "BOOKKEEPER_WAL_ONLY",
+    "profiles.bkonly.wal": "<strong>Primary WAL:</strong> BookKeeper",
+    "profiles.bkonly.object": "<strong>Object materialization:</strong> disabled",
+    "profiles.bkonly.ack": "<strong>Ack boundary:</strong> BK durable + stable projection",
+    "profiles.bksync.name": "BOOKKEEPER_WAL_SYNC_OBJECT",
+    "profiles.bksync.wal": "<strong>Primary WAL:</strong> BookKeeper",
+    "profiles.bksync.object": "<strong>Object materialization:</strong> synchronous",
+    "profiles.bksync.ack": "<strong>Ack boundary:</strong> BK durable + Oxia visible/index commit",
+    "profiles.bkasync.name": "BOOKKEEPER_WAL_ASYNC_OBJECT",
+    "profiles.bkasync.wal": "<strong>Primary WAL:</strong> BookKeeper",
+    "profiles.bkasync.object": "<strong>Object materialization:</strong> background worker",
+    "profiles.bkasync.ack": "<strong>Ack boundary:</strong> BK durable fast ack + stable projection",
+    "profiles.objsync.name": "OBJECT_WAL_SYNC_OBJECT",
+    "profiles.objsync.wal": "<strong>Primary WAL:</strong> Object WAL",
+    "profiles.objsync.object": "<strong>Object materialization:</strong> synchronous",
+    "profiles.objsync.ack": "<strong>Ack boundary:</strong> Object WAL durable + Oxia visible/index commit",
+    "profiles.objasync.name": "OBJECT_WAL_ASYNC_OBJECT",
+    "profiles.objasync.wal": "<strong>Primary WAL:</strong> Object WAL",
+    "profiles.objasync.object": "<strong>Object materialization:</strong> background read-optimized objects",
+    "profiles.objasync.ack": "<strong>Ack boundary:</strong> Object WAL durable fast ack + stable projection",
+    "profiles.note": "StorageProfile.OBJECT_WAL is kept as a legacy Phase 1 alias and canonicalizes to OBJECT_WAL_SYNC_OBJECT. StorageProfile.defaultDurabilityLevel() is the code-level branch point: sync object profiles use WAL_DURABLE_AND_INDEX_COMMITTED; async and WAL-only profiles use WAL_DURABLE.",
+    "align.modes.name": "Sync visibility / Async materialization modes",
+    "align.modes.desc": "Sync profiles wait for WAL durable + Oxia visible index commit; async profiles fast-ack after primary WAL durability and stable projection, then materialize objects in the background.",
+    "align.modes.layer": "Core",
+    "roadmap.p8.title": "Advanced Pulsar Semantics",
+    "roadmap.p8.badge": "Future 8",
+    "roadmap.p8.desc": "Key_Shared, delayed delivery, pending ack transactions, replicated subscriptions, schema/system topic bootstrap, topic compaction compatibility, and geo-replication.",
+    "terminal.async": "# Review the async materialization path",
   },
 
   zh: {
@@ -814,41 +976,41 @@ const _T = {
     "nav.roadmap": "路线图",
     "nav.get-started": "参与",
     "nav.lang": "English",
-    "meta.title": "Nereus — 流存储基座 · 面向 Pulsar / KoP / Kafka / Lakehouse",
-    "meta.desc": "Nereus 是一个可插拔的流存储基座，面向现代消息与流系统。提供统一的 streamId + offset 抽象、可插拔 WAL 和对象存储组合配置、基于 generation 的 compaction，以及可选的 Lakehouse tiering。Pulsar、KoP、Kafka 作为上层适配层集成。",
-    "meta.keywords": "Nereus, 流存储基座, Oxia, Pulsar, Kafka, KoP, 共享存储, Lakehouse, 存储配置, WAL, 对象存储, compaction, SBT, SDT",
-    "meta.ogtitle": "Nereus — 流存储基座 · 面向 Pulsar / KoP / Kafka / Lakehouse",
-    "meta.ogdesc": "可插拔的流存储基座。统一的 streamId + offset 配合 WAL/对象存储配置。Pulsar、KoP、Kafka 作为上层适配器。Generation 级 compaction 与 Lakehouse tiering。",
+    "meta.title": "Nereus — 面向 Pulsar / KoP / Kafka 的可配置流存储",
+    "meta.desc": "Nereus 是一个 profile-aware 的共享流存储引擎：统一的 streamId + offset truth、Oxia 元数据协调、可配置 BookKeeper/Object WAL profile、同步可见提交、异步对象化，以及 Pulsar/KoP/Kafka 适配器。",
+    "meta.keywords": "Nereus, 流存储, 可配置存储 profile, 同步可见, 异步对象化, Oxia, Pulsar, Kafka, KoP, BookKeeper WAL, Object WAL, 共享存储, lakehouse",
+    "meta.ogtitle": "Nereus — 可配置流存储 Profile",
+    "meta.ogdesc": "可配置共享流存储：BookKeeper/Object WAL profiles、同步可见提交、异步对象化，以及统一 streamId + offset truth。",
     "hero.early": "项目早期 · 暂用 AI 辅助设计与实施",
-    "hero.badge": "设计阶段 · 元数据驱动 · 存储基座",
-    "hero.sub": "面向现代消息与流系统的存储基座",
-    "hero.desc": "可插拔的流存储基座，提供统一的 streamId + offset 抽象。元数据协调层负责 offset 权威分配、fencing 和一致性保证。支持多种 WAL 和对象存储组合配置。Pulsar、KoP、Kafka 作为上层适配层集成——而非独立系统。",
+    "hero.badge": "设计阶段 · Profile-aware 共享存储",
+    "hero.sub": "面向 Pulsar、KoP 和 Kafka 的可配置流存储 Profile",
+    "hero.desc": "Nereus 现在将存储建模为 topic 级可选 profile：纯 BookKeeper、BookKeeper WAL 同步/异步对象化、Object WAL 同步/异步对象化。所有模式都保持同一个 streamId + offset truth。",
     "hero.stat.arch": "分层架构",
-    "hero.stat.meta": "元数据层",
-    "hero.stat.data": "数据层",
-    "hero.stat.phases": "实施阶段",
+    "hero.stat.meta": "Oxia 元数据",
+    "hero.stat.data": "存储配置",
+    "hero.stat.phases": "Future",
     "btn.github": "GitHub",
     "btn.design": "阅读设计文档",
     "arch.tag": "架构",
-    "arch.title": "存储核心 + 上层适配器 + 可插拔存储配置",
-    "arch.desc": "唯一的内部坐标——<code style=\"background:rgba(14,59,181,0.06);padding:2px 8px;border-radius:6px;font-size:14px;color:var(--n-blue-700);font-weight:600;\">streamId + offset</code>——驱动所有上层系统。Pulsar、KoP、Kafka 是适配层，而非独立存储引擎。",
-    "arch.layer1.title": "上层系统 / 协议",
-    "arch.layer1.desc": "Pulsar 原生协议、KoP（Kafka-on-Pulsar）协议投影，以及未来的 Kafka KRaft 直接集成。所有协议映射到同一个 streamId + offset 真实源——没有按协议独立的存储后端。",
-    "arch.layer1.tech": "Pulsar · KoP · Kafka KRaft",
-    "arch.layer2.title": "集成层 · 协议适配器",
-    "arch.layer2.desc": "Pulsar ManagedLedger 替换、KoP Kafka 协议投影，以及未来的 Kafka log 适配器。各适配器将协议特定语义（MessageId、Kafka offset、leader epoch）转换为统一的 Storage API。",
-    "arch.layer2.tech": "nereus-managed-ledger · nereus-pulsar-adapter · nereus-kop-adapter · nereus-kafka-log-adapter",
-    "arch.layer3.title": "Nereus 存储核心 · 元数据与协调",
-    "arch.layer3.desc": "统一的 StreamStorage API：append / read / resolve / trim。元数据层是 offset 权威——fencing、CAS、游标状态、索引清单。Generation 和 Segment 索引提供对每个 stream 的不可变压缩视图。",
-    "arch.layer3.tech": "StreamStorage · streamId + offset · Generation · Segment · Checkpoint · 元数据层",
-    "arch.layer4.title": "可插拔存储配置",
-    "arch.layer4.desc": "纯 BookKeeper、BK WAL + 对象存储、Object WAL + 对象存储、Local WAL + 对象存储、Lakehouse tiering。可按 topic 或 namespace 选择，可在 generation 边界间迁移。",
-    "arch.layer5.title": "共享对象数据层",
-    "arch.layer5.desc": "不可变 WAL 对象、per-stream 压缩对象、SBT/SDT lakehouse 表、游标/事务快照。所有对象一旦提交即不可变——可见性由元数据层控制，而非对象存储。",
-    "arch.layer5.tech": "S3 · GCS · RustFS · Parquet · Iceberg / Paimon / Lance",
+    "arch.title": "一个存储核心，两种写入模式，多条协议路径",
+    "arch.desc": "唯一内部坐标——<code style=\"background:rgba(14,59,181,0.06);padding:2px 8px;border-radius:6px;font-size:14px;color:var(--n-blue-700);font-weight:600;\">streamId + offset</code>——支撑同步可见、异步对象化、Pulsar native、KoP 和未来 Kafka-native 路径。",
+    "arch.layer1.title": "客户端协议与集成路径",
+    "arch.layer1.desc": "Pulsar native + Oxia、Pulsar Broker + KoP + Oxia，以及未来 Kafka native + KRaft。它们都是同一套 Nereus stream truth 的投影，而不是独立 durable log。",
+    "arch.layer1.tech": "Pulsar native · KoP · Kafka KRaft",
+    "arch.layer2.title": "协议适配器",
+    "arch.layer2.desc": "ManagedLedger facade、KoP projection 和未来 Kafka log adapter 将 MessageId、Position、Kafka offset、leader epoch 转换为 StreamStorage 操作。",
+    "arch.layer2.tech": "nereus-managed-ledger · nereus-pulsar-adapter · nereus-kop-adapter · future kafka-log-adapter",
+    "arch.layer3.title": "Nereus 存储核心 · Offset Authority",
+    "arch.layer3.desc": "StreamStorage 负责 append/read/resolve/trim。Oxia 记录 stream head、append session、fencing、committed offset、offset index、cursor state、object manifest 和 materialization checkpoint。",
+    "arch.layer3.tech": "StreamStorage · Oxia · streamId + offset · offset index · generation overlay",
+    "arch.layer4.title": "Profile 选择",
+    "arch.layer4.desc": "五个 canonical profile：BK-only、BK sync object、BK async object、Object WAL sync object、Object WAL async object。OBJECT_WAL 保留为 OBJECT_WAL_SYNC_OBJECT 的旧别名。",
+    "arch.layer5.title": "共享数据与对象化平面",
+    "arch.layer5.desc": "Primary WAL range、不可变 WAL object、读优化 compacted object、cursor/txn snapshot、SBT/SDT lakehouse file。可见性来自元数据；异步 materializer 可以滞后但不能改变 stream truth。",
+    "arch.layer5.tech": "BookKeeper · Object WAL · S3/GCS/RustFS · Parquet · Iceberg/Delta/Hudi",
     "align.tag": "设计对齐",
-    "align.title": "存储基座，而非流处理引擎",
-    "align.desc": "Nereus 是 Pulsar、KoP 和 Kafka 之下的统一存储层。提供可插拔的 WAL 和对象存储配置、基于 generation 的 compaction 和 Lakehouse tiering。每个上层系统都是适配器——而非独立存储后端。",
+    "align.title": "Profile-aware 存储引擎，而不是协议分叉",
+    "align.desc": "Nereus 是 Pulsar、KoP 和未来 Kafka-native 集成之下的统一存储层。Storage profile 选择 primary WAL 和对象化模式；适配器把协议语义投影到同一个 streamId + offset truth。",
     "align.th.capability": "能力",
     "align.th.design": "Nereus 设计",
     "align.th.layer": "层级",
@@ -859,19 +1021,19 @@ const _T = {
     "align.api.desc": "基于 streamId + offset 的统一 append / read / resolve / trim。协议无关：核心层不出现 ledger、entry、topic 或 partition 概念",
     "align.api.layer": "核心",
     "align.wal.name": "可插拔 WAL",
-    "align.wal.desc": "BookKeeper WAL、Object WAL、Local WAL——可按 topic 或 namespace 选择；WAL 与数据存储可独立混配",
+    "align.wal.desc": "BookKeeper WAL 和 Object WAL 是 primary WAL 选择。它们可以按 topic policy 运行为同步对象 profile、异步对象 profile 或 BK-only 模式。",
     "align.wal.layer": "核心",
-    "align.data.name": "可插拔数据存储",
-    "align.data.desc": "BookKeeper ledger、对象 segment、Lakehouse 表——per-stream 配置，可在 generation 边界间迁移",
+    "align.data.name": "对象化",
+    "align.data.desc": "同步可见 profile 在 append 路径发布对象可见性。异步对象化 profile 在 primary WAL durable 和 stable projection 后 fast-ack，再由后台生成读优化对象。",
     "align.data.layer": "核心",
     "align.profile.name": "Topic 级 StorageProfile",
-    "align.profile.desc": "同一集群中不同 topic 可使用不同 WAL+Data 组合。配置迁移通过 generation 边界完成——绝不存在隐式混合",
+    "align.profile.desc": "Canonical profiles 包括 BK-only、BK sync object、BK async object、Object WAL sync object 和 Object WAL async object。旧 OBJECT_WAL 名称映射到 OBJECT_WAL_SYNC_OBJECT。",
     "align.profile.layer": "核心",
     "align.compact.name": "Compaction",
-    "align.compact.desc": "Generation 替换：相同 offset 范围，新的物理对象索引，原子性切换。Reader 自动切换到最高可见 generation",
+    "align.compact.desc": "Generation replacement 保持 offset 不变，只切换物理对象目标。同一 worker 路径同时支撑 compaction 和异步对象化。",
     "align.compact.layer": "核心",
     "align.lake.name": "Lakehouse / 流表二元性",
-    "align.lake.desc": "SBT（内置表）+ SDT（外部交付）将 stream 暴露为 lakehouse 表（Iceberg / Paimon / Lance）。catalog 更新不在确认路径上",
+    "align.lake.desc": "SBT 和 SDT 将已提交/已对象化的 stream range 暴露为 lakehouse 文件。Catalog commit 不能领先 stream truth，也不阻塞 producer ack。",
     "align.lake.layer": "核心",
     "align.broker.name": "无状态/无 leader broker",
     "align.broker.desc": "Broker 不是持久化所有者；仅用于就近性优化的 preferred broker。扩缩容无数据迁移",
@@ -883,61 +1045,98 @@ const _T = {
     "align.kop.desc": "Kafka offset = stream record offset。Produce/Fetch 映射、group offset、事务标记、__consumer_offsets 处理",
     "align.kop.layer": "适配器",
     "features.tag": "核心设计",
-    "features.title": "一个存储核心，多种上层系统",
-    "features.desc": "Nereus 不是 Pulsar 的变体，也不是 Kafka 的变体——它是两者之下的统一流存储层。Topic 级配置、generation 迁移和协议无关抽象使其成为真正的存储基座。",
-    "features.card1.title": "Topic 级存储配置",
-    "features.card1.desc": "同一集群，不同 topic，不同存储后端。按 topic 或 namespace 选择纯 BookKeeper、Object-WAL + Object-Store 或 Lakehouse。",
-    "features.card2.title": "Generation 迁移",
-    "features.card2.desc": "在 generation 边界上将 topic 从 BK 迁移到对象存储。无隐式混合、无双写——干净、原子化的配置切换。",
-    "features.card3.title": "统一的 streamId + offset",
-    "features.card3.desc": "Pulsar MessageId、Kafka offset、Lakehouse row position——都只是同一个 streamId + offset 坐标的投影。存储层无协议泄漏。",
-    "features.card4.title": "可插拔 WAL 配置",
-    "features.card4.desc": "BookKeeper WAL 追求低延迟，Object WAL 追求成本效率，Local WAL 适用于边缘场景。WAL 与最终数据存储配置可独立选择。",
-    "features.card5.title": "上层系统无关",
-    "features.card5.desc": "Pulsar、KoP、Kafka KRaft 是适配器——不是 Nereus 本体。每个适配器将自身协议转换为同一个 StreamStorage API。一个存储核心，多种协议。",
-    "features.card6.title": "元数据驱动的正确性",
-    "features.card6.desc": "专用元数据层决定可见性、分配 offset、fence 过期提交。对象存储保存字节——而非真实来源。Broker 在正确性层面是无状态的。",
-    "features.card7.title": "流表二元性",
-    "features.card7.desc": "SBT 将 stream 暴露为内置 lakehouse 表（Iceberg / Paimon / Lance）。SDT 交付到外部 catalog。Lakehouse 查询与流式读取共享相同的压缩对象。",
-    "features.card8.title": "不可变对象 + GC",
-    "features.card8.desc": "WAL、压缩、快照和表对象一旦提交即不可变。GC 由元数据层引用计数驱动——而非对象存储 list 操作。",
+    "features.title": "五种 Profile，一个 Stream Truth",
+    "features.desc": "Nereus 已不再是单一同步 profile 草图。当前设计拆清了 storage profile、ack boundary、materialization lag、协议投影和 future 实现门禁。",
+    "features.card1.title": "五个 Canonical Profile",
+    "features.card1.desc": "BK-only、BK sync object、BK async object、Object WAL sync object、Object WAL async object 都是显式 API 和 metadata 选择。",
+    "features.card2.title": "两种写入模式",
+    "features.card2.desc": "同步可见 profile 等待可见/read index 发布。异步对象化 profile 在 primary WAL durable 和 stable projection 后 fast-ack。",
+    "features.card3.title": "统一 streamId + offset",
+    "features.card3.desc": "Pulsar MessageId、ManagedLedger Position、Kafka offset、cursor progress、compaction 和 lakehouse snapshot 全都投影自同一个内部坐标。",
+    "features.card4.title": "Profile-aware Future Gate",
+    "features.card4.desc": "每个 Future 必须说明 sync、async、BK-only、BookKeeper WAL 和 Object WAL 路径如何工作，不能默认只有一个 OBJECT_WAL 路径。",
+    "features.card5.title": "三条集成路径",
+    "features.card5.desc": "Pulsar native + Oxia、Pulsar Broker + KoP + Oxia，以及未来 Kafka native + KRaft 都复用同一个存储核心。",
+    "features.card6.title": "元数据驱动正确性",
+    "features.card6.desc": "Oxia 仍是 offset、fencing、manifest、cursor 和 visibility authority。对象存储和 BookKeeper 只保存字节，不保存 stream truth。",
+    "features.card7.title": "异步对象化滞后",
+    "features.card7.desc": "异步对象化路径将 materialization task、checkpoint、lag records、lag bytes 和 primary WAL retention protection 作为一等运维状态。",
+    "features.card8.title": "Remote Storage 兼容",
+    "features.card8.desc": "当 Nereus object materialization 接管某个 topic，Kafka Remote Log Storage 和 Pulsar offload 必须被映射或显式拒绝，避免第二套远端日志。",
     "roadmap.tag": "实施路线图",
-    "roadmap.title": "七阶段计划：从核心到全部适配器",
-    "roadmap.desc": "先构建存储核心，再接入适配器。Pulsar 原生优先（风险最低），KoP 其次（复用 Pulsar 路径），Kafka KRaft 最后（难度最高）。",
+    "roadmap.title": "8 个 Future：从核心到协议语义都 Profile-aware",
+    "roadmap.desc": "存储核心优先，但每个 future 都要解释同步可见和异步对象化两条路径的行为。",
     "roadmap.p0.title": "项目脚手架与模块边界",
     "roadmap.p0.badge": "已完成",
-    "roadmap.p0.desc": "Gradle 多模块结构：nereus-api、nereus-core、nereus-storage-bk、nereus-object-store、nereus-managed-ledger、nereus-pulsar-adapter、nereus-kop-adapter。Fork 工作流已建立。",
-    "roadmap.p1.title": "Nereus 存储核心",
-    "roadmap.p1.badge": "Phase 1",
-    "roadmap.p1.desc": "StreamStorage API（streamId + offset，append/read/resolve/trim），generation/segment/index，StorageProfile 抽象，元数据层集成，游标/checkpoint 原语。该层无 Pulsar 或 Kafka 依赖。",
-    "roadmap.p2.title": "BookKeeper 配置",
-    "roadmap.p2.badge": "Phase 2",
-    "roadmap.p2.desc": "WalProfile=BOOKKEEPER_WAL + DataProfile=BOOKKEEPER_LEDGER，然后 BK_WAL + OBJECT_SEGMENT。快速接入 Pulsar，复用 BK 的共识与低延迟能力。展示 WAL 与 Data 配置分离。",
-    "roadmap.p3.title": "Object WAL + Object Segment 配置",
-    "roadmap.p3.badge": "Phase 3",
-    "roadmap.p3.desc": "WalProfile=OBJECT_WAL + DataProfile=OBJECT_SEGMENT。真正的共享存储：WAL 和最终数据均在对象存储上。多流 WAL 聚合，通过元数据 offset 索引实现 per-stream 可见性。",
-    "roadmap.p4.title": "Pulsar ManagedLedger 适配器",
-    "roadmap.p4.badge": "Phase 4",
-    "roadmap.p4.desc": "通过 topic policy 替换 ManagedLedger + ManagedCursor。MessageId → streamId + offset，Position 映射。Topic 级 StorageProfile 选择。首次展示同一集群内多配置共存。",
-    "roadmap.p5.title": "KoP 适配器",
-    "roadmap.p5.badge": "Phase 5",
-    "roadmap.p5.desc": "KoP 复用 Pulsar 原生存储路径——无独立存储。Kafka offset = stream offset，fetch 隔离，consumer group 映射，事务标记，__consumer_offsets 处理。",
-    "roadmap.p6.title": "Lakehouse Tiering 与 Compaction",
-    "roadmap.p6.badge": "Phase 6",
-    "roadmap.p6.desc": "DataProfile=OBJECT_SEGMENT+LAKEHOUSE_TABLE。Flink 同步和内部 compaction。SBT（内置）+ SDT（外部交付）。Iceberg / Paimon / Lance 表格式，generation overlay，原子索引替换。",
-    "roadmap.p7.title": "Kafka KRaft 适配器",
-    "roadmap.p7.badge": "Phase 7 · 长期目标",
-    "roadmap.p7.desc": "通过 nereus-kafka-log-adapter 替换 Kafka UnifiedLog + LogSegment。Topic-partition → Nereus stream，leader epoch 投影，KRaft 元数据镜像集成。难度最高——推迟到后期阶段。",
+    "roadmap.p0.desc": "独立 Gradle 仓库、模块边界、设计文档索引和 fork 工作流。Phase 0 已完成。",
+    "roadmap.p1.title": "Core StreamStorage + Object WAL",
+    "roadmap.p1.badge": "Future 1",
+    "roadmap.p1.desc": "协议无关的 StreamStorage API、streamId + offset truth、append session、Object WAL layout、Oxia stream-head commit、offset index、read resolver，以及 profile-aware API 边界。",
+    "roadmap.p2.title": "ManagedLedger Facade",
+    "roadmap.p2.badge": "Future 2",
+    "roadmap.p2.desc": "通过 ManagedLedger-compatible facade 接入 Pulsar storage class。MessageId 和 Position 是 Nereus stream range 的投影，而不是存储 truth。",
+    "roadmap.p3.title": "Cursor / Subscription State",
+    "roadmap.p3.badge": "Future 3",
+    "roadmap.p3.desc": "Oxia-backed cursor state、mark-delete offset、individual ack range、cursor snapshot、retention low-watermark 和 subscription recovery。",
+    "roadmap.p4.title": "Compaction + 异步对象化",
+    "roadmap.p4.badge": "Future 4",
+    "roadmap.p4.desc": "Generation replacement、per-stream compacted object、highest-generation read resolver、old generation fallback，以及异步对象化 lag / WAL retention protection。",
+    "roadmap.p5.title": "KoP / Kafka Compatibility",
+    "roadmap.p5.badge": "Future 5",
+    "roadmap.p5.desc": "Kafka offset 等于 stream record offset。Produce/Fetch 映射、group offset、transaction marker、leader epoch projection 和 topic compaction projection 都复用同一套 Nereus storage truth。",
+    "roadmap.p6.title": "Lakehouse SBT / SDT",
+    "roadmap.p6.badge": "Future 6",
+    "roadmap.p6.desc": "Stream-Backed Table、外部 Stream-Delivered-to-Table、Iceberg-first catalog commit、repair state、delivery idempotence 和 lag metrics。Catalog commit 不进入 producer ack path。",
+    "roadmap.p7.title": "Routing / Brown-out / Elasticity",
+    "roadmap.p7.badge": "Future 7",
+    "roadmap.p7.desc": "Broker session、zone-aware routing、preferred broker、append session transfer、degraded broker brown-out、cache invalidation，以及 Pulsar/Kafka routing projection。",
     "start.tag": "参与进来",
     "start.title": "探索与贡献",
-    "start.desc": "Nereus 处于设计阶段。从架构概览开始，然后深入了解各个设计文档。",
+    "start.desc": "Nereus 处于设计和早期实现阶段。从 profile-aware 架构开始，再阅读异步对象化设计和 future gate。",
     "start.btn.arch": "架构概览",
     "start.btn.gh": "GitHub 组织",
     "terminal.clone": "# 克隆设计仓库",
     "terminal.arch": "# 阅读总体架构",
     "terminal.index": "# 浏览设计索引",
-    "terminal.out": "→ 设计文档 · 7 个阶段 · 存储核心 + 适配器",
-    "footer.tagline": "面向现代消息与流系统的存储基座 · Pulsar / KoP / Kafka / Lakehouse"
+    "terminal.out": "→ 设计文档 · 8 个 future · 5 个 storage profile · 2 种写入模式",
+    "footer.tagline": "Profile-aware 共享流存储 · 同步可见 · 异步对象化 · Pulsar / KoP / Kafka / Lakehouse",
+    "nav.profiles": "配置",
+    "profiles.tag": "存储配置",
+    "profiles.title": "按 Topic 选择同步可见或异步对象化",
+    "profiles.desc": "Nereus 将 primary WAL 和 object materialization 拆开。一个 topic 可以运行纯 BookKeeper、同步对象可见性，或异步对象化，同时保持相同的 streamId + offset truth。",
+    "profiles.badge.walonly": "仅 WAL",
+    "profiles.badge.sync": "同步可见",
+    "profiles.badge.async": "异步对象化",
+    "profiles.column.object": "Object WAL + 对象化",
+    "profiles.column.bk": "BookKeeper WAL + 对象化",
+    "profiles.bkonly.name": "BOOKKEEPER_WAL_ONLY",
+    "profiles.bkonly.wal": "<strong>Primary WAL:</strong> BookKeeper",
+    "profiles.bkonly.object": "<strong>对象化:</strong> 关闭",
+    "profiles.bkonly.ack": "<strong>Ack 边界:</strong> BK durable + stable projection",
+    "profiles.bksync.name": "BOOKKEEPER_WAL_SYNC_OBJECT",
+    "profiles.bksync.wal": "<strong>Primary WAL:</strong> BookKeeper",
+    "profiles.bksync.object": "<strong>对象化:</strong> 同步",
+    "profiles.bksync.ack": "<strong>Ack 边界:</strong> BK durable + Oxia visible/index commit",
+    "profiles.bkasync.name": "BOOKKEEPER_WAL_ASYNC_OBJECT",
+    "profiles.bkasync.wal": "<strong>Primary WAL:</strong> BookKeeper",
+    "profiles.bkasync.object": "<strong>对象化:</strong> 后台 worker",
+    "profiles.bkasync.ack": "<strong>Ack 边界:</strong> BK durable fast ack + stable projection",
+    "profiles.objsync.name": "OBJECT_WAL_SYNC_OBJECT",
+    "profiles.objsync.wal": "<strong>Primary WAL:</strong> Object WAL",
+    "profiles.objsync.object": "<strong>对象化:</strong> 同步",
+    "profiles.objsync.ack": "<strong>Ack 边界:</strong> Object WAL durable + Oxia visible/index commit",
+    "profiles.objasync.name": "OBJECT_WAL_ASYNC_OBJECT",
+    "profiles.objasync.wal": "<strong>Primary WAL:</strong> Object WAL",
+    "profiles.objasync.object": "<strong>对象化:</strong> 后台读优化对象",
+    "profiles.objasync.ack": "<strong>Ack 边界:</strong> Object WAL durable fast ack + stable projection",
+    "profiles.note": "StorageProfile.OBJECT_WAL 保留为 Phase 1 旧别名，并 canonicalize 到 OBJECT_WAL_SYNC_OBJECT。StorageProfile.defaultDurabilityLevel() 是代码级分派点：同步对象 profile 使用 WAL_DURABLE_AND_INDEX_COMMITTED；异步和 WAL-only profile 使用 WAL_DURABLE。",
+    "align.modes.name": "同步可见 / 异步对象化模式",
+    "align.modes.desc": "同步可见 profile 等待 WAL durable + Oxia visible index commit；异步对象化 profile 在 primary WAL durable 和 stable projection 后 fast-ack，再后台对象化。",
+    "align.modes.layer": "核心",
+    "roadmap.p8.title": "Advanced Pulsar Semantics",
+    "roadmap.p8.badge": "Future 8",
+    "roadmap.p8.desc": "Key_Shared、delayed delivery、pending ack transaction、replicated subscription、schema/system topic bootstrap、topic compaction compatibility 和 geo-replication。",
+    "terminal.async": "# Review the async materialization path",
   }
 };
 
