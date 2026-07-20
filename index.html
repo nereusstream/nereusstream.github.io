@@ -391,7 +391,7 @@
   </div>
   <div class="hero-inner">
     <div class="hero-badge">
-      <span class="badge-dot"></span> <span class="early-stage" data-i18n="hero.early">Early Stage · AI-Assisted Design &amp; Implementation</span>&ensp;<span data-i18n="hero.badge">Design Phase · Profile-Aware Shared Storage</span>
+      <span class="badge-dot"></span> <span class="early-stage" data-i18n="hero.early">Phase 0-4 Final-Gated · BookKeeper WAL BK-M4 Gated</span>&ensp;<span data-i18n="hero.badge">Implementation Phase · Profile-Aware Shared Storage</span>
     </div>
     <h1 class="hero-title">
       <span class="t-nereus">Nereus</span>
@@ -431,9 +431,15 @@
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
+        <span class="stat-icon">📚</span>
+        <span class="stat-val">9</span>
+        <span class="stat-label" data-i18n="hero.stat.modules">Modules</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
         <span class="stat-icon">⚡</span>
-        <span class="stat-val">8</span>
-        <span class="stat-label" data-i18n="hero.stat.phases">Futures</span>
+        <span class="stat-val">4/8</span>
+        <span class="stat-label" data-i18n="hero.stat.phases">Gated</span>
       </div>
     </div>
   </div>
@@ -495,7 +501,7 @@
           <div class="arch-row-body">
             <h4 data-i18n="arch.layer5.title">Shared Data and Materialization Plane</h4>
             <p data-i18n="arch.layer5.desc">Primary WAL ranges, immutable WAL objects, read-optimized compacted objects, cursor/txn snapshots, and SBT/SDT lakehouse files. Visibility comes from metadata; async materializers can lag without changing stream truth.</p>
-            <div class="arch-tech" data-i18n="arch.layer5.tech">BookKeeper · Object WAL · S3/GCS/RustFS · Parquet · Iceberg/Delta/Hudi</div>
+            <div class="arch-tech" data-i18n="arch.layer5.tech">BookKeeper · Object WAL · S3/GCS/RustFS · Parquet · Iceberg/Delta/Hudi · NRC1 recovery · NCP1/NTC1 · Real Parquet round-trip</div>
           </div>
         </div>
       </div>
@@ -689,31 +695,31 @@
         </div>
       </div>
       <div class="roadmap-item">
-        <div class="roadmap-num">1</div>
+        <div class="roadmap-num done">1</div>
         <div class="roadmap-body">
-          <h4><span data-i18n="roadmap.p1.title">Core StreamStorage + Object WAL</span> <span class="roadmap-badge" data-i18n="roadmap.p1.badge">Future 1</span></h4>
-          <p data-i18n="roadmap.p1.desc">Protocol-neutral StreamStorage API, streamId + offset truth, append sessions, Object WAL layout, Oxia stream-head commit, offset index, read resolver, and profile-aware API boundaries.</p>
+          <h4><span data-i18n="roadmap.p1.title">Core StreamStorage + Object WAL + BookKeeper WAL</span> <span class="roadmap-badge done" data-i18n="roadmap.p1.badge">Gated</span></h4>
+          <p data-i18n="roadmap.p1.desc">Phase 1/1.5 final-gated. F1-BK BK-M1-M4 final-gated (BK-M5 partial). Protocol-neutral StreamStorage API, Object WAL + BookKeeper WAL, Oxia stream-head commit, offset index, read resolver, profile-aware API.</p>
         </div>
       </div>
       <div class="roadmap-item">
-        <div class="roadmap-num">2</div>
+        <div class="roadmap-num done">2</div>
         <div class="roadmap-body">
-          <h4><span data-i18n="roadmap.p2.title">ManagedLedger Facade</span> <span class="roadmap-badge" data-i18n="roadmap.p2.badge">Future 2</span></h4>
-          <p data-i18n="roadmap.p2.desc">Pulsar storage class integration through a ManagedLedger-compatible facade. MessageId and Position are projections over Nereus stream ranges, not storage truth.</p>
+          <h4><span data-i18n="roadmap.p2.title">ManagedLedger Facade</span> <span class="roadmap-badge done" data-i18n="roadmap.p2.badge">Gated</span></h4>
+          <p data-i18n="roadmap.p2.desc">Complete/final-gated. 19 scenarios pass. Real dual-broker gate with Oxia, LocalStack S3, stock BookKeeper. Position/bytes stability, hybrid coexistence, unload/reload/restart verified.</p>
         </div>
       </div>
       <div class="roadmap-item">
-        <div class="roadmap-num">3</div>
+        <div class="roadmap-num done">3</div>
         <div class="roadmap-body">
-          <h4><span data-i18n="roadmap.p3.title">Cursor / Subscription State</span> <span class="roadmap-badge" data-i18n="roadmap.p3.badge">Future 3</span></h4>
-          <p data-i18n="roadmap.p3.desc">Oxia-backed cursor state, mark-delete offsets, individual ack ranges, cursor snapshots, retention low-watermark, and subscription recovery.</p>
+          <h4><span data-i18n="roadmap.p3.title">Cursor / Subscription State</span> <span class="roadmap-badge done" data-i18n="roadmap.p3.badge">Gated</span></h4>
+          <p data-i18n="roadmap.p3.desc">Complete/final-gated. Durable cursor CAS, snapshot bytes, ack-state epochs, owner-session claims, cursor protocol activation, F4 snapshot inventory handoff.</p>
         </div>
       </div>
       <div class="roadmap-item">
-        <div class="roadmap-num">4</div>
+        <div class="roadmap-num done">4</div>
         <div class="roadmap-body">
-          <h4><span data-i18n="roadmap.p4.title">Compaction + Async Materialization</span> <span class="roadmap-badge" data-i18n="roadmap.p4.badge">Future 4</span></h4>
-          <p data-i18n="roadmap.p4.desc">Generation replacement, per-stream compacted objects, highest-generation read resolver, old generation fallback, and async materialization lag / WAL retention protection.</p>
+          <h4><span data-i18n="roadmap.p4.title">Materialization + Compaction + GC</span> <span class="roadmap-badge done" data-i18n="roadmap.p4.badge">Gated</span></h4>
+          <p data-i18n="roadmap.p4.desc">Complete/final-gated (203/203 tasks, 21m47s). Parquet NCP1/NTC1/NRC1, generation replacement, async materialization, GC/retirement, real two-broker/two-worker contention, million-entry recovery.</p>
         </div>
       </div>
       <div class="roadmap-item">
@@ -794,7 +800,7 @@
       <a href="https://github.com/nereusstream/nereus/blob/main/docs/design/nereus-overall-architecture.md" target="_blank" rel="noopener">Design Docs</a>
       <a href="https://github.com/nereusstream" target="_blank" rel="noopener">NereusStream Org</a>
     </div>
-    <p class="footer-note">Design Phase · Profile-Aware Storage Architecture · Apache 2.0</p>
+    <p class="footer-note">Phases 0-4 Final-Gated · BK-M4 Gated · 203/203 F4 Tasks · Apache 2.0</p>
   </div>
 </footer>
 
@@ -812,14 +818,15 @@ const _T = {
     "meta.keywords": "Nereus, stream storage, configurable storage profiles, sync visibility, async object materialization, Oxia, Pulsar, Kafka, KoP, BookKeeper WAL, Object WAL, shared storage, lakehouse",
     "meta.ogtitle": "Nereus — Configurable Stream Storage Profiles",
     "meta.ogdesc": "Configurable shared stream storage with BookKeeper/Object WAL profiles, sync visibility, async object materialization, and one streamId + offset truth.",
-    "hero.early": "Early Stage · AI-Assisted Design & Implementation",
-    "hero.badge": "Design Phase · Profile-Aware Shared Storage",
+    "hero.early": "Phase 0-4 Final-Gated · BookKeeper WAL BK-M4 Gated",
+    "hero.badge": "Implementation Phase · Profile-Aware Shared Storage",
     "hero.sub": "Configurable Stream Storage Profiles for Pulsar, KoP, and Kafka",
     "hero.desc": "Nereus now models storage as selectable topic-level profiles: BookKeeper-only, BookKeeper WAL with sync or async object materialization, and Object WAL with sync or async object materialization. Every mode keeps one streamId + offset truth.",
     "hero.stat.arch": "Layered Architecture",
     "hero.stat.meta": "Oxia Metadata",
     "hero.stat.data": "Storage Profiles",
-    "hero.stat.phases": "Futures",
+    "hero.stat.phases": "Gated",
+    "hero.stat.modules": "Modules",
     "btn.github": "GitHub",
     "btn.design": "Read the Design",
     "arch.tag": "Architecture",
@@ -838,7 +845,7 @@ const _T = {
     "arch.layer4.desc": "Five canonical profiles: BK-only, BK sync object, BK async object, Object WAL sync object, and Object WAL async object. OBJECT_WAL remains a legacy alias for OBJECT_WAL_SYNC_OBJECT.",
     "arch.layer5.title": "Shared Data and Materialization Plane",
     "arch.layer5.desc": "Primary WAL ranges, immutable WAL objects, read-optimized compacted objects, cursor/txn snapshots, and SBT/SDT lakehouse files. Visibility comes from metadata; async materializers can lag without changing stream truth.",
-    "arch.layer5.tech": "BookKeeper · Object WAL · S3/GCS/RustFS · Parquet · Iceberg/Delta/Hudi",
+    "arch.layer5.tech": "BookKeeper · Object WAL · S3/GCS/RustFS · Parquet · Iceberg/Delta/Hudi · NRC1 recovery · NCP1/NTC1 · Real Parquet round-trip",
     "align.tag": "Design Alignment",
     "align.title": "A Profile-Aware Storage Engine, Not a Protocol Fork",
     "align.desc": "Nereus is the unified storage layer beneath Pulsar, KoP, and future Kafka-native integration. Storage profiles select the primary WAL and object materialization mode; adapters project protocol semantics onto the same streamId + offset truth.",
@@ -900,18 +907,18 @@ const _T = {
     "roadmap.p0.title": "Project Scaffolding & Module Boundaries",
     "roadmap.p0.badge": "Done",
     "roadmap.p0.desc": "Standalone Gradle repository, module boundaries, design-doc index, and fork workflow. Phase 0 is complete.",
-    "roadmap.p1.title": "Core StreamStorage + Object WAL",
-    "roadmap.p1.badge": "Future 1",
-    "roadmap.p1.desc": "Protocol-neutral StreamStorage API, streamId + offset truth, append sessions, Object WAL layout, Oxia stream-head commit, offset index, read resolver, and profile-aware API boundaries.",
+    "roadmap.p1.title": "Core StreamStorage + Object WAL + BookKeeper WAL",
+    "roadmap.p1.badge": "Gated",
+    "roadmap.p1.desc": "Phase 1/1.5 final-gated. F1-BK BK-M1-M4 final-gated (BK-M5 partial). Protocol-neutral StreamStorage API, Object WAL + BookKeeper WAL, Oxia stream-head commit, offset index, read resolver, profile-aware API.",
     "roadmap.p2.title": "ManagedLedger Facade",
-    "roadmap.p2.badge": "Future 2",
-    "roadmap.p2.desc": "Pulsar storage class integration through a ManagedLedger-compatible facade. MessageId and Position are projections over Nereus stream ranges, not storage truth.",
+    "roadmap.p2.badge": "Gated",
+    "roadmap.p2.desc": "Complete/final-gated. 19 scenarios pass. Real dual-broker gate with Oxia, LocalStack S3, stock BookKeeper. Position/bytes stability, hybrid coexistence, unload/reload/restart verified.",
     "roadmap.p3.title": "Cursor / Subscription State",
-    "roadmap.p3.badge": "Future 3",
-    "roadmap.p3.desc": "Oxia-backed cursor state, mark-delete offsets, individual ack ranges, cursor snapshots, retention low-watermark, and subscription recovery.",
-    "roadmap.p4.title": "Compaction + Async Materialization",
-    "roadmap.p4.badge": "Future 4",
-    "roadmap.p4.desc": "Generation replacement, per-stream compacted objects, highest-generation read resolver, old generation fallback, and async materialization lag / WAL retention protection.",
+    "roadmap.p3.badge": "Gated",
+    "roadmap.p3.desc": "Complete/final-gated. Durable cursor CAS, snapshot bytes, ack-state epochs, owner-session claims, cursor protocol activation, F4 snapshot inventory handoff.",
+    "roadmap.p4.title": "Materialization + Compaction + GC",
+    "roadmap.p4.badge": "Gated",
+    "roadmap.p4.desc": "Complete/final-gated (203/203 tasks, 21m47s). Parquet NCP1/NTC1/NRC1, generation replacement, async materialization, GC/retirement, real two-broker/two-worker contention, million-entry recovery.",
     "roadmap.p5.title": "KoP / Kafka Compatibility",
     "roadmap.p5.badge": "Future 5",
     "roadmap.p5.desc": "Kafka offset equals stream record offset. Produce/Fetch mapping, group offsets, transaction markers, leader epoch projection, and topic compaction projection reuse the same Nereus storage truth.",
@@ -926,10 +933,11 @@ const _T = {
     "start.desc": "Nereus is in the design and early implementation phase. Start with the profile-aware architecture, then review the async materialization design and future gates.",
     "start.btn.arch": "Architecture Overview",
     "start.btn.gh": "GitHub Organization",
-    "terminal.clone": "# Clone the design repository",
+    "terminal.clone": "# Clone the repository",
     "terminal.arch": "# Read the overall architecture",
     "terminal.index": "# Browse the design index",
-    "terminal.out": "→ Design docs · 8 futures · 5 storage profiles · 2 write modes",
+    "terminal.async": "# Review the async materialization path",
+    "terminal.out": "→ Design docs · 4/8 futures gated · 9 modules · 5 storage profiles · 2 write modes",
     "footer.tagline": "Profile-aware shared stream storage · Sync visibility · Async materialization · Pulsar / KoP / Kafka / Lakehouse",
     "nav.profiles": "Profiles",
     "profiles.tag": "Storage Profiles",
@@ -981,14 +989,15 @@ const _T = {
     "meta.keywords": "Nereus, 流存储, 可配置存储 profile, 同步可见, 异步对象化, Oxia, Pulsar, Kafka, KoP, BookKeeper WAL, Object WAL, 共享存储, lakehouse",
     "meta.ogtitle": "Nereus — 可配置流存储 Profile",
     "meta.ogdesc": "可配置共享流存储：BookKeeper/Object WAL profiles、同步可见提交、异步对象化，以及统一 streamId + offset truth。",
-    "hero.early": "项目早期 · 暂用 AI 辅助设计与实施",
-    "hero.badge": "设计阶段 · Profile-aware 共享存储",
+    "hero.early": "Phase 0-4 终验通过 · BookKeeper WAL BK-M4 验收",
+    "hero.badge": "实施阶段 · Profile-aware 共享存储",
     "hero.sub": "面向 Pulsar、KoP 和 Kafka 的可配置流存储 Profile",
     "hero.desc": "Nereus 现在将存储建模为 topic 级可选 profile：纯 BookKeeper、BookKeeper WAL 同步/异步对象化、Object WAL 同步/异步对象化。所有模式都保持同一个 streamId + offset truth。",
     "hero.stat.arch": "分层架构",
     "hero.stat.meta": "Oxia 元数据",
     "hero.stat.data": "存储配置",
-    "hero.stat.phases": "Future",
+    "hero.stat.phases": "已验收",
+    "hero.stat.modules": "模块",
     "btn.github": "GitHub",
     "btn.design": "阅读设计文档",
     "arch.tag": "架构",
@@ -1007,7 +1016,7 @@ const _T = {
     "arch.layer4.desc": "五个 canonical profile：BK-only、BK sync object、BK async object、Object WAL sync object、Object WAL async object。OBJECT_WAL 保留为 OBJECT_WAL_SYNC_OBJECT 的旧别名。",
     "arch.layer5.title": "共享数据与对象化平面",
     "arch.layer5.desc": "Primary WAL range、不可变 WAL object、读优化 compacted object、cursor/txn snapshot、SBT/SDT lakehouse file。可见性来自元数据；异步 materializer 可以滞后但不能改变 stream truth。",
-    "arch.layer5.tech": "BookKeeper · Object WAL · S3/GCS/RustFS · Parquet · Iceberg/Delta/Hudi",
+    "arch.layer5.tech": "BookKeeper · Object WAL · S3/GCS/RustFS · Parquet · Iceberg/Delta/Hudi · NRC1 恢复 · NCP1/NTC1 · 真实 Parquet 往返",
     "align.tag": "设计对齐",
     "align.title": "Profile-aware 存储引擎，而不是协议分叉",
     "align.desc": "Nereus 是 Pulsar、KoP 和未来 Kafka-native 集成之下的统一存储层。Storage profile 选择 primary WAL 和对象化模式；适配器把协议语义投影到同一个 streamId + offset truth。",
@@ -1069,18 +1078,18 @@ const _T = {
     "roadmap.p0.title": "项目脚手架与模块边界",
     "roadmap.p0.badge": "已完成",
     "roadmap.p0.desc": "独立 Gradle 仓库、模块边界、设计文档索引和 fork 工作流。Phase 0 已完成。",
-    "roadmap.p1.title": "Core StreamStorage + Object WAL",
-    "roadmap.p1.badge": "Future 1",
-    "roadmap.p1.desc": "协议无关的 StreamStorage API、streamId + offset truth、append session、Object WAL layout、Oxia stream-head commit、offset index、read resolver，以及 profile-aware API 边界。",
+    "roadmap.p1.title": "Core StreamStorage + Object WAL + BookKeeper WAL",
+    "roadmap.p1.badge": "已验收",
+    "roadmap.p1.desc": "Phase 1/1.5 终验。F1-BK BK-M1-M4 终验（BK-M5 部分实现）。协议无关 StreamStorage API，Object WAL + BookKeeper WAL，Oxia stream-head commit，offset index，read resolver，profile-aware API。",
     "roadmap.p2.title": "ManagedLedger Facade",
-    "roadmap.p2.badge": "Future 2",
-    "roadmap.p2.desc": "通过 ManagedLedger-compatible facade 接入 Pulsar storage class。MessageId 和 Position 是 Nereus stream range 的投影，而不是存储 truth。",
+    "roadmap.p2.badge": "已验收",
+    "roadmap.p2.desc": "完成/终验。19 场景通过。真实双 broker gate + Oxia + LocalStack S3 + 原生 BookKeeper。Position/byte 稳定性，混合共存，unload/reload/restart 验证。",
     "roadmap.p3.title": "Cursor / Subscription State",
-    "roadmap.p3.badge": "Future 3",
-    "roadmap.p3.desc": "Oxia-backed cursor state、mark-delete offset、individual ack range、cursor snapshot、retention low-watermark 和 subscription recovery。",
-    "roadmap.p4.title": "Compaction + 异步对象化",
-    "roadmap.p4.badge": "Future 4",
-    "roadmap.p4.desc": "Generation replacement、per-stream compacted object、highest-generation read resolver、old generation fallback，以及异步对象化 lag / WAL retention protection。",
+    "roadmap.p3.badge": "已验收",
+    "roadmap.p3.desc": "完成/终验。Durable cursor CAS，snapshot bytes，ack-state epochs，owner-session claims，cursor protocol activation，F4 snapshot inventory handoff。",
+    "roadmap.p4.title": "Materialization + Compaction + GC",
+    "roadmap.p4.badge": "已验收",
+    "roadmap.p4.desc": "完成/终验（203/203 任务，21m47s 聚合门禁）。Parquet NCP1/NTC1/NRC1，generation replacement，异步对象化，GC/retirement，真实双 broker/双 worker 竞争，百万条目恢复。",
     "roadmap.p5.title": "KoP / Kafka Compatibility",
     "roadmap.p5.badge": "Future 5",
     "roadmap.p5.desc": "Kafka offset 等于 stream record offset。Produce/Fetch 映射、group offset、transaction marker、leader epoch projection 和 topic compaction projection 都复用同一套 Nereus storage truth。",
@@ -1095,10 +1104,10 @@ const _T = {
     "start.desc": "Nereus 处于设计和早期实现阶段。从 profile-aware 架构开始，再阅读异步对象化设计和 future gate。",
     "start.btn.arch": "架构概览",
     "start.btn.gh": "GitHub 组织",
-    "terminal.clone": "# 克隆设计仓库",
+    "terminal.clone": "# 克隆仓库",
     "terminal.arch": "# 阅读总体架构",
     "terminal.index": "# 浏览设计索引",
-    "terminal.out": "→ 设计文档 · 8 个 future · 5 个 storage profile · 2 种写入模式",
+    "terminal.out": "→ 设计文档 · 4/8 future 已验收 · 9 模块 · 5 storage profile · 2 种写入模式",
     "footer.tagline": "Profile-aware 共享流存储 · 同步可见 · 异步对象化 · Pulsar / KoP / Kafka / Lakehouse",
     "nav.profiles": "配置",
     "profiles.tag": "存储配置",
