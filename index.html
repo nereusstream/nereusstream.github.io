@@ -4,10 +4,10 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title data-i18n-meta="meta.title" data-i18n="meta.title">Nereus — Configurable Stream Storage for Pulsar, KoP, Kafka</title>
-<meta name="description" data-i18n-meta="meta.desc" content="Nereus is a profile-aware shared stream storage engine: one streamId + offset truth, Oxia metadata coordination, configurable BookKeeper/Object WAL profiles, synchronous visibility, asynchronous object materialization, and Pulsar/KoP/Kafka adapters." />
-<meta name="keywords" data-i18n-meta="meta.keywords" content="Nereus, stream storage, configurable storage profiles, sync visibility, async object materialization, Oxia, Pulsar, Kafka, KoP, BookKeeper WAL, Object WAL, shared storage, lakehouse" />
+<meta name="description" data-i18n-meta="meta.desc" content="Nereus is a Pulsar-native shared stream storage engine with five production-gated BookKeeper/Object WAL profiles, Oxia coordination, one streamId + offset truth, and a Pulsar 5.0.0-M1 compatibility baseline." />
+<meta name="keywords" data-i18n-meta="meta.keywords" content="Nereus, stream storage, Pulsar 5.0.0-M1, v0.1.0, configurable storage profiles, sync visibility, async object materialization, Oxia, Kafka, KoP, BookKeeper WAL, Object WAL, shared storage, lakehouse" />
 <meta property="og:title" data-i18n-meta="meta.ogtitle" content="Nereus — Configurable Stream Storage Profiles" />
-<meta property="og:description" data-i18n-meta="meta.ogdesc" content="Configurable shared stream storage with BookKeeper/Object WAL profiles, sync visibility, async object materialization, and one streamId + offset truth." />
+<meta property="og:description" data-i18n-meta="meta.ogdesc" content="Five production-gated storage profiles, BookKeeper Primary WAL delivery, Pulsar 5.0.0-M1 compatibility, and one streamId + offset truth." />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="NereusStream" />
 <link rel="icon" type="image/png" href="logo-icon.png" />
@@ -125,9 +125,9 @@
     border-radius: 999px; padding: 6px 18px; margin-bottom: 28px;
   }
   .hero-badge .early-stage {
-    color: #c2410c;
-    background: rgba(194, 65, 12, 0.1);
-    border: 1px solid rgba(194, 65, 12, 0.2);
+    color: #0f766e;
+    background: rgba(13, 148, 136, 0.1);
+    border: 1px solid rgba(13, 148, 136, 0.2);
     border-radius: 999px; padding: 2px 10px; margin: -2px 0; font-size: 12px;
   }
   .badge-dot {
@@ -186,6 +186,47 @@
   .stat-item .stat-val { font-size: 22px; font-weight: 800; color: var(--n-blue-900); }
   .stat-item .stat-label { font-size: 12px; color: var(--n-text-light); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
   .stat-divider { width: 1px; height: 40px; background: var(--n-border); }
+
+  /* ── Current Delivery ───────────────────── */
+  .status-grid {
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px;
+  }
+  .status-card {
+    position: relative; min-width: 0; padding: 28px; border-radius: 18px;
+    background: var(--n-card-bg); border: 1px solid var(--n-border);
+    box-shadow: var(--n-card-shadow); overflow: hidden; display: flex; flex-direction: column;
+    transition: transform .3s, box-shadow .3s, border-color .3s;
+  }
+  .status-card:hover { transform: translateY(-2px); box-shadow: var(--n-card-hover); border-color: rgba(14,59,181,.15); }
+  .status-card::before {
+    content: ""; position: absolute; inset: 0 auto 0 0; width: 4px;
+    background: linear-gradient(180deg, var(--n-teal-500), var(--n-blue-500));
+  }
+  .status-kicker {
+    font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--n-blue-600); margin-bottom: 10px;
+  }
+  .status-title {
+    font-size: 21px; line-height: 1.25; letter-spacing: -.02em;
+    color: var(--n-blue-900); margin-bottom: 12px;
+  }
+  .status-desc { font-size: 14px; color: var(--n-text-muted); line-height: 1.65; }
+  .status-facts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .status-fact {
+    display: inline-flex; align-items: center; min-height: 28px; padding: 4px 10px;
+    border-radius: 999px; background: rgba(14,59,181,.06); border: 1px solid rgba(14,59,181,.1);
+    color: var(--n-blue-700); font-size: 11px; font-weight: 700;
+  }
+  .status-link {
+    display: inline-flex; margin-top: auto; padding-top: 18px; color: var(--n-blue-600); text-decoration: none;
+    font-size: 13px; font-weight: 700;
+  }
+  .status-link:hover { color: var(--n-blue-800); text-decoration: underline; }
+  .status-note {
+    margin-top: 22px; padding: 14px 18px; border-radius: 12px; text-align: center;
+    background: rgba(6,182,212,.07); border: 1px solid rgba(6,182,212,.16);
+    color: var(--n-text-muted); font-size: 13px;
+  }
 
   /* ── Architecture ───────────────────────── */
   .arch-visual { margin-top: 20px; }
@@ -351,13 +392,23 @@
   /* ── Responsive ─────────────────────────── */
   @media (max-width: 768px) {
     .nav-links a.desktop-only { display: none; }
+    .nav-inner { gap: 16px; }
+    .nav-links { gap: 12px; }
+    .hero-badge { flex-wrap: wrap; justify-content: center; }
     .hero-stats { gap: 20px; }
+    .status-grid { grid-template-columns: 1fr; }
     .arch-row-inline { flex-direction: column; gap: 16px; }
     .profile-matrix { grid-template-columns: 1fr; }
     .profile-card { min-height: auto; padding: 20px; }
     .profile-card.wal-only { min-height: auto; }
     .align-table { font-size: 13px; }
     .align-table th, .align-table td { padding: 12px 14px; }
+  }
+  @media (max-width: 480px) {
+    .nav-links a[href="#status"] { display: none; }
+    .nav-inner { gap: 10px; }
+    .nav-links { gap: 8px; }
+    .nav-brand > span { font-size: 17px !important; }
   }
 </style>
 </head>
@@ -371,11 +422,12 @@
       <span style="font-weight: 800; font-size: 19px; color: var(--n-blue-900); letter-spacing: -0.02em;">Nereus<span style="color: var(--n-blue-600); font-weight: 600;">Stream</span></span>
     </a>
     <div class="nav-links">
-      <a href="#architecture" data-i18n="nav.architecture">Architecture</a>
-      <a href="#profiles" data-i18n="nav.profiles">Profiles</a>
-      <a href="#features" data-i18n="nav.features">Features</a>
-      <a href="#roadmap" data-i18n="nav.roadmap">Roadmap</a>
-      <a href="#get-started" data-i18n="nav.get-started">Get Started</a>
+      <a class="desktop-only" href="#architecture" data-i18n="nav.architecture">Architecture</a>
+      <a class="desktop-only" href="#profiles" data-i18n="nav.profiles">Profiles</a>
+      <a href="#status" data-i18n="nav.status">Status</a>
+      <a class="desktop-only" href="#features" data-i18n="nav.features">Features</a>
+      <a class="desktop-only" href="#roadmap" data-i18n="nav.roadmap">Roadmap</a>
+      <a class="desktop-only" href="#get-started" data-i18n="nav.get-started">Get Started</a>
       <button class="lang-toggle" onclick="toggleLang()" aria-label="Switch language" data-i18n="nav.lang">中文</button>
       <a class="nav-gh" href="https://github.com/nereusstream/nereus" target="_blank" rel="noopener" aria-label="GitHub">
         <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
@@ -391,14 +443,14 @@
   </div>
   <div class="hero-inner">
     <div class="hero-badge">
-      <span class="badge-dot"></span> <span class="early-stage" data-i18n="hero.early">Phase 0-4 Final-Gated · BookKeeper WAL BK-M4 Gated</span>&ensp;<span data-i18n="hero.badge">Implementation Phase · Profile-Aware Shared Storage</span>
+      <span class="badge-dot"></span> <span class="early-stage" data-i18n="hero.early">F1-F4 + BookKeeper Primary WAL Final-Gated</span>&ensp;<span data-i18n="hero.badge">Pulsar 5.0.0-M1 Baseline</span>
     </div>
     <h1 class="hero-title">
       <span class="t-nereus">Nereus</span>
     </h1>
     <p class="hero-sub" data-i18n="hero.sub">Configurable Stream Storage Profiles for Pulsar, KoP, and Kafka</p>
     <p class="hero-desc" data-i18n="hero.desc">
-      Nereus now models storage as selectable topic-level profiles: BookKeeper-only,
+      All five topic-level storage profiles now pass production rollout gates: BookKeeper-only,
       BookKeeper WAL with sync or async object materialization, and Object WAL with sync or async
       object materialization. Every mode keeps one streamId + offset truth.
     </p>
@@ -442,6 +494,53 @@
         <span class="stat-label" data-i18n="hero.stat.phases">Gated</span>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ── Current Delivery ───────────── -->
+<section class="section" id="status" style="background:#f1f5f9;">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag" data-i18n="status.tag">Current Delivery</div>
+      <h2 class="section-title" data-i18n="status.title">From Architecture to a Gated Pulsar Runtime</h2>
+      <p class="section-desc" data-i18n="status.desc">The July 22, 2026 baseline closes BookKeeper Primary WAL delivery, pins the Nereus v0.1.0 line to Pulsar 5.0.0-M1, and prepares a reproducible performance campaign.</p>
+    </div>
+    <div class="status-grid">
+      <article class="status-card">
+        <div class="status-kicker" data-i18n="status.bk.kicker">Storage delivery</div>
+        <h3 class="status-title" data-i18n="status.bk.title">BookKeeper Primary WAL is complete</h3>
+        <p class="status-desc" data-i18n="status.bk.desc">BK-M0 through BK-M6 are implemented and final-gated, including production profile rollout, ownership transfer, bounded recovery, retention, and mixed-profile broker contention.</p>
+        <div class="status-facts">
+          <span class="status-fact">BK-M0&mdash;M6</span>
+          <span class="status-fact">236/236</span>
+          <span class="status-fact" data-i18n="status.bk.fact">5 profiles</span>
+        </div>
+        <a class="status-link" href="https://github.com/nereusstream/nereus/blob/main/docs/phase-bk-bookkeeper-primary-wal/README.md" target="_blank" rel="noopener" data-i18n="status.bk.link">Read the delivery evidence →</a>
+      </article>
+      <article class="status-card">
+        <div class="status-kicker" data-i18n="status.pulsar.kicker">Compatibility baseline</div>
+        <h3 class="status-title" data-i18n="status.pulsar.title">Pinned to Pulsar 5.0.0-M1</h3>
+        <p class="status-desc" data-i18n="status.pulsar.desc">The Nereus broker integration was backported without importing post-M1 APIs. The complete delivery gate was rerun against the frozen M1 source boundary.</p>
+        <div class="status-facts">
+          <span class="status-fact">5.0.0-M1</span>
+          <span class="status-fact">227/227</span>
+          <span class="status-fact">v0.1.0-SNAPSHOT</span>
+        </div>
+        <a class="status-link" href="https://github.com/nereusstream/nereus/blob/main/docs/performance/pulsar-5.0.0-M1-baselines.md" target="_blank" rel="noopener" data-i18n="status.pulsar.link">Inspect the frozen baseline →</a>
+      </article>
+      <article class="status-card">
+        <div class="status-kicker" data-i18n="status.bench.kicker">Benchmark readiness</div>
+        <h3 class="status-title" data-i18n="status.bench.title">A five-stage comparison is ready</h3>
+        <p class="status-desc" data-i18n="status.bench.desc">The Apache control, dormant-integration path, and three BookKeeper WAL profiles share one Oxia-backed test plan. Reproducible linux/amd64 image identities are recorded.</p>
+        <div class="status-facts">
+          <span class="status-fact">A&mdash;E</span>
+          <span class="status-fact">linux/amd64</span>
+          <span class="status-fact" data-i18n="status.bench.fact">Oxia-controlled</span>
+        </div>
+        <a class="status-link" href="https://github.com/nereusstream/nereus/blob/main/docs/performance/pulsar-5.0.0-M1-images.md" target="_blank" rel="noopener" data-i18n="status.bench.link">Review the image workflow →</a>
+      </article>
+    </div>
+    <p class="status-note" data-i18n="status.note">No throughput or latency result is claimed yet. Source anchors, comparison order, run controls, and image identities are frozen for the first benchmark campaign.</p>
   </div>
 </section>
 
@@ -612,8 +711,8 @@
           <tr><td data-i18n="align.compact.name">Compaction</td><td data-i18n="align.compact.desc">Generation replacement keeps offsets stable while switching physical object targets. The same worker path powers compaction and asynchronous object materialization.</td><td data-i18n="align.compact.layer">Core</td></tr>
           <tr><td data-i18n="align.lake.name">Lakehouse / stream-table duality</td><td data-i18n="align.lake.desc">SBT and SDT expose already committed/materialized stream ranges as lakehouse files. Catalog commits never lead stream truth or block producer ack.</td><td data-i18n="align.lake.layer">Core</td></tr>
           <tr><td data-i18n="align.broker.name">Stateless / leaderless broker</td><td data-i18n="align.broker.desc">Broker not a durable owner; preferred broker for locality only. No data movement on scale-in/out</td><td data-i18n="align.broker.layer">Routing</td></tr>
-          <tr><td data-i18n="align.pulsar.name">Pulsar adapter</td><td data-i18n="align.pulsar.desc">ManagedLedger facade: MessageId/Position → streamId/offset. Full ManagedCursor compatibility, Shared/Key_Shared subscriptions</td><td data-i18n="align.pulsar.layer">Adapter</td></tr>
-          <tr><td data-i18n="align.kop.name">KoP / Kafka adapter</td><td data-i18n="align.kop.desc">Kafka offset = stream record offset. Produce/Fetch mapping, group offset, transaction marker, __consumer_offsets</td><td data-i18n="align.kop.layer">Adapter</td></tr>
+          <tr><td data-i18n="align.pulsar.name">Pulsar adapter</td><td data-i18n="align.pulsar.desc">Implemented/final-gated: ManagedLedger facade, stable MessageId/Position, durable cursors, and Exclusive/Failover/Shared subscriptions. Key_Shared and other advanced semantics remain Future 8.</td><td data-i18n="align.pulsar.layer">Adapter</td></tr>
+          <tr><td data-i18n="align.kop.name">KoP / Kafka adapter</td><td data-i18n="align.kop.desc">Designed Future 5: Kafka offset = stream record offset, Produce/Fetch mapping, group offsets, transaction markers, and leader-epoch projection. The current KoP module is a marker boundary.</td><td data-i18n="align.kop.layer">Adapter</td></tr>
         </tbody>
       </table>
     </div>
@@ -624,18 +723,18 @@
 <section class="section" id="features">
   <div class="section-inner">
     <div class="section-header">
-      <div class="section-tag" data-i18n="features.tag">Core Design</div>
+      <div class="section-tag" data-i18n="features.tag">Implemented Core</div>
       <h2 class="section-title" data-i18n="features.title">Five Profiles, One Stream Truth</h2>
       <p class="section-desc" data-i18n="features.desc">
-        Nereus is no longer a single synchronous-profile design. The current design separates storage profiles,
-        ack boundaries, materialization lag, protocol projection, and future implementation gates.
+        The implemented storage core separates storage profiles, ack boundaries, materialization lag,
+        protocol projection, and fail-closed rollout gates.
       </p>
     </div>
     <div class="feature-grid">
       <div class="feature-card">
         <div class="fc-icon">🔲</div>
         <h3 class="fc-title" data-i18n="features.card1.title">Five Canonical Profiles</h3>
-        <p class="fc-desc" data-i18n="features.card1.desc">BK-only, BK sync object, BK async object, Object WAL sync object, and Object WAL async object are explicit API and metadata choices.</p>
+        <p class="fc-desc" data-i18n="features.card1.desc">BK-only, BK sync object, BK async object, Object WAL sync object, and Object WAL async object now pass their production rollout gates.</p>
       </div>
       <div class="feature-card">
         <div class="fc-icon">🔄</div>
@@ -649,13 +748,13 @@
       </div>
       <div class="feature-card">
         <div class="fc-icon">⚡</div>
-        <h3 class="fc-title" data-i18n="features.card4.title">Profile-aware Future Gates</h3>
-        <p class="fc-desc" data-i18n="features.card4.desc">Each Future must state how sync, async, BK-only, BookKeeper WAL, and Object WAL paths behave instead of assuming one OBJECT_WAL path.</p>
+        <h3 class="fc-title" data-i18n="features.card4.title">Final-Gated Recovery</h3>
+        <p class="fc-desc" data-i18n="features.card4.desc">Response-loss, restart, ownership transfer, retention, scale, and mixed-profile contention are covered by executable aggregate gates.</p>
       </div>
       <div class="feature-card">
         <div class="fc-icon">🔌</div>
-        <h3 class="fc-title" data-i18n="features.card5.title">Three Integration Paths</h3>
-        <p class="fc-desc" data-i18n="features.card5.desc">Pulsar native with Oxia, Pulsar Broker + KoP with Oxia, and future Kafka native with KRaft all reuse the same storage core.</p>
+        <h3 class="fc-title" data-i18n="features.card5.title">Protocol Path Plan</h3>
+        <p class="fc-desc" data-i18n="features.card5.desc">Pulsar native is implemented/final-gated. KoP projection and future Kafka native integration remain designed paths over the same storage core.</p>
       </div>
       <div class="feature-card">
         <div class="fc-icon">☑️</div>
@@ -698,7 +797,7 @@
         <div class="roadmap-num done">1</div>
         <div class="roadmap-body">
           <h4><span data-i18n="roadmap.p1.title">Core StreamStorage + Object WAL + BookKeeper WAL</span> <span class="roadmap-badge done" data-i18n="roadmap.p1.badge">Gated</span></h4>
-          <p data-i18n="roadmap.p1.desc">Phase 1/1.5 final-gated. F1-BK BK-M1-M4 final-gated (BK-M5 partial). Protocol-neutral StreamStorage API, Object WAL + BookKeeper WAL, Oxia stream-head commit, offset index, read resolver, profile-aware API.</p>
+          <p data-i18n="roadmap.p1.desc">Phase 1/1.5 and F1-BK BK-M0-M6 are complete/final-gated. Production rollout covers BK-only, BK sync, BK async, Object WAL sync, and Object WAL async profiles; online profile migration remains unsupported.</p>
         </div>
       </div>
       <div class="roadmap-item">
@@ -761,7 +860,7 @@
       <div class="section-tag" data-i18n="start.tag">Get Involved</div>
       <h2 class="section-title" data-i18n="start.title">Explore &amp; Contribute</h2>
       <p class="section-desc" data-i18n="start.desc">
-        Nereus is in the design and early implementation phase. Start with the profile-aware architecture, then review the async materialization design and future gates.
+        Nereus has a final-gated storage core and Pulsar runtime baseline. Start with the architecture, then inspect the BookKeeper delivery evidence and the frozen Pulsar 5.0.0-M1 benchmark plan.
       </p>
     </div>
     <div class="terminal">
@@ -769,19 +868,20 @@
         <span class="t-dot r"></span><span class="t-dot y"></span><span class="t-dot g"></span>
       </div>
       <div class="terminal-body">
-        <div class="t-line"><span class="t-comment" data-i18n="terminal.clone"># Clone the design repository</span></div>
+        <div class="t-line"><span class="t-comment" data-i18n="terminal.clone"># Clone the repository</span></div>
         <div class="t-line"><span class="t-prompt">$</span><span class="t-cmd">git clone https://github.com/nereusstream/nereus.git</span></div>
         <div class="t-line" style="margin-top:12px;"><span class="t-comment" data-i18n="terminal.arch"># Read the overall architecture</span></div>
         <div class="t-line"><span class="t-prompt">$</span><span class="t-cmd">cat docs/design/nereus-overall-architecture.md</span></div>
         <div class="t-line" style="margin-top:12px;"><span class="t-comment" data-i18n="terminal.index"># Browse the design index</span></div>
         <div class="t-line"><span class="t-prompt">$</span><span class="t-cmd">cat docs/design/nereus-design-index.md</span></div>
-        <div class="t-line" style="margin-top:12px;"><span class="t-comment" data-i18n="terminal.async"># Review the async materialization path</span></div>
-        <div class="t-line"><span class="t-prompt">$</span><span class="t-cmd">rg "async materialization" docs/design docs/phase-1-core-stream-storage</span></div>
-        <div class="t-line" style="margin-top:12px;"><span class="t-out" data-i18n="terminal.out">→ Design docs · 8 futures · 5 storage profiles · 2 write modes</span></div>
+        <div class="t-line" style="margin-top:12px;"><span class="t-comment" data-i18n="terminal.baseline"># Inspect the Pulsar 5.0.0-M1 baseline</span></div>
+        <div class="t-line"><span class="t-prompt">$</span><span class="t-cmd">cat docs/performance/pulsar-5.0.0-M1-baselines.md</span></div>
+        <div class="t-line" style="margin-top:12px;"><span class="t-out" data-i18n="terminal.out">→ F1-F4 + F1-BK final-gated · 9 modules · 5 storage profiles · Pulsar 5.0.0-M1</span></div>
       </div>
     </div>
     <div style="display:flex;gap:16px;justify-content:center;margin-top:36px;flex-wrap:wrap;">
       <a class="btn btn-primary" href="https://github.com/nereusstream/nereus/blob/main/docs/design/nereus-overall-architecture.md" target="_blank" rel="noopener" data-i18n="start.btn.arch">Architecture Overview</a>
+      <a class="btn btn-ghost" href="https://github.com/nereusstream/nereus/blob/main/docs/performance/pulsar-5.0.0-M1-baselines.md" target="_blank" rel="noopener" data-i18n="start.btn.baseline">Pulsar M1 Baseline</a>
       <a class="btn btn-ghost" href="https://github.com/nereusstream/nereus" target="_blank" rel="noopener" data-i18n="start.btn.gh">GitHub Organization</a>
     </div>
   </div>
@@ -800,7 +900,7 @@
       <a href="https://github.com/nereusstream/nereus/blob/main/docs/design/nereus-overall-architecture.md" target="_blank" rel="noopener">Design Docs</a>
       <a href="https://github.com/nereusstream" target="_blank" rel="noopener">NereusStream Org</a>
     </div>
-    <p class="footer-note">Phases 0-4 Final-Gated · BK-M4 Gated · 203/203 F4 Tasks · Apache 2.0</p>
+    <p class="footer-note" data-i18n="footer.note">F1-F4 + BookKeeper Primary WAL Final-Gated · Pulsar 5.0.0-M1 · Apache 2.0</p>
   </div>
 </footer>
 
@@ -811,17 +911,18 @@ const _T = {
     "nav.architecture": "Architecture",
     "nav.features": "Features",
     "nav.roadmap": "Roadmap",
+    "nav.status": "Status",
     "nav.get-started": "Get Started",
     "nav.lang": "中文",
     "meta.title": "Nereus — Configurable Stream Storage for Pulsar, KoP, Kafka",
-    "meta.desc": "Nereus is a profile-aware shared stream storage engine: one streamId + offset truth, Oxia metadata coordination, configurable BookKeeper/Object WAL profiles, synchronous visibility, asynchronous object materialization, and Pulsar/KoP/Kafka adapters.",
-    "meta.keywords": "Nereus, stream storage, configurable storage profiles, sync visibility, async object materialization, Oxia, Pulsar, Kafka, KoP, BookKeeper WAL, Object WAL, shared storage, lakehouse",
+    "meta.desc": "Nereus is a Pulsar-native shared stream storage engine with five production-gated BookKeeper/Object WAL profiles, Oxia coordination, one streamId + offset truth, and a Pulsar 5.0.0-M1 compatibility baseline.",
+    "meta.keywords": "Nereus, stream storage, Pulsar 5.0.0-M1, v0.1.0, configurable storage profiles, sync visibility, async object materialization, Oxia, Kafka, KoP, BookKeeper WAL, Object WAL, shared storage, lakehouse",
     "meta.ogtitle": "Nereus — Configurable Stream Storage Profiles",
-    "meta.ogdesc": "Configurable shared stream storage with BookKeeper/Object WAL profiles, sync visibility, async object materialization, and one streamId + offset truth.",
-    "hero.early": "Phase 0-4 Final-Gated · BookKeeper WAL BK-M4 Gated",
-    "hero.badge": "Implementation Phase · Profile-Aware Shared Storage",
+    "meta.ogdesc": "Five production-gated storage profiles, BookKeeper Primary WAL delivery, Pulsar 5.0.0-M1 compatibility, and one streamId + offset truth.",
+    "hero.early": "F1-F4 + BookKeeper Primary WAL Final-Gated",
+    "hero.badge": "Pulsar 5.0.0-M1 Baseline",
     "hero.sub": "Configurable Stream Storage Profiles for Pulsar, KoP, and Kafka",
-    "hero.desc": "Nereus now models storage as selectable topic-level profiles: BookKeeper-only, BookKeeper WAL with sync or async object materialization, and Object WAL with sync or async object materialization. Every mode keeps one streamId + offset truth.",
+    "hero.desc": "All five topic-level storage profiles now pass production rollout gates: BookKeeper-only, BookKeeper WAL with sync or async object materialization, and Object WAL with sync or async object materialization. Every mode keeps one streamId + offset truth.",
     "hero.stat.arch": "Layered Architecture",
     "hero.stat.meta": "Oxia Metadata",
     "hero.stat.data": "Storage Profiles",
@@ -829,6 +930,24 @@ const _T = {
     "hero.stat.modules": "Modules",
     "btn.github": "GitHub",
     "btn.design": "Read the Design",
+    "status.tag": "Current Delivery",
+    "status.title": "From Architecture to a Gated Pulsar Runtime",
+    "status.desc": "The July 22, 2026 baseline closes BookKeeper Primary WAL delivery, pins the Nereus v0.1.0 line to Pulsar 5.0.0-M1, and prepares a reproducible performance campaign.",
+    "status.bk.kicker": "Storage delivery",
+    "status.bk.title": "BookKeeper Primary WAL is complete",
+    "status.bk.desc": "BK-M0 through BK-M6 are implemented and final-gated, including production profile rollout, ownership transfer, bounded recovery, retention, and mixed-profile broker contention.",
+    "status.bk.fact": "5 profiles",
+    "status.bk.link": "Read the delivery evidence →",
+    "status.pulsar.kicker": "Compatibility baseline",
+    "status.pulsar.title": "Pinned to Pulsar 5.0.0-M1",
+    "status.pulsar.desc": "The Nereus broker integration was backported without importing post-M1 APIs. The complete delivery gate was rerun against the frozen M1 source boundary.",
+    "status.pulsar.link": "Inspect the frozen baseline →",
+    "status.bench.kicker": "Benchmark readiness",
+    "status.bench.title": "A five-stage comparison is ready",
+    "status.bench.desc": "The Apache control, dormant-integration path, and three BookKeeper WAL profiles share one Oxia-backed test plan. Reproducible linux/amd64 image identities are recorded.",
+    "status.bench.fact": "Oxia-controlled",
+    "status.bench.link": "Review the image workflow →",
+    "status.note": "No throughput or latency result is claimed yet. Source anchors, comparison order, run controls, and image identities are frozen for the first benchmark campaign.",
     "arch.tag": "Architecture",
     "arch.title": "One Storage Core, Two Write Modes, Multiple Protocol Paths",
     "arch.desc": "The single internal coordinate — <code style=\"background:rgba(14,59,181,0.06);padding:2px 8px;border-radius:6px;font-size:14px;color:var(--n-blue-700);font-weight:600;\">streamId + offset</code> — powers synchronous visibility, asynchronous object materialization, Pulsar native, KoP, and future Kafka-native paths.",
@@ -877,24 +996,24 @@ const _T = {
     "align.broker.desc": "Broker not a durable owner; preferred broker for locality only. No data movement on scale-in/out",
     "align.broker.layer": "Routing",
     "align.pulsar.name": "Pulsar adapter",
-    "align.pulsar.desc": "ManagedLedger facade: MessageId/Position → streamId/offset. Full ManagedCursor compatibility, Shared/Key_Shared subscriptions",
+    "align.pulsar.desc": "Implemented/final-gated: ManagedLedger facade, stable MessageId/Position, durable cursors, and Exclusive/Failover/Shared subscriptions. Key_Shared and other advanced semantics remain Future 8.",
     "align.pulsar.layer": "Adapter",
     "align.kop.name": "KoP / Kafka adapter",
-    "align.kop.desc": "Kafka offset = stream record offset. Produce/Fetch mapping, group offset, transaction marker, __consumer_offsets",
+    "align.kop.desc": "Designed Future 5: Kafka offset = stream record offset, Produce/Fetch mapping, group offsets, transaction markers, and leader-epoch projection. The current KoP module is a marker boundary.",
     "align.kop.layer": "Adapter",
-    "features.tag": "Core Design",
+    "features.tag": "Implemented Core",
     "features.title": "Five Profiles, One Stream Truth",
-    "features.desc": "Nereus is no longer a single synchronous-profile design. The current design separates storage profiles, ack boundaries, materialization lag, protocol projection, and future implementation gates.",
+    "features.desc": "The implemented storage core separates storage profiles, ack boundaries, materialization lag, protocol projection, and fail-closed rollout gates.",
     "features.card1.title": "Five Canonical Profiles",
-    "features.card1.desc": "BK-only, BK sync object, BK async object, Object WAL sync object, and Object WAL async object are explicit API and metadata choices.",
+    "features.card1.desc": "BK-only, BK sync object, BK async object, Object WAL sync object, and Object WAL async object now pass their production rollout gates.",
     "features.card2.title": "Two Write Modes",
     "features.card2.desc": "Sync-visibility profiles wait for visible/read index publication. Async-materialization profiles fast-ack after primary WAL durability and stable projection.",
     "features.card3.title": "Unified streamId + offset",
     "features.card3.desc": "Pulsar MessageId, ManagedLedger Position, Kafka offset, cursor progress, compaction, and lakehouse snapshots all project from one internal coordinate.",
-    "features.card4.title": "Profile-aware Future Gates",
-    "features.card4.desc": "Each Future must state how sync, async, BK-only, BookKeeper WAL, and Object WAL paths behave instead of assuming one OBJECT_WAL path.",
-    "features.card5.title": "Three Integration Paths",
-    "features.card5.desc": "Pulsar native with Oxia, Pulsar Broker + KoP with Oxia, and future Kafka native with KRaft all reuse the same storage core.",
+    "features.card4.title": "Final-Gated Recovery",
+    "features.card4.desc": "Response-loss, restart, ownership transfer, retention, scale, and mixed-profile contention are covered by executable aggregate gates.",
+    "features.card5.title": "Protocol Path Plan",
+    "features.card5.desc": "Pulsar native is implemented/final-gated. KoP projection and future Kafka native integration remain designed paths over the same storage core.",
     "features.card6.title": "Metadata-Driven Correctness",
     "features.card6.desc": "Oxia remains the offset, fencing, manifest, cursor, and visibility authority. Object storage and BookKeeper store bytes, not stream truth.",
     "features.card7.title": "Async Materialization Lag",
@@ -909,7 +1028,7 @@ const _T = {
     "roadmap.p0.desc": "Standalone Gradle repository, module boundaries, design-doc index, and fork workflow. Phase 0 is complete.",
     "roadmap.p1.title": "Core StreamStorage + Object WAL + BookKeeper WAL",
     "roadmap.p1.badge": "Gated",
-    "roadmap.p1.desc": "Phase 1/1.5 final-gated. F1-BK BK-M1-M4 final-gated (BK-M5 partial). Protocol-neutral StreamStorage API, Object WAL + BookKeeper WAL, Oxia stream-head commit, offset index, read resolver, profile-aware API.",
+    "roadmap.p1.desc": "Phase 1/1.5 and F1-BK BK-M0-M6 are complete/final-gated. Production rollout covers BK-only, BK sync, BK async, Object WAL sync, and Object WAL async profiles; online profile migration remains unsupported.",
     "roadmap.p2.title": "ManagedLedger Facade",
     "roadmap.p2.badge": "Gated",
     "roadmap.p2.desc": "Complete/final-gated. 19 scenarios pass. Real dual-broker gate with Oxia, LocalStack S3, stock BookKeeper. Position/bytes stability, hybrid coexistence, unload/reload/restart verified.",
@@ -930,15 +1049,17 @@ const _T = {
     "roadmap.p7.desc": "Broker sessions, zone-aware routing, preferred broker, append session transfer, degraded broker brown-out, cache invalidation, and Pulsar/Kafka routing projection.",
     "start.tag": "Get Involved",
     "start.title": "Explore & Contribute",
-    "start.desc": "Nereus is in the design and early implementation phase. Start with the profile-aware architecture, then review the async materialization design and future gates.",
+    "start.desc": "Nereus has a final-gated storage core and Pulsar runtime baseline. Start with the architecture, then inspect the BookKeeper delivery evidence and the frozen Pulsar 5.0.0-M1 benchmark plan.",
     "start.btn.arch": "Architecture Overview",
+    "start.btn.baseline": "Pulsar M1 Baseline",
     "start.btn.gh": "GitHub Organization",
     "terminal.clone": "# Clone the repository",
     "terminal.arch": "# Read the overall architecture",
     "terminal.index": "# Browse the design index",
-    "terminal.async": "# Review the async materialization path",
-    "terminal.out": "→ Design docs · 4/8 futures gated · 9 modules · 5 storage profiles · 2 write modes",
+    "terminal.baseline": "# Inspect the Pulsar 5.0.0-M1 baseline",
+    "terminal.out": "→ F1-F4 + F1-BK final-gated · 9 modules · 5 storage profiles · Pulsar 5.0.0-M1",
     "footer.tagline": "Profile-aware shared stream storage · Sync visibility · Async materialization · Pulsar / KoP / Kafka / Lakehouse",
+    "footer.note": "F1-F4 + BookKeeper Primary WAL Final-Gated · Pulsar 5.0.0-M1 · Apache 2.0",
     "nav.profiles": "Profiles",
     "profiles.tag": "Storage Profiles",
     "profiles.title": "Choose Sync or Async Object Materialization Per Topic",
@@ -975,24 +1096,24 @@ const _T = {
     "roadmap.p8.title": "Advanced Pulsar Semantics",
     "roadmap.p8.badge": "Future 8",
     "roadmap.p8.desc": "Key_Shared, delayed delivery, pending ack transactions, replicated subscriptions, schema/system topic bootstrap, topic compaction compatibility, and geo-replication.",
-    "terminal.async": "# Review the async materialization path",
   },
 
   zh: {
     "nav.architecture": "架构",
     "nav.features": "特性",
     "nav.roadmap": "路线图",
+    "nav.status": "进度",
     "nav.get-started": "参与",
     "nav.lang": "English",
     "meta.title": "Nereus — 面向 Pulsar / KoP / Kafka 的可配置流存储",
-    "meta.desc": "Nereus 是一个 profile-aware 的共享流存储引擎：统一的 streamId + offset truth、Oxia 元数据协调、可配置 BookKeeper/Object WAL profile、同步可见提交、异步对象化，以及 Pulsar/KoP/Kafka 适配器。",
-    "meta.keywords": "Nereus, 流存储, 可配置存储 profile, 同步可见, 异步对象化, Oxia, Pulsar, Kafka, KoP, BookKeeper WAL, Object WAL, 共享存储, lakehouse",
+    "meta.desc": "Nereus 是 Pulsar-native 共享流存储引擎，具备五种通过生产门禁的 BookKeeper/Object WAL profile、Oxia 协调、统一 streamId + offset truth，以及 Pulsar 5.0.0-M1 兼容基线。",
+    "meta.keywords": "Nereus, 流存储, Pulsar 5.0.0-M1, v0.1.0, 可配置存储 profile, 同步可见, 异步对象化, Oxia, Kafka, KoP, BookKeeper WAL, Object WAL, 共享存储, lakehouse",
     "meta.ogtitle": "Nereus — 可配置流存储 Profile",
-    "meta.ogdesc": "可配置共享流存储：BookKeeper/Object WAL profiles、同步可见提交、异步对象化，以及统一 streamId + offset truth。",
-    "hero.early": "Phase 0-4 终验通过 · BookKeeper WAL BK-M4 验收",
-    "hero.badge": "实施阶段 · Profile-aware 共享存储",
+    "meta.ogdesc": "五种通过生产门禁的存储 profile、BookKeeper Primary WAL 交付、Pulsar 5.0.0-M1 兼容，以及统一 streamId + offset truth。",
+    "hero.early": "F1-F4 + BookKeeper Primary WAL 终验通过",
+    "hero.badge": "Pulsar 5.0.0-M1 基线",
     "hero.sub": "面向 Pulsar、KoP 和 Kafka 的可配置流存储 Profile",
-    "hero.desc": "Nereus 现在将存储建模为 topic 级可选 profile：纯 BookKeeper、BookKeeper WAL 同步/异步对象化、Object WAL 同步/异步对象化。所有模式都保持同一个 streamId + offset truth。",
+    "hero.desc": "五种 topic 级存储 profile 现已通过生产 rollout 门禁：纯 BookKeeper、BookKeeper WAL 同步/异步对象化、Object WAL 同步/异步对象化。所有模式都保持同一个 streamId + offset truth。",
     "hero.stat.arch": "分层架构",
     "hero.stat.meta": "Oxia 元数据",
     "hero.stat.data": "存储配置",
@@ -1000,6 +1121,24 @@ const _T = {
     "hero.stat.modules": "模块",
     "btn.github": "GitHub",
     "btn.design": "阅读设计文档",
+    "status.tag": "当前交付",
+    "status.title": "从架构设计走到通过门禁的 Pulsar Runtime",
+    "status.desc": "2026 年 7 月 22 日基线完成 BookKeeper Primary WAL 交付，将 Nereus v0.1.0 版本线固定到 Pulsar 5.0.0-M1，并为可复现性能测试做好准备。",
+    "status.bk.kicker": "存储交付",
+    "status.bk.title": "BookKeeper Primary WAL 已完成",
+    "status.bk.desc": "BK-M0 至 BK-M6 已实现并通过终验，覆盖生产 profile rollout、ownership transfer、有界恢复、retention 和混合 profile broker 竞争。",
+    "status.bk.fact": "5 种 profile",
+    "status.bk.link": "查看交付证据 →",
+    "status.pulsar.kicker": "兼容基线",
+    "status.pulsar.title": "固定到 Pulsar 5.0.0-M1",
+    "status.pulsar.desc": "Nereus broker 集成已回移到 M1，未引入 post-M1 API；完整交付门禁在冻结的 M1 source boundary 上重新执行。",
+    "status.pulsar.link": "查看冻结基线 →",
+    "status.bench.kicker": "Benchmark 就绪",
+    "status.bench.title": "五阶段对比方案已就绪",
+    "status.bench.desc": "Apache 对照组、未启用 Nereus 的集成路径和三种 BookKeeper WAL profile 共用同一 Oxia-backed 测试方案；可复现 linux/amd64 镜像身份已记录。",
+    "status.bench.fact": "Oxia 对照",
+    "status.bench.link": "查看镜像工作流 →",
+    "status.note": "当前尚未宣称吞吐或延迟结果；首轮 benchmark campaign 的 source anchor、对比顺序、运行控制和镜像身份已经冻结。",
     "arch.tag": "架构",
     "arch.title": "一个存储核心，两种写入模式，多条协议路径",
     "arch.desc": "唯一内部坐标——<code style=\"background:rgba(14,59,181,0.06);padding:2px 8px;border-radius:6px;font-size:14px;color:var(--n-blue-700);font-weight:600;\">streamId + offset</code>——支撑同步可见、异步对象化、Pulsar native、KoP 和未来 Kafka-native 路径。",
@@ -1048,24 +1187,24 @@ const _T = {
     "align.broker.desc": "Broker 不是持久化所有者；仅用于就近性优化的 preferred broker。扩缩容无数据迁移",
     "align.broker.layer": "路由",
     "align.pulsar.name": "Pulsar 适配器",
-    "align.pulsar.desc": "ManagedLedger facade：MessageId/Position → streamId/offset。完整的 ManagedCursor 兼容性，Shared/Key_Shared 订阅支持",
+    "align.pulsar.desc": "已实现/终验：ManagedLedger facade、稳定 MessageId/Position、durable cursor，以及 Exclusive/Failover/Shared subscription。Key_Shared 等高级语义仍属于 Future 8。",
     "align.pulsar.layer": "适配器",
     "align.kop.name": "KoP / Kafka 适配器",
-    "align.kop.desc": "Kafka offset = stream record offset。Produce/Fetch 映射、group offset、事务标记、__consumer_offsets 处理",
+    "align.kop.desc": "Future 5 已设计：Kafka offset = stream record offset、Produce/Fetch 映射、group offset、transaction marker 和 leader epoch projection。当前 KoP module 仅为 marker boundary。",
     "align.kop.layer": "适配器",
-    "features.tag": "核心设计",
+    "features.tag": "已实现核心",
     "features.title": "五种 Profile，一个 Stream Truth",
-    "features.desc": "Nereus 已不再是单一同步 profile 草图。当前设计拆清了 storage profile、ack boundary、materialization lag、协议投影和 future 实现门禁。",
+    "features.desc": "已实现的存储核心明确拆分 storage profile、ack boundary、materialization lag、协议投影和 fail-closed rollout gate。",
     "features.card1.title": "五个 Canonical Profile",
-    "features.card1.desc": "BK-only、BK sync object、BK async object、Object WAL sync object、Object WAL async object 都是显式 API 和 metadata 选择。",
+    "features.card1.desc": "BK-only、BK sync object、BK async object、Object WAL sync object 和 Object WAL async object 均已通过生产 rollout 门禁。",
     "features.card2.title": "两种写入模式",
     "features.card2.desc": "同步可见 profile 等待可见/read index 发布。异步对象化 profile 在 primary WAL durable 和 stable projection 后 fast-ack。",
     "features.card3.title": "统一 streamId + offset",
     "features.card3.desc": "Pulsar MessageId、ManagedLedger Position、Kafka offset、cursor progress、compaction 和 lakehouse snapshot 全都投影自同一个内部坐标。",
-    "features.card4.title": "Profile-aware Future Gate",
-    "features.card4.desc": "每个 Future 必须说明 sync、async、BK-only、BookKeeper WAL 和 Object WAL 路径如何工作，不能默认只有一个 OBJECT_WAL 路径。",
-    "features.card5.title": "三条集成路径",
-    "features.card5.desc": "Pulsar native + Oxia、Pulsar Broker + KoP + Oxia，以及未来 Kafka native + KRaft 都复用同一个存储核心。",
+    "features.card4.title": "终验覆盖恢复边界",
+    "features.card4.desc": "Response loss、restart、ownership transfer、retention、scale 和混合 profile contention 均有可执行 aggregate gate 覆盖。",
+    "features.card5.title": "协议路径规划",
+    "features.card5.desc": "Pulsar native 已实现并终验；KoP projection 和未来 Kafka native integration 仍是复用同一存储核心的设计路径。",
     "features.card6.title": "元数据驱动正确性",
     "features.card6.desc": "Oxia 仍是 offset、fencing、manifest、cursor 和 visibility authority。对象存储和 BookKeeper 只保存字节，不保存 stream truth。",
     "features.card7.title": "异步对象化滞后",
@@ -1080,7 +1219,7 @@ const _T = {
     "roadmap.p0.desc": "独立 Gradle 仓库、模块边界、设计文档索引和 fork 工作流。Phase 0 已完成。",
     "roadmap.p1.title": "Core StreamStorage + Object WAL + BookKeeper WAL",
     "roadmap.p1.badge": "已验收",
-    "roadmap.p1.desc": "Phase 1/1.5 终验。F1-BK BK-M1-M4 终验（BK-M5 部分实现）。协议无关 StreamStorage API，Object WAL + BookKeeper WAL，Oxia stream-head commit，offset index，read resolver，profile-aware API。",
+    "roadmap.p1.desc": "Phase 1/1.5 与 F1-BK BK-M0-M6 已完成并终验。生产 rollout 覆盖 BK-only、BK sync、BK async、Object WAL sync 和 Object WAL async；暂不支持在线 profile migration。",
     "roadmap.p2.title": "ManagedLedger Facade",
     "roadmap.p2.badge": "已验收",
     "roadmap.p2.desc": "完成/终验。19 场景通过。真实双 broker gate + Oxia + LocalStack S3 + 原生 BookKeeper。Position/byte 稳定性，混合共存，unload/reload/restart 验证。",
@@ -1101,14 +1240,17 @@ const _T = {
     "roadmap.p7.desc": "Broker session、zone-aware routing、preferred broker、append session transfer、degraded broker brown-out、cache invalidation，以及 Pulsar/Kafka routing projection。",
     "start.tag": "参与进来",
     "start.title": "探索与贡献",
-    "start.desc": "Nereus 处于设计和早期实现阶段。从 profile-aware 架构开始，再阅读异步对象化设计和 future gate。",
+    "start.desc": "Nereus 已具备通过终验的存储核心和 Pulsar runtime 基线。从架构开始，再查看 BookKeeper 交付证据和冻结的 Pulsar 5.0.0-M1 benchmark 方案。",
     "start.btn.arch": "架构概览",
+    "start.btn.baseline": "Pulsar M1 基线",
     "start.btn.gh": "GitHub 组织",
     "terminal.clone": "# 克隆仓库",
     "terminal.arch": "# 阅读总体架构",
     "terminal.index": "# 浏览设计索引",
-    "terminal.out": "→ 设计文档 · 4/8 future 已验收 · 9 模块 · 5 storage profile · 2 种写入模式",
+    "terminal.baseline": "# 查看 Pulsar 5.0.0-M1 基线",
+    "terminal.out": "→ F1-F4 + F1-BK 已终验 · 9 模块 · 5 storage profile · Pulsar 5.0.0-M1",
     "footer.tagline": "Profile-aware 共享流存储 · 同步可见 · 异步对象化 · Pulsar / KoP / Kafka / Lakehouse",
+    "footer.note": "F1-F4 + BookKeeper Primary WAL 终验通过 · Pulsar 5.0.0-M1 · Apache 2.0",
     "nav.profiles": "配置",
     "profiles.tag": "存储配置",
     "profiles.title": "按 Topic 选择同步可见或异步对象化",
@@ -1145,7 +1287,6 @@ const _T = {
     "roadmap.p8.title": "Advanced Pulsar Semantics",
     "roadmap.p8.badge": "Future 8",
     "roadmap.p8.desc": "Key_Shared、delayed delivery、pending ack transaction、replicated subscription、schema/system topic bootstrap、topic compaction compatibility 和 geo-replication。",
-    "terminal.async": "# Review the async materialization path",
   }
 };
 
