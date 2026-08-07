@@ -2,7 +2,7 @@
   "name": "nereusstream.github.io",
   "version": "0.1.0",
   "private": true,
-  "description": "Nereus documentation and project homepage",
+  "description": "NereusStream organization site and product documentation",
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",

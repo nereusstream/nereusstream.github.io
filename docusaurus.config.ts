@@ -1,9 +1,11 @@
 import type {Config} from '@docusaurus/types';
 import type {Options, ThemeConfig} from '@docusaurus/preset-classic';
 
+import {products} from './src/data/products';
+
 const config: Config = {
-  title: 'Nereus',
-  tagline: 'Shared stream storage for Pulsar and Native Kafka',
+  title: 'NereusStream',
+  tagline: 'Infrastructure for durable streams and scheduled delivery',
   favicon: 'img/nereus-icon.png',
 
   url: 'https://nereusstream.github.io',
@@ -59,16 +61,25 @@ const config: Config = {
       },
       items: [
         {
+          type: 'dropdown',
+          label: 'Products',
+          position: 'left',
+          items: products.map((product) => ({
+            label: product.name,
+            to: product.productPath,
+          })),
+        },
+        {
           type: 'docSidebar',
           sidebarId: 'docsSidebar',
           label: 'Docs',
           position: 'left',
         },
         {
-          href: 'https://github.com/nereusstream/nereus',
+          href: 'https://github.com/nereusstream',
           position: 'right',
           className: 'header-github-link',
-          'aria-label': 'Nereus GitHub repository',
+          'aria-label': 'NereusStream GitHub organization',
         },
       ],
     },
@@ -88,17 +99,29 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Documentation',
+          title: 'Products',
           items: [
-            {label: 'Overview', to: '/docs'},
-            {label: 'Architecture', to: '/docs/overview/architecture'},
+            ...products.map((product) => ({
+              label: product.name,
+              to: product.productPath,
+            })),
           ],
         },
         {
-          title: 'Project',
+          title: 'Documentation',
           items: [
-            {label: 'GitHub', href: 'https://github.com/nereusstream/nereus'},
-            {label: 'Issues', href: 'https://github.com/nereusstream/nereus/issues'},
+            {label: 'Documentation home', to: '/docs'},
+            {label: 'Nereus docs', to: '/docs'},
+          ],
+        },
+        {
+          title: 'Organization',
+          items: [
+            {label: 'GitHub', href: 'https://github.com/nereusstream'},
+            {
+              label: 'Website source',
+              href: 'https://github.com/nereusstream/nereusstream.github.io',
+            },
           ],
         },
       ],
