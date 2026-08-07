@@ -110,7 +110,7 @@ chapters:
   - source: "Chapter 19"
     title: "Code modules and dependency boundaries"
     target: [docs/development/module-boundaries.md]
-    status: pending
+    status: migrated
   - source: "Chapter 20"
     title: "End-to-end examples"
     target:
@@ -118,29 +118,29 @@ chapters:
       - docs/examples/pulsar-bookkeeper-async-object.md
       - docs/examples/bookkeeper-sync-object-timeout.md
       - docs/examples/kafka-transaction-and-delete-records.md
-    status: pending
+    status: migrated
   - source: "Chapter 21"
     title: "Non-goals"
     target: [docs/reference/non-goals.md]
-    status: pending
+    status: migrated
 
 appendices:
   - source: "Appendix A"
     title: "Glossary"
     target: [docs/reference/glossary.md]
-    status: pending
+    status: migrated
   - source: "Appendix B"
     title: "State machines"
     target: [docs/reference/state-machines.md]
-    status: pending
+    status: migrated
   - source: "Appendix C"
     title: "End-to-end cheatsheet"
     target: [docs/reference/end-to-end-cheatsheet.md]
-    status: pending
+    status: migrated
   - source: "Appendix D"
     title: "Source reading map"
     target: [docs/development/source-reading-map.md]
-    status: pending
+    status: migrated
   - source: "Appendix E"
     title: "Document baseline and trade-offs"
     target: [docs/reference/document-baseline.md]
@@ -170,8 +170,7 @@ figures:
     status: migrated
 
 tables: []
+unmapped_tables: []
 
-unmapped_sections:
-  - "Chapters 19-21 pending migration"
-  - "Appendices A-D pending migration"
-unmapped_figures:
+unmapped_sections: []
+unmapped_figures: []

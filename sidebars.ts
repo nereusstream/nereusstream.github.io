@@ -81,8 +81,29 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
+      label: 'Examples',
+      items: [
+        'examples/pulsar-object-wal-sync',
+        'examples/pulsar-bookkeeper-async-object',
+        'examples/bookkeeper-sync-object-timeout',
+        'examples/kafka-transaction-and-delete-records',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Development',
+      items: ['development/module-boundaries', 'development/source-reading-map'],
+    },
+    {
+      type: 'category',
       label: 'Reference',
-      items: ['reference/correctness-authorities'],
+      items: [
+        'reference/correctness-authorities',
+        'reference/non-goals',
+        'reference/glossary',
+        'reference/state-machines',
+        'reference/end-to-end-cheatsheet',
+      ],
     },
     {
       type: 'category',
