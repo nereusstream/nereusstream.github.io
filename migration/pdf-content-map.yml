@@ -88,25 +88,25 @@ chapters:
       - docs/operations/retention-and-gc.md
       - docs/operations/object-gc-state-machine.md
       - docs/operations/bookkeeper-retention.md
-    status: pending
+    status: migrated
   - source: "Chapter 15"
     title: "Failure and recovery"
     target: [docs/operations/failure-and-recovery.md]
-    status: pending
+    status: migrated
   - source: "Chapter 16"
     title: "Backpressure, timeouts, and observability"
     target:
       - docs/operations/backpressure-and-timeouts.md
       - docs/operations/observability.md
-    status: pending
+    status: migrated
   - source: "Chapter 17"
     title: "Security and multi-tenancy"
     target: [docs/operations/security-and-multitenancy.md]
-    status: pending
+    status: migrated
   - source: "Chapter 18"
     title: "Correctness authorities"
     target: [docs/reference/correctness-authorities.md]
-    status: pending
+    status: migrated
   - source: "Chapter 19"
     title: "Code modules and dependency boundaries"
     target: [docs/development/module-boundaries.md]
@@ -167,12 +167,11 @@ figures:
     status: migrated
   - source: "Object physical root state machine"
     target: [docs/operations/object-gc-state-machine.md]
-    status: pending
+    status: migrated
 
 tables: []
 
 unmapped_sections:
-  - "Chapters 14-21 pending migration"
+  - "Chapters 19-21 pending migration"
   - "Appendices A-D pending migration"
 unmapped_figures:
-  - "Object physical root state machine"

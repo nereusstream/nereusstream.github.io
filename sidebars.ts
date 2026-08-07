@@ -68,6 +68,24 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
+      label: 'Operations',
+      items: [
+        'operations/retention-and-gc',
+        'operations/object-gc-state-machine',
+        'operations/bookkeeper-retention',
+        'operations/failure-and-recovery',
+        'operations/backpressure-and-timeouts',
+        'operations/observability',
+        'operations/security-and-multitenancy',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Reference',
+      items: ['reference/correctness-authorities'],
+    },
+    {
+      type: 'category',
       label: 'Migration status',
       items: ['development/project-status', 'reference/document-baseline'],
     },
