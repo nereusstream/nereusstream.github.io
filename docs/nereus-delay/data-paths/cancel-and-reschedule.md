@@ -17,7 +17,7 @@ spec_revision: V1-FROZEN-2026-08-01
 
 import DocBaseline from '@site/src/components/DocBaseline';
 
-<DocBaseline commit="9281890f42772cc01b6b2b607fd93e31de64879b" verified="2026-08-07" source="nereusstream/nereus-delay" />
+<DocBaseline product="Nereus Delay" repository="nereusstream/nereus-delay" authority="reader-facing-summary" commit="9281890f42772cc01b6b2b607fd93e31de64879b" verified="2026-08-07" />
 
 # Cancel and reschedule {#cancel-and-reschedule}
 

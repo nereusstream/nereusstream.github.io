@@ -43,6 +43,10 @@ const config: Config = {
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
         },
+        sitemap: {
+          changefreq: 'weekly',
+          priority: 0.5,
+        },
         blog: false,
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -73,6 +77,7 @@ const config: Config = {
   ],
 
   themeConfig: {
+    image: 'img/nereus-icon.png',
     navbar: {
       title: 'NereusStream',
       logo: {

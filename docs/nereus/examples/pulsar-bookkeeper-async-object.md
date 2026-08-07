@@ -2,11 +2,17 @@
 title: "Example: Pulsar with BookKeeper async Object"
 description: A batched Pulsar Entry through BOOKKEEPER_WAL_ASYNC_OBJECT and later materialization.
 sidebar_position: 2
+product: nereus
+source_repository: nereusstream/nereus
+source_commit: c820391dc1de4229362ddf833487066c32609cba
+last_verified: 2026-08-07
+status: current-main
+authority: reader-facing-summary
 ---
 
 import DocBaseline from '@site/src/components/DocBaseline';
 
-<DocBaseline commit="c820391dc1de4229362ddf833487066c32609cba" verified="2026-08-07" />
+<DocBaseline product="Nereus" repository="nereusstream/nereus" authority="reader-facing-summary" commit="c820391dc1de4229362ddf833487066c32609cba" verified="2026-08-07" />
 
 # Example: Pulsar with BookKeeper async Object {#pulsar-bookkeeper-async-object}
 

@@ -2,11 +2,17 @@
 title: Index repair and fallback
 description: How missing derived indexes and failed physical candidates are resolved safely.
 sidebar_position: 6
+product: nereus
+source_repository: nereusstream/nereus
+source_commit: c820391dc1de4229362ddf833487066c32609cba
+last_verified: 2026-08-07
+status: current-main
+authority: reader-facing-summary
 ---
 
 import DocBaseline from '@site/src/components/DocBaseline';
 
-<DocBaseline commit="c820391dc1de4229362ddf833487066c32609cba" verified="2026-08-07" />
+<DocBaseline product="Nereus" repository="nereusstream/nereus" authority="reader-facing-summary" commit="c820391dc1de4229362ddf833487066c32609cba" verified="2026-08-07" />
 
 # Index repair and fallback {#index-repair-and-fallback}
 

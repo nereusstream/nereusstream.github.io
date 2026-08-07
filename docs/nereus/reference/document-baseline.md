@@ -2,11 +2,17 @@
 title: Document baseline and source ownership
 description: How the public site relates to the architecture PDF and implementation repositories.
 sidebar_position: 2
+product: nereus
+source_repository: nereusstream/nereus
+source_commit: c820391dc1de4229362ddf833487066c32609cba
+last_verified: 2026-08-07
+status: current-main
+authority: reader-facing-summary
 ---
 
 import DocBaseline from '@site/src/components/DocBaseline';
 
-<DocBaseline commit="c820391dc1de4229362ddf833487066c32609cba" verified="2026-08-07" />
+<DocBaseline product="Nereus" repository="nereusstream/nereus" authority="reader-facing-summary" commit="c820391dc1de4229362ddf833487066c32609cba" verified="2026-08-07" />
 
 # Document baseline and source ownership {#document-baseline}
 
@@ -27,6 +33,10 @@ When a page contains a claim that can drift, it must use the current implementat
 | Source anchors | Exact commit links in each page |
 
 The supplied PDF remains an input snapshot during migration. It is not treated as a second hand-maintained website source.
+
+## Machine-readable page contract {#machine-readable-page-contract}
+
+Every Nereus and Nereus Delay page records its product, source repository, full source commit, verification date, status, and authority in frontmatter. The `DocBaseline` banner renders the product, short commit, verification date, and authority while linking the short commit to the full source SHA. `yarn docs:check` verifies those fields against `migration/product-source-locks.yml`, so a page cannot silently drift to a different product baseline.
 
 ## Coverage contract {#coverage-contract}
 

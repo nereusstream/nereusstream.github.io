@@ -37,6 +37,7 @@ body { color: #243855; }
 .footer__link-item:hover { color: #fff; }
 .doc-baseline { display: flex; flex-wrap: wrap; gap: 0.45rem; align-items: center; margin: 0 0 1.6rem; padding: 0.65rem 0.85rem; border: 1px solid #d8e9ed; border-radius: 0.5rem; background: #f4fbfc; color: #617687; font-size: 0.8rem; }
 .doc-baseline__label { color: #137587; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
+.doc-baseline strong { color: #19365c; }
 .doc-baseline code { color: #0a7789; }
 
 @media screen and (max-width: 996px) {
@@ -55,3 +56,6 @@ body { color: #243855; }
   --ifm-color-primary-lighter: #64e0ec;
   --ifm-color-primary-lightest: #8be8f1;
 }
+
+[data-theme='dark'] .doc-baseline { border-color: #1e4962; background: #0c2b42; color: #b7d2dc; }
+[data-theme='dark'] .doc-baseline strong { color: #e5f7fb; }

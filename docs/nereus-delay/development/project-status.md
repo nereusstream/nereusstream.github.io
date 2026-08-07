@@ -17,7 +17,7 @@ spec_revision: V1-FROZEN-2026-08-01
 
 import DocBaseline from '@site/src/components/DocBaseline';
 
-<DocBaseline commit="9281890f42772cc01b6b2b607fd93e31de64879b" verified="2026-08-07" source="nereusstream/nereus-delay" />
+<DocBaseline product="Nereus Delay" repository="nereusstream/nereus-delay" authority="reader-facing-summary" commit="9281890f42772cc01b6b2b607fd93e31de64879b" verified="2026-08-07" />
 
 # Project status {#project-status}
 
@@ -57,6 +57,10 @@ The public documentation now exposes the core decision path in separate pages:
 - payload and release operations: reserve/upload/attest/commit, durable SLO evidence, observability, and release gates.
 
 These pages are reader-facing summaries pinned to the same source baseline above. The design document, Protocol Registry, ADRs, and implementation-status evidence remain authoritative for exact wire fields, preconditions, and release claims.
+
+## Website publication contract {#website-publication-contract}
+
+Each page declares the product, source repository, full source commit, verification date, status, authority, and (for Delay pages) source paths. The website's `docs:check` gate verifies these fields against the Delay source lock and content map, checks that every Delay page is mapped, and validates the legacy redirect manifest. This is publication integrity evidence for the website; it does not replace the product repository's implementation or release gates.
 
 ## Source links {#source-links}
 

@@ -7,6 +7,10 @@ source:
   current_source_commit: c820391dc1de4229362ddf833487066c32609cba
   current_source_verified: 2026-08-07
 
+status_page:
+  target: [docs/nereus/development/project-status.md]
+  status: migrated
+
 chapters:
   - source: "Chapter 1"
     title: "Reading guide"

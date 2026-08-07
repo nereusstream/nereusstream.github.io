@@ -2,11 +2,17 @@
 title: Security and multi-tenancy
 description: Canonical identities, provider scopes, checksum domains, and secret-handling boundaries.
 sidebar_position: 7
+product: nereus
+source_repository: nereusstream/nereus
+source_commit: c820391dc1de4229362ddf833487066c32609cba
+last_verified: 2026-08-07
+status: current-main
+authority: reader-facing-summary
 ---
 
 import DocBaseline from '@site/src/components/DocBaseline';
 
-<DocBaseline commit="c820391dc1de4229362ddf833487066c32609cba" verified="2026-08-07" />
+<DocBaseline product="Nereus" repository="nereusstream/nereus" authority="reader-facing-summary" commit="c820391dc1de4229362ddf833487066c32609cba" verified="2026-08-07" />
 
 # Security and multi-tenancy {#security-and-multitenancy}
 

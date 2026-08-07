@@ -7,6 +7,7 @@
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "build": "docusaurus build",
+    "docs:check": "node scripts/verify-doc-baselines.mjs && node scripts/verify-content-maps.mjs && node scripts/verify-legacy-redirects.mjs",
     "serve": "docusaurus serve",
     "clear": "docusaurus clear",
     "typecheck": "tsc --noEmit"
@@ -31,7 +32,8 @@
     "@types/node": "^22.0.0",
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.0",
-    "typescript": "~5.6.2"
+    "typescript": "~5.6.2",
+    "yaml": "2.8.2"
   },
   "engines": {
     "node": ">=22.0"
