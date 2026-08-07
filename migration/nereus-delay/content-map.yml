@@ -1,0 +1,108 @@
+source:
+  repository: nereusstream/nereus-delay
+  commit: 9281890f42772cc01b6b2b607fd93e31de64879b
+  spec_revision: V1-FROZEN-2026-08-01
+  verified: 2026-08-07
+
+documents:
+  - source: README.md
+    targets:
+      - docs/nereus-delay/index.mdx
+      - docs/nereus-delay/overview/why-nereus-delay.md
+    status: migrated
+
+  - source: docs/README.md
+    targets:
+      - docs/nereus-delay/overview/reading-guide.md
+      - docs/nereus-delay/reference/authority-order.md
+    status: migrated
+
+  - source: docs/Nereus Delay V1 设计.md
+    sections:
+      - source: '1. 摘要'
+        targets:
+          - docs/nereus-delay/overview/architecture.md
+        status: migrated
+      - source: '2. 目标、非目标与成功标准'
+        targets:
+          - docs/nereus-delay/overview/why-nereus-delay.md
+          - docs/nereus-delay/reference/non-goals.md
+        status: summarized-with-source-link
+      - source: '3.1 时间'
+        targets:
+          - docs/nereus-delay/concepts/delivery-time-and-action-time.md
+        status: migrated
+      - source: '3.2 管理模式'
+        targets:
+          - docs/nereus-delay/concepts/commands-messages-and-receipts.md
+        status: summarized-with-source-link
+      - source: '3.3 交付保证'
+        targets:
+          - docs/nereus-delay/concepts/commands-messages-and-receipts.md
+        status: summarized-with-source-link
+      - source: '4. 总体架构'
+        targets:
+          - docs/nereus-delay/overview/architecture.md
+        status: migrated
+      - source: '6. Client API 与 receipt'
+        targets:
+          - docs/nereus-delay/concepts/commands-messages-and-receipts.md
+        status: migrated
+      - source: '12.1 Destination Lane'
+        targets:
+          - docs/nereus-delay/operations/destination-lane-isolation.md
+        status: migrated
+      - source: '16. Checkpoint、Recovery Set 与恢复'
+        targets:
+          - docs/nereus-delay/operations/checkpoints-and-recovery.md
+        status: migrated
+      - source: '17. Query、Admin 与 Control Operation'
+        targets:
+          - docs/nereus-delay/data-paths/schedule-flow.md
+        status: summarized-with-source-link
+      - source: '23. 测试与发布验收'
+        targets:
+          - docs/nereus-delay/development/project-status.md
+        status: summarized-with-source-link
+
+  - source: docs/V1-PROTOCOL-REGISTRY.md
+    targets:
+      - docs/nereus-delay/reference/protocol-registry-guide.md
+    status: linked-normative-source
+
+  - source: docs/adr/README.md
+    targets:
+      - docs/nereus-delay/reference/authority-order.md
+    status: linked-normative-source
+
+  - source: docs/adr/0005-separate-command-queuing-from-application.md
+    targets:
+      - docs/nereus-delay/concepts/commands-messages-and-receipts.md
+    status: linked-normative-source
+
+  - source: docs/adr/0008-isolate-destination-lanes-from-command-application.md
+    targets:
+      - docs/nereus-delay/operations/destination-lane-isolation.md
+    status: linked-normative-source
+
+  - source: docs/adr/0011-tie-recovery-and-garbage-collection-to-a-checkpoint-floor.md
+    targets:
+      - docs/nereus-delay/operations/checkpoints-and-recovery.md
+    status: linked-normative-source
+
+  - source: docs/IMPLEMENTATION-STATUS.md
+    targets:
+      - docs/nereus-delay/development/project-status.md
+    status: summarized-with-source-link
+
+  - source: docs/V1-DESIGN-AUDIT.md
+    targets:
+      - docs/nereus-delay/development/project-status.md
+      - docs/nereus-delay/reference/authority-order.md
+    status: summarized-with-source-link
+
+  - source: CONTEXT.md
+    targets:
+      - docs/nereus-delay/concepts/delivery-time-and-action-time.md
+      - docs/nereus-delay/reference/glossary.md
+    status: migrated

@@ -37,8 +37,6 @@ function OrganizationMark() {
 }
 
 function ProductCard({product}: {product: (typeof products)[number]}) {
-  const docsPath = product.id === 'nereus' ? '/docs' : product.productPath;
-
   return (
     <article className={clsx(styles.productCard, product.featured && styles.productCardFeatured, styles[`product-${product.accent}`])}>
       <div className={styles.cardHeader}>
@@ -50,7 +48,7 @@ function ProductCard({product}: {product: (typeof products)[number]}) {
       <p className={styles.productDescription}>{product.description}</p>
       <div className={styles.cardActions}>
         <Link className={styles.textLink} to={product.productPath}>Explore {product.name} <span aria-hidden="true">→</span></Link>
-        <Link className={styles.textLink} to={docsPath}>{product.id === 'nereus' ? 'Read docs' : 'Product overview'} <span aria-hidden="true">↗</span></Link>
+        <Link className={styles.textLink} to={product.docsPath}>Read docs <span aria-hidden="true">↗</span></Link>
         <a className={styles.textLink} href={product.repositoryUrl}>GitHub <span aria-hidden="true">↗</span></a>
       </div>
     </article>
@@ -124,7 +122,7 @@ function Home() {
           </div>
           <div className={styles.docsGrid}>
             <Link className={styles.docsCard} to="/docs"><span className={styles.docsCardKicker}>Nereus · v0.1.0 testing</span><strong>Shared stream storage</strong><small>Architecture, logical coordinates, write/read paths, storage profiles, and recovery.</small></Link>
-            <Link className={styles.docsCard} to={products[1].productPath}><span className={styles.docsCardKicker}>Nereus Delay · V1 in development</span><strong>Durable delayed delivery</strong><small>Timing semantics, command lifecycle, destination isolation, uncertainty, and checkpoints.</small></Link>
+            <Link className={styles.docsCard} to={products[1].docsPath}><span className={styles.docsCardKicker}>Nereus Delay · V1 in development</span><strong>Durable delayed delivery</strong><small>Timing semantics, command lifecycle, destination isolation, uncertainty, and checkpoints.</small></Link>
           </div>
         </section>
 

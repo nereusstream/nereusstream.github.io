@@ -38,8 +38,8 @@ function DocsHub() {
               <span className={styles.status}>{nereusDelay.statusLabel}</span>
               <h2>{nereusDelay.name}</h2>
               <p>{nereusDelay.summary}</p>
-              <small>The Delay documentation instance is being added from the frozen V1 design and implementation baseline. Until then, review the product overview and source authority order.</small>
-              <Link className={styles.link} to={nereusDelay.productPath}>Open Nereus Delay overview <span aria-hidden="true">→</span></Link>
+              <small>Baseline verified {nereusDelay.lastVerified}. Start with the architecture and timing boundaries, then read the command, lane, recovery, and status pages.</small>
+              <Link className={styles.link} to={nereusDelay.docsPath}>Start with Nereus Delay <span aria-hidden="true">→</span></Link>
             </article>
           </div>
 

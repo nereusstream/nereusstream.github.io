@@ -1,0 +1,17 @@
+products:
+  nereus:
+    repository: nereusstream/nereus
+    branch: main
+    commit: c820391dc1de4229362ddf833487066c32609cba
+    verified: 2026-08-07
+    status: testing
+    content_map: migration/nereus/pdf-content-map.yml
+
+  nereus-delay:
+    repository: nereusstream/nereus-delay
+    branch: main
+    commit: 9281890f42772cc01b6b2b607fd93e31de64879b
+    verified: 2026-08-07
+    spec_revision: V1-FROZEN-2026-08-01
+    status: in-development
+    content_map: migration/nereus-delay/content-map.yml

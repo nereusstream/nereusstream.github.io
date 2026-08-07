@@ -53,6 +53,18 @@ const config: Config = {
 
   plugins: [
     [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'nereusDelay',
+        path: 'docs/nereus-delay',
+        routeBasePath: 'docs/nereus-delay',
+        sidebarPath: require.resolve('./sidebars.nereus-delay.ts'),
+        editUrl: 'https://github.com/nereusstream/nereusstream.github.io/edit/master/',
+        showLastUpdateAuthor: true,
+        showLastUpdateTime: true,
+      },
+    ],
+    [
       '@docusaurus/plugin-client-redirects',
       {
         redirects: legacyDocRedirects,
@@ -121,6 +133,7 @@ const config: Config = {
           items: [
             {label: 'Documentation home', to: '/docs/'},
             {label: 'Nereus docs', to: '/docs/nereus/'},
+            {label: 'Nereus Delay docs', to: '/docs/nereus-delay/'},
           ],
         },
         {

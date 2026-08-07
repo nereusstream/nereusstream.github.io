@@ -36,7 +36,7 @@ The source advanced after the PDF snapshot with a Kafka retention test change th
 | Operations/reference | Trim/retention/GC, failure, backpressure, observability, security, correctness, module boundaries, examples, glossary, state machines, cheatsheet, source map | Implemented |
 | Chinese locale | Full translated document tree | Deferred until the English route is usable |
 
-The authoritative coverage table is [`migration/pdf-content-map.yml`](https://github.com/nereusstream/nereusstream.github.io/blob/master/migration/pdf-content-map.yml). It records the PDF snapshot, the current source commit, and the page targets for the migrated English tree. A future translated tree or a refreshed PDF snapshot must use a new verification date and source comparison.
+The authoritative coverage table is [`migration/nereus/pdf-content-map.yml`](https://github.com/nereusstream/nereusstream.github.io/blob/master/migration/nereus/pdf-content-map.yml). It records the PDF snapshot, the current source commit, and the page targets for the migrated English tree. A future translated tree or a refreshed PDF snapshot must use a new verification date and source comparison.
 
 ## Verification gates {#verification-gates}
 
