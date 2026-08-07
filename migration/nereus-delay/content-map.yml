@@ -62,14 +62,34 @@ documents:
         targets:
           - docs/nereus-delay/data-paths/cancel-and-reschedule.md
         status: migrated
+      - source: '11.1 Claim / 11.2 Publish Admission'
+        targets:
+          - docs/nereus-delay/data-paths/due-claim-and-publish.md
+        status: migrated
       - source: '12.1 Destination Lane'
         targets:
           - docs/nereus-delay/operations/destination-lane-isolation.md
         status: migrated
+      - source: '9. Ownership 与 activation'
+        targets:
+          - docs/nereus-delay/operations/ownership-and-activation.md
+        status: summarized-with-source-link
+      - source: '14. Large payload'
+        targets:
+          - docs/nereus-delay/operations/payload-lifecycle-and-gc.md
+        status: summarized-with-source-link
       - source: '16. Checkpoint、Recovery Set 与恢复'
         targets:
           - docs/nereus-delay/operations/checkpoints-and-recovery.md
         status: migrated
+      - source: '15.5 GC'
+        targets:
+          - docs/nereus-delay/operations/payload-lifecycle-and-gc.md
+        status: summarized-with-source-link
+      - source: '20. Observability、SLO 与告警 / 23.5 Release gates'
+        targets:
+          - docs/nereus-delay/operations/observability-and-release-gates.md
+        status: summarized-with-source-link
       - source: '17. Query、Admin 与 Control Operation'
         targets:
           - docs/nereus-delay/data-paths/schedule-flow.md
@@ -98,11 +118,56 @@ documents:
   - source: docs/adr/0008-isolate-destination-lanes-from-command-application.md
     targets:
       - docs/nereus-delay/operations/destination-lane-isolation.md
+      - docs/nereus-delay/operations/ownership-and-activation.md
+    status: linked-normative-source
+
+  - source: docs/adr/0010-use-reserve-upload-commit-for-large-payloads.md
+    targets:
+      - docs/nereus-delay/operations/payload-lifecycle-and-gc.md
     status: linked-normative-source
 
   - source: docs/adr/0011-tie-recovery-and-garbage-collection-to-a-checkpoint-floor.md
     targets:
       - docs/nereus-delay/operations/checkpoints-and-recovery.md
+      - docs/nereus-delay/operations/payload-lifecycle-and-gc.md
+    status: linked-normative-source
+
+  - source: docs/adr/0013-make-publish-admission-the-control-point-of-no-return.md
+    targets:
+      - docs/nereus-delay/data-paths/cancel-and-reschedule.md
+      - docs/nereus-delay/data-paths/due-claim-and-publish.md
+    status: linked-normative-source
+
+  - source: docs/adr/0017-require-source-assignment-and-an-oxia-owner-lease.md
+    targets:
+      - docs/nereus-delay/operations/ownership-and-activation.md
+    status: linked-normative-source
+
+  - source: docs/adr/0022-classify-publish-outcomes-by-side-effect-evidence.md
+    targets:
+      - docs/nereus-delay/data-paths/due-claim-and-publish.md
+      - docs/nereus-delay/concepts/delivery-guarantees-and-uncertainty.md
+    status: linked-normative-source
+
+  - source: docs/adr/0027-use-checkpoint-replay-recovery-without-warm-standby.md
+    targets:
+      - docs/nereus-delay/operations/ownership-and-activation.md
+    status: linked-normative-source
+
+  - source: docs/adr/0030-limit-v1-to-one-active-recovery-cell.md
+    targets:
+      - docs/nereus-delay/operations/observability-and-release-gates.md
+    status: linked-normative-source
+
+  - source: docs/adr/0032-use-two-level-bounded-deficit-round-robin.md
+    targets:
+      - docs/nereus-delay/data-paths/due-claim-and-publish.md
+      - docs/nereus-delay/operations/observability-and-release-gates.md
+    status: linked-normative-source
+
+  - source: docs/adr/0039-serialize-command-affecting-runtime-mutations-in-the-shard-log.md
+    targets:
+      - docs/nereus-delay/data-paths/due-claim-and-publish.md
     status: linked-normative-source
 
   - source: docs/IMPLEMENTATION-STATUS.md
@@ -115,6 +180,17 @@ documents:
       - docs/nereus-delay/development/project-status.md
       - docs/nereus-delay/reference/authority-order.md
     status: summarized-with-source-link
+
+  - source: docs/adr/0040-use-ancestry-bound-recovery-lineages-and-pins.md
+    targets:
+      - docs/nereus-delay/operations/ownership-and-activation.md
+      - docs/nereus-delay/operations/payload-lifecycle-and-gc.md
+    status: linked-normative-source
+
+  - source: docs/adr/0041-persist-slo-samples-before-they-can-be-lost.md
+    targets:
+      - docs/nereus-delay/operations/observability-and-release-gates.md
+    status: linked-normative-source
 
   - source: CONTEXT.md
     targets:

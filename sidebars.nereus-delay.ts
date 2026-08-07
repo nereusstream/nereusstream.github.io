@@ -28,6 +28,7 @@ const nereusDelaySidebars: SidebarsConfig = {
       label: 'Data paths',
       items: [
         'data-paths/schedule-flow',
+        'data-paths/due-claim-and-publish',
         'data-paths/cancel-and-reschedule',
         'data-paths/query-and-read-barrier',
       ],
@@ -38,6 +39,9 @@ const nereusDelaySidebars: SidebarsConfig = {
       items: [
         'operations/destination-lane-isolation',
         'operations/checkpoints-and-recovery',
+        'operations/ownership-and-activation',
+        'operations/payload-lifecycle-and-gc',
+        'operations/observability-and-release-gates',
       ],
     },
     {

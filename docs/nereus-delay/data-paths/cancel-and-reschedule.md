@@ -1,7 +1,7 @@
 ---
 title: Cancel and reschedule
 description: Source-ordered cancellation, rescheduling, generation changes, and the point of no return.
-sidebar_position: 2
+sidebar_position: 3
 product: nereus-delay
 source_repository: nereusstream/nereus-delay
 source_commit: 9281890f42772cc01b6b2b607fd93e31de64879b

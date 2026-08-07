@@ -49,10 +49,12 @@ The V1 Design Audit is a cross-document audit view and the Implementation Status
 
 The public documentation now exposes the core decision path in separate pages:
 
-- time semantics: `deliverAt`, `actionAt`, `expireAt`, and the Trusted UTC interval;
+- time and scheduling semantics: `deliverAt`, `actionAt`, `expireAt`, Trusted UTC, Due, Claim, and Publish Admission;
 - command semantics: Command, message, receipt, Source Position, Shard Log, and ACK-after-sync;
 - delivery mode and guarantee boundaries: `MANAGED`, `AUTO_FAST`, at-least-once, and `UNCERTAIN`;
-- lifecycle operations: Schedule, Cancel, Reschedule, Query, and the Query Barrier.
+- lifecycle operations: Schedule, Cancel, Reschedule, Query, and the Query Barrier;
+- ownership and recovery: Source Assignment, Owner Lease, Activation Barrier, Lane readiness, checkpoint recovery, and guarded GC;
+- payload and release operations: reserve/upload/attest/commit, durable SLO evidence, observability, and release gates.
 
 These pages are reader-facing summaries pinned to the same source baseline above. The design document, Protocol Registry, ADRs, and implementation-status evidence remain authoritative for exact wire fields, preconditions, and release claims.
 

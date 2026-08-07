@@ -1,7 +1,7 @@
 ---
 title: Query and read barrier
 description: How applied results are routed and when a Nereus Delay query is conclusive.
-sidebar_position: 3
+sidebar_position: 4
 product: nereus-delay
 source_repository: nereusstream/nereus-delay
 source_commit: 9281890f42772cc01b6b2b607fd93e31de64879b
