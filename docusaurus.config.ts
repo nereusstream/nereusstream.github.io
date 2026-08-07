@@ -2,6 +2,7 @@ import type {Config} from '@docusaurus/types';
 import type {Options, ThemeConfig} from '@docusaurus/preset-classic';
 
 import {products} from './src/data/products';
+import {legacyDocRedirects} from './migration/legacy-redirects';
 
 const config: Config = {
   title: 'NereusStream',
@@ -35,9 +36,9 @@ const config: Config = {
       'classic',
       {
         docs: {
-          path: 'docs',
-          routeBasePath: 'docs',
-          sidebarPath: require.resolve('./sidebars.ts'),
+          path: 'docs/nereus',
+          routeBasePath: 'docs/nereus',
+          sidebarPath: require.resolve('./sidebars.nereus.ts'),
           editUrl: 'https://github.com/nereusstream/nereusstream.github.io/edit/master/',
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
@@ -47,6 +48,15 @@ const config: Config = {
           customCss: require.resolve('./src/css/custom.css'),
         },
       } satisfies Options,
+    ],
+  ],
+
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: legacyDocRedirects,
+      },
     ],
   ],
 
@@ -70,9 +80,8 @@ const config: Config = {
           })),
         },
         {
-          type: 'docSidebar',
-          sidebarId: 'docsSidebar',
-          label: 'Docs',
+          label: 'Documentation',
+          to: '/docs/',
           position: 'left',
         },
         {
@@ -110,8 +119,8 @@ const config: Config = {
         {
           title: 'Documentation',
           items: [
-            {label: 'Documentation home', to: '/docs'},
-            {label: 'Nereus docs', to: '/docs'},
+            {label: 'Documentation home', to: '/docs/'},
+            {label: 'Nereus docs', to: '/docs/nereus/'},
           ],
         },
         {

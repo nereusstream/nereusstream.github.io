@@ -58,11 +58,11 @@ These events have different meanings and different recovery obligations. Keeping
 
 ## Current boundary {#current-boundary}
 
-The public site documents stable architecture and implementation contracts. It does not turn every internal Future, benchmark result, or development phase into a product promise. Current source status and migration coverage are tracked in [Project status](/docs/development/project-status).
+The public site documents stable architecture and implementation contracts. It does not turn every internal Future, benchmark result, or development phase into a product promise. Current source status and migration coverage are tracked in [Project status](/docs/nereus/development/project-status).
 
 ## Related topics {#related-topics}
 
-- [Architecture](/docs/overview/architecture)
-- [Logical and physical coordinates](/docs/concepts/protocol-logical-physical-coordinates)
-- [Primary WAL](/docs/concepts/primary-wal)
-- [Document baseline](/docs/reference/document-baseline)
+- [Architecture](/docs/nereus/overview/architecture)
+- [Logical and physical coordinates](/docs/nereus/concepts/protocol-logical-physical-coordinates)
+- [Primary WAL](/docs/nereus/concepts/primary-wal)
+- [Document baseline](/docs/nereus/reference/document-baseline)

@@ -14,14 +14,14 @@ The architecture source is intentionally read in dependency order. Following the
 
 ## Recommended route {#recommended-route}
 
-1. [Why Nereus?](/docs/overview/why-nereus) establishes the protocol/storage boundary.
-2. [Architecture](/docs/overview/architecture) identifies layers and authorities.
-3. [Stream, record, entry, and offset](/docs/concepts/stream-record-entry-offset) defines the common coordinate model.
-4. [Logical and physical coordinates](/docs/concepts/protocol-logical-physical-coordinates) explains adapter mapping.
-5. [Primary WAL](/docs/concepts/primary-wal) separates durability from visibility.
-6. [Stream head and commit chain](/docs/concepts/stream-head-and-commit-chain) defines the logical commit point.
-7. [CAS and linearization](/docs/concepts/cas-and-linearization-point) explains concurrency and recovery.
-8. [Read targets and offset indexes](/docs/concepts/read-target-and-offset-index) connects logical ranges to bytes.
+1. [Why Nereus?](/docs/nereus/overview/why-nereus) establishes the protocol/storage boundary.
+2. [Architecture](/docs/nereus/overview/architecture) identifies layers and authorities.
+3. [Stream, record, entry, and offset](/docs/nereus/concepts/stream-record-entry-offset) defines the common coordinate model.
+4. [Logical and physical coordinates](/docs/nereus/concepts/protocol-logical-physical-coordinates) explains adapter mapping.
+5. [Primary WAL](/docs/nereus/concepts/primary-wal) separates durability from visibility.
+6. [Stream head and commit chain](/docs/nereus/concepts/stream-head-and-commit-chain) defines the logical commit point.
+7. [CAS and linearization](/docs/nereus/concepts/cas-and-linearization-point) explains concurrency and recovery.
+8. [Read targets and offset indexes](/docs/nereus/concepts/read-target-and-offset-index) connects logical ranges to bytes.
 
 The next migration stages continue with append outcomes, storage profiles, generation lifecycle, reads, Pulsar, Native Kafka, materialization, retention, failure, observability, security, examples, and reference maps.
 

@@ -92,7 +92,7 @@ function NereusProductPage() {
                 committed heads, physical generations, recovery, and safe reclamation beneath them.
               </p>
               <div className={styles.heroActions}>
-                <Link className={clsx('button button--primary', styles.primaryButton)} to="/docs">
+                <Link className={clsx('button button--primary', styles.primaryButton)} to="/docs/nereus/">
                   Read the docs <span aria-hidden="true">→</span>
                 </Link>
                 <a className={clsx('button button--outline', styles.secondaryButton)} href={product.repositoryUrl}>
@@ -156,7 +156,7 @@ function NereusProductPage() {
               <p className={styles.sectionKicker}>Storage profiles</p>
               <h2>Choose a persistence boundary per stream.</h2>
             </div>
-            <Link to="/docs/concepts/primary-wal">Understand the write path →</Link>
+            <Link to="/docs/nereus/concepts/primary-wal">Understand the write path →</Link>
           </div>
           <div className={styles.profileGrid}>
             {storageProfiles.map((profile) => (
@@ -183,10 +183,10 @@ function NereusProductPage() {
               <h2>Follow the dependency order.</h2>
             </div>
             <div className={styles.exploreGrid}>
-              <Link className={styles.exploreCard} to="/docs/overview/architecture"><span>01</span><strong>Architecture</strong><small>Boundaries, authorities, and source anchors</small></Link>
-              <Link className={styles.exploreCard} to="/docs/concepts/stream-record-entry-offset"><span>02</span><strong>Logical coordinates</strong><small>Stream, record, entry, batch, and offset</small></Link>
-              <Link className={styles.exploreCard} to="/docs/concepts/stream-head-and-commit-chain"><span>03</span><strong>Commit protocol</strong><small>WAL durability, head CAS, and recovery</small></Link>
-              <Link className={styles.exploreCard} to="/docs/development/project-status"><span>04</span><strong>Current status</strong><small>Implementation baseline and migration coverage</small></Link>
+              <Link className={styles.exploreCard} to="/docs/nereus/overview/architecture"><span>01</span><strong>Architecture</strong><small>Boundaries, authorities, and source anchors</small></Link>
+              <Link className={styles.exploreCard} to="/docs/nereus/concepts/stream-record-entry-offset"><span>02</span><strong>Logical coordinates</strong><small>Stream, record, entry, batch, and offset</small></Link>
+              <Link className={styles.exploreCard} to="/docs/nereus/concepts/stream-head-and-commit-chain"><span>03</span><strong>Commit protocol</strong><small>WAL durability, head CAS, and recovery</small></Link>
+              <Link className={styles.exploreCard} to="/docs/nereus/development/project-status"><span>04</span><strong>Current status</strong><small>Implementation baseline and migration coverage</small></Link>
             </div>
           </div>
         </section>

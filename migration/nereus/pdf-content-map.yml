@@ -10,163 +10,163 @@ source:
 chapters:
   - source: "Chapter 1"
     title: "Reading guide"
-    target: [docs/overview/reading-guide.md]
+    target: [docs/nereus/overview/reading-guide.md]
     status: migrated
   - source: "Chapter 2"
     title: "Why Nereus"
-    target: [docs/overview/why-nereus.md]
+    target: [docs/nereus/overview/why-nereus.md]
     status: migrated
   - source: "Chapter 3"
     title: "Stream, record, entry, and offset"
     target:
-      - docs/concepts/stream-record-entry-offset.md
-      - docs/concepts/protocol-logical-physical-coordinates.md
+      - docs/nereus/concepts/stream-record-entry-offset.md
+      - docs/nereus/concepts/protocol-logical-physical-coordinates.md
     status: migrated
   - source: "Chapter 4"
     title: "WAL, persistence, and logical commit"
     target:
-      - docs/concepts/primary-wal.md
-      - docs/concepts/stream-head-and-commit-chain.md
-      - docs/concepts/cas-and-linearization-point.md
-      - docs/concepts/read-target-and-offset-index.md
+      - docs/nereus/concepts/primary-wal.md
+      - docs/nereus/concepts/stream-head-and-commit-chain.md
+      - docs/nereus/concepts/cas-and-linearization-point.md
+      - docs/nereus/concepts/read-target-and-offset-index.md
     status: migrated
   - source: "Chapter 5"
     title: "Generic append flow"
-    target: [docs/data-paths/append-flow.md]
+    target: [docs/nereus/data-paths/append-flow.md]
     status: migrated
   - source: "Chapter 6"
     title: "Uncertain outcomes and recovery"
     target:
-      - docs/data-paths/append-outcomes.md
-      - docs/data-paths/append-recovery.md
+      - docs/nereus/data-paths/append-outcomes.md
+      - docs/nereus/data-paths/append-recovery.md
     status: migrated
   - source: "Chapter 7"
     title: "Storage profiles"
-    target: [docs/storage/storage-profiles.md]
+    target: [docs/nereus/storage/storage-profiles.md]
     status: migrated
   - source: "Chapter 8"
     title: "Object WAL and BookKeeper WAL physical organization"
     target:
-      - docs/storage/object-wal.md
-      - docs/storage/bookkeeper-wal.md
+      - docs/nereus/storage/object-wal.md
+      - docs/nereus/storage/bookkeeper-wal.md
     status: migrated
   - source: "Chapter 9"
     title: "Generation"
     target:
-      - docs/storage/generation-overview.md
-      - docs/storage/generation-lifecycle.md
-      - docs/storage/generation-selection-and-fallback.md
+      - docs/nereus/storage/generation-overview.md
+      - docs/nereus/storage/generation-lifecycle.md
+      - docs/nereus/storage/generation-selection-and-fallback.md
     status: migrated
   - source: "Chapter 10"
     title: "Generic read flow"
     target:
-      - docs/data-paths/read-flow.md
-      - docs/data-paths/read-boundaries.md
-      - docs/data-paths/index-repair-and-fallback.md
+      - docs/nereus/data-paths/read-flow.md
+      - docs/nereus/data-paths/read-boundaries.md
+      - docs/nereus/data-paths/index-repair-and-fallback.md
     status: migrated
   - source: "Chapter 11"
     title: "Pulsar integration"
     target:
-      - docs/integrations/pulsar.md
-      - docs/integrations/pulsar-cursor-and-subscription.md
+      - docs/nereus/integrations/pulsar.md
+      - docs/nereus/integrations/pulsar-cursor-and-subscription.md
     status: migrated
   - source: "Chapter 12"
     title: "Native Kafka integration"
     target:
-      - docs/integrations/native-kafka.md
-      - docs/integrations/kafka-produce-and-fetch.md
-      - docs/integrations/kafka-recovery-and-compaction.md
-      - docs/integrations/kop-vs-native-kafka.md
+      - docs/nereus/integrations/native-kafka.md
+      - docs/nereus/integrations/kafka-produce-and-fetch.md
+      - docs/nereus/integrations/kafka-recovery-and-compaction.md
+      - docs/nereus/integrations/kop-vs-native-kafka.md
     status: migrated
   - source: "Chapter 13"
     title: "Materialization"
-    target: [docs/storage/materialization.md]
+    target: [docs/nereus/storage/materialization.md]
     status: migrated
   - source: "Chapter 14"
     title: "Trim, retention, source retirement, and GC"
     target:
-      - docs/operations/retention-and-gc.md
-      - docs/operations/object-gc-state-machine.md
-      - docs/operations/bookkeeper-retention.md
+      - docs/nereus/operations/retention-and-gc.md
+      - docs/nereus/operations/object-gc-state-machine.md
+      - docs/nereus/operations/bookkeeper-retention.md
     status: migrated
   - source: "Chapter 15"
     title: "Failure and recovery"
-    target: [docs/operations/failure-and-recovery.md]
+    target: [docs/nereus/operations/failure-and-recovery.md]
     status: migrated
   - source: "Chapter 16"
     title: "Backpressure, timeouts, and observability"
     target:
-      - docs/operations/backpressure-and-timeouts.md
-      - docs/operations/observability.md
+      - docs/nereus/operations/backpressure-and-timeouts.md
+      - docs/nereus/operations/observability.md
     status: migrated
   - source: "Chapter 17"
     title: "Security and multi-tenancy"
-    target: [docs/operations/security-and-multitenancy.md]
+    target: [docs/nereus/operations/security-and-multitenancy.md]
     status: migrated
   - source: "Chapter 18"
     title: "Correctness authorities"
-    target: [docs/reference/correctness-authorities.md]
+    target: [docs/nereus/reference/correctness-authorities.md]
     status: migrated
   - source: "Chapter 19"
     title: "Code modules and dependency boundaries"
-    target: [docs/development/module-boundaries.md]
+    target: [docs/nereus/development/module-boundaries.md]
     status: migrated
   - source: "Chapter 20"
     title: "End-to-end examples"
     target:
-      - docs/examples/pulsar-object-wal-sync.md
-      - docs/examples/pulsar-bookkeeper-async-object.md
-      - docs/examples/bookkeeper-sync-object-timeout.md
-      - docs/examples/kafka-transaction-and-delete-records.md
+      - docs/nereus/examples/pulsar-object-wal-sync.md
+      - docs/nereus/examples/pulsar-bookkeeper-async-object.md
+      - docs/nereus/examples/bookkeeper-sync-object-timeout.md
+      - docs/nereus/examples/kafka-transaction-and-delete-records.md
     status: migrated
   - source: "Chapter 21"
     title: "Non-goals"
-    target: [docs/reference/non-goals.md]
+    target: [docs/nereus/reference/non-goals.md]
     status: migrated
 
 appendices:
   - source: "Appendix A"
     title: "Glossary"
-    target: [docs/reference/glossary.md]
+    target: [docs/nereus/reference/glossary.md]
     status: migrated
   - source: "Appendix B"
     title: "State machines"
-    target: [docs/reference/state-machines.md]
+    target: [docs/nereus/reference/state-machines.md]
     status: migrated
   - source: "Appendix C"
     title: "End-to-end cheatsheet"
-    target: [docs/reference/end-to-end-cheatsheet.md]
+    target: [docs/nereus/reference/end-to-end-cheatsheet.md]
     status: migrated
   - source: "Appendix D"
     title: "Source reading map"
-    target: [docs/development/source-reading-map.md]
+    target: [docs/nereus/development/source-reading-map.md]
     status: migrated
   - source: "Appendix E"
     title: "Document baseline and trade-offs"
-    target: [docs/reference/document-baseline.md]
+    target: [docs/nereus/reference/document-baseline.md]
     status: migrated
 
 figures:
   - source: "Overall position of Nereus beneath Pulsar and Kafka"
-    target: [docs/index.mdx, docs/overview/architecture.md]
+    target: [docs/nereus/index.mdx, docs/nereus/overview/architecture.md]
     status: migrated
   - source: "Generic append flow"
-    target: [docs/data-paths/append-flow.md]
+    target: [docs/nereus/data-paths/append-flow.md]
     status: migrated
   - source: "Generation evolution"
-    target: [docs/storage/generation-overview.md]
+    target: [docs/nereus/storage/generation-overview.md]
     status: migrated
   - source: "Generic read flow"
-    target: [docs/data-paths/read-flow.md]
+    target: [docs/nereus/data-paths/read-flow.md]
     status: migrated
   - source: "Pulsar projection and MessageId"
-    target: [docs/integrations/pulsar.md]
+    target: [docs/nereus/integrations/pulsar.md]
     status: migrated
   - source: "Kafka binding and ranged entry"
-    target: [docs/integrations/native-kafka.md]
+    target: [docs/nereus/integrations/native-kafka.md]
     status: migrated
   - source: "Object physical root state machine"
-    target: [docs/operations/object-gc-state-machine.md]
+    target: [docs/nereus/operations/object-gc-state-machine.md]
     status: migrated
 
 tables: []
