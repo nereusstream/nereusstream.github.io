@@ -18,12 +18,19 @@ const nereusDelaySidebars: SidebarsConfig = {
       items: [
         'concepts/delivery-time-and-action-time',
         'concepts/commands-messages-and-receipts',
+        'concepts/shard-log-and-source-position',
+        'concepts/managed-and-auto-fast',
+        'concepts/delivery-guarantees-and-uncertainty',
       ],
     },
     {
       type: 'category',
       label: 'Data paths',
-      items: ['data-paths/schedule-flow'],
+      items: [
+        'data-paths/schedule-flow',
+        'data-paths/cancel-and-reschedule',
+        'data-paths/query-and-read-barrier',
+      ],
     },
     {
       type: 'category',

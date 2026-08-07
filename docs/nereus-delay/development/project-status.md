@@ -45,6 +45,17 @@ The public site must continue to show these blockers:
 
 The V1 Design Audit is a cross-document audit view and the Implementation Status document is the current code/evidence view. Neither replaces the normative design or Registry. A release claim is valid only after the design's release artifact matrix and all release gates are complete.
 
+## Public reading path coverage {#public-reading-path-coverage}
+
+The public documentation now exposes the core decision path in separate pages:
+
+- time semantics: `deliverAt`, `actionAt`, `expireAt`, and the Trusted UTC interval;
+- command semantics: Command, message, receipt, Source Position, Shard Log, and ACK-after-sync;
+- delivery mode and guarantee boundaries: `MANAGED`, `AUTO_FAST`, at-least-once, and `UNCERTAIN`;
+- lifecycle operations: Schedule, Cancel, Reschedule, Query, and the Query Barrier.
+
+These pages are reader-facing summaries pinned to the same source baseline above. The design document, Protocol Registry, ADRs, and implementation-status evidence remain authoritative for exact wire fields, preconditions, and release claims.
+
 ## Source links {#source-links}
 
 - [`IMPLEMENTATION-STATUS.md`](https://github.com/nereusstream/nereus-delay/blob/9281890f42772cc01b6b2b607fd93e31de64879b/docs/IMPLEMENTATION-STATUS.md)

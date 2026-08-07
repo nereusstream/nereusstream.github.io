@@ -35,10 +35,16 @@ documents:
       - source: '3.2 管理模式'
         targets:
           - docs/nereus-delay/concepts/commands-messages-and-receipts.md
+          - docs/nereus-delay/concepts/managed-and-auto-fast.md
         status: summarized-with-source-link
       - source: '3.3 交付保证'
         targets:
           - docs/nereus-delay/concepts/commands-messages-and-receipts.md
+          - docs/nereus-delay/concepts/delivery-guarantees-and-uncertainty.md
+        status: summarized-with-source-link
+      - source: '3.4 顺序'
+        targets:
+          - docs/nereus-delay/concepts/shard-log-and-source-position.md
         status: summarized-with-source-link
       - source: '4. 总体架构'
         targets:
@@ -47,6 +53,14 @@ documents:
       - source: '6. Client API 与 receipt'
         targets:
           - docs/nereus-delay/concepts/commands-messages-and-receipts.md
+        status: migrated
+      - source: '8. Shard Log 与 Source Position'
+        targets:
+          - docs/nereus-delay/concepts/shard-log-and-source-position.md
+        status: migrated
+      - source: '11.3 Cancel / Reschedule'
+        targets:
+          - docs/nereus-delay/data-paths/cancel-and-reschedule.md
         status: migrated
       - source: '12.1 Destination Lane'
         targets:
@@ -59,6 +73,7 @@ documents:
       - source: '17. Query、Admin 与 Control Operation'
         targets:
           - docs/nereus-delay/data-paths/schedule-flow.md
+          - docs/nereus-delay/data-paths/query-and-read-barrier.md
         status: summarized-with-source-link
       - source: '23. 测试与发布验收'
         targets:
