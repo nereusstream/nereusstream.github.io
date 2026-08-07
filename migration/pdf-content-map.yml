@@ -33,37 +33,37 @@ chapters:
   - source: "Chapter 5"
     title: "Generic append flow"
     target: [docs/data-paths/append-flow.md]
-    status: pending
+    status: migrated
   - source: "Chapter 6"
     title: "Uncertain outcomes and recovery"
     target:
       - docs/data-paths/append-outcomes.md
       - docs/data-paths/append-recovery.md
-    status: pending
+    status: migrated
   - source: "Chapter 7"
     title: "Storage profiles"
     target: [docs/storage/storage-profiles.md]
-    status: pending
+    status: migrated
   - source: "Chapter 8"
     title: "Object WAL and BookKeeper WAL physical organization"
     target:
       - docs/storage/object-wal.md
       - docs/storage/bookkeeper-wal.md
-    status: pending
+    status: migrated
   - source: "Chapter 9"
     title: "Generation"
     target:
       - docs/storage/generation-overview.md
       - docs/storage/generation-lifecycle.md
       - docs/storage/generation-selection-and-fallback.md
-    status: pending
+    status: migrated
   - source: "Chapter 10"
     title: "Generic read flow"
     target:
       - docs/data-paths/read-flow.md
       - docs/data-paths/read-boundaries.md
       - docs/data-paths/index-repair-and-fallback.md
-    status: pending
+    status: migrated
   - source: "Chapter 11"
     title: "Pulsar integration"
     target:
@@ -152,13 +152,13 @@ figures:
     status: migrated
   - source: "Generic append flow"
     target: [docs/data-paths/append-flow.md]
-    status: pending
+    status: migrated
   - source: "Generation evolution"
     target: [docs/storage/generation-overview.md]
-    status: pending
+    status: migrated
   - source: "Generic read flow"
     target: [docs/data-paths/read-flow.md]
-    status: pending
+    status: migrated
   - source: "Pulsar projection and MessageId"
     target: [docs/integrations/pulsar.md]
     status: pending
@@ -172,12 +172,9 @@ figures:
 tables: []
 
 unmapped_sections:
-  - "Chapters 5-21 pending migration"
+  - "Chapters 11-21 pending migration"
   - "Appendices A-D pending migration"
 unmapped_figures:
-  - "Generic append flow"
-  - "Generation evolution"
-  - "Generic read flow"
   - "Pulsar projection and MessageId"
   - "Kafka binding and ranged entry"
   - "Object physical root state machine"

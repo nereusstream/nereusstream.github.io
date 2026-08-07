@@ -18,7 +18,7 @@ import DocBaseline from '@site/src/components/DocBaseline';
 | Architecture PDF source | `main@894fc4e4d9afcfd5ec14c2bde336106b85c2a151` |
 | Verification date | 2026-08-07 |
 | Release posture | `v0.1.0` testing; no final release claim |
-| Public site stage | Docusaurus migration: framework, homepage, Overview, and Concepts |
+| Public site stage | Docusaurus migration: framework, homepage, Overview, Concepts, and core data paths |
 
 The source advanced after the PDF snapshot with a Kafka retention test change that waits for close/drain completion and asserts the active count reaches zero. It does not change the architecture model, but the current source commit is recorded separately so readers do not mistake the PDF's historical commit for today's checkout.
 
@@ -30,8 +30,8 @@ The source advanced after the PDF snapshot with a Kafka retention test change th
 | Homepage | Stable project entry, architecture summary, invariants, profiles, status | Implemented |
 | Overview | Why Nereus, architecture, reading guide | Implemented |
 | Concepts | Coordinates, WAL, head/CAS, read targets | Implemented |
-| Write/read paths | Append outcomes, recovery, reads | Next |
-| Storage evolution | Profiles, Object/BK WAL, generations, materialization | Planned |
+| Write/read paths | Append flow/outcomes/recovery, read resolution/boundaries/repair | Implemented for the migrated core contract |
+| Storage evolution | Profiles, Object/BK WAL, generation identity/lifecycle/selection | Implemented for the migrated core contract; materialization detail next |
 | Integrations | Pulsar and Native Kafka | Planned |
 | Operations/reference | GC, failure, observability, security, examples, glossary | Planned |
 | Chinese locale | Full translated document tree | Deferred until the English route is usable |

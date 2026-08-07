@@ -31,6 +31,30 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
+      label: 'Write and read paths',
+      items: [
+        'data-paths/append-flow',
+        'data-paths/append-outcomes',
+        'data-paths/append-recovery',
+        'data-paths/read-flow',
+        'data-paths/read-boundaries',
+        'data-paths/index-repair-and-fallback',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Storage and physical evolution',
+      items: [
+        'storage/storage-profiles',
+        'storage/object-wal',
+        'storage/bookkeeper-wal',
+        'storage/generation-overview',
+        'storage/generation-lifecycle',
+        'storage/generation-selection-and-fallback',
+      ],
+    },
+    {
+      type: 'category',
       label: 'Migration status',
       items: ['development/project-status', 'reference/document-baseline'],
     },
