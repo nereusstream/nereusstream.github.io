@@ -5,5 +5,5 @@ export const projectStatus = {
   sourceCommit: 'c820391dc1de4229362ddf833487066c32609cba',
   pdfCommit: '894fc4e4d9afcfd5ec14c2bde336106b85c2a151',
   verified: '2026-08-07',
-  documentation: 'Framework + Overview + Concepts + core data paths in progress',
+  documentation: 'Framework + Overview + Concepts + data paths + integrations in progress',
 };

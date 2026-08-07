@@ -51,6 +51,19 @@ const sidebars: SidebarsConfig = {
         'storage/generation-overview',
         'storage/generation-lifecycle',
         'storage/generation-selection-and-fallback',
+        'storage/materialization',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Integrations',
+      items: [
+        'integrations/pulsar',
+        'integrations/pulsar-cursor-and-subscription',
+        'integrations/native-kafka',
+        'integrations/kafka-produce-and-fetch',
+        'integrations/kafka-recovery-and-compaction',
+        'integrations/kop-vs-native-kafka',
       ],
     },
     {

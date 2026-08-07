@@ -69,7 +69,7 @@ chapters:
     target:
       - docs/integrations/pulsar.md
       - docs/integrations/pulsar-cursor-and-subscription.md
-    status: pending
+    status: migrated
   - source: "Chapter 12"
     title: "Native Kafka integration"
     target:
@@ -77,11 +77,11 @@ chapters:
       - docs/integrations/kafka-produce-and-fetch.md
       - docs/integrations/kafka-recovery-and-compaction.md
       - docs/integrations/kop-vs-native-kafka.md
-    status: pending
+    status: migrated
   - source: "Chapter 13"
     title: "Materialization"
     target: [docs/storage/materialization.md]
-    status: pending
+    status: migrated
   - source: "Chapter 14"
     title: "Trim, retention, source retirement, and GC"
     target:
@@ -161,10 +161,10 @@ figures:
     status: migrated
   - source: "Pulsar projection and MessageId"
     target: [docs/integrations/pulsar.md]
-    status: pending
+    status: migrated
   - source: "Kafka binding and ranged entry"
     target: [docs/integrations/native-kafka.md]
-    status: pending
+    status: migrated
   - source: "Object physical root state machine"
     target: [docs/operations/object-gc-state-machine.md]
     status: pending
@@ -172,9 +172,7 @@ figures:
 tables: []
 
 unmapped_sections:
-  - "Chapters 11-21 pending migration"
+  - "Chapters 14-21 pending migration"
   - "Appendices A-D pending migration"
 unmapped_figures:
-  - "Pulsar projection and MessageId"
-  - "Kafka binding and ranged entry"
   - "Object physical root state machine"
