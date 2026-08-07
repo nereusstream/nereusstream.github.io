@@ -50,12 +50,12 @@ const config: Config = {
 
   themeConfig: {
     navbar: {
-      title: '',
+      title: 'NereusStream',
       logo: {
-        alt: 'Nereus',
+        alt: 'NereusStream',
         src: 'img/nereus-icon.png',
-        width: 38,
-        height: 24,
+        width: 42,
+        height: 21,
       },
       items: [
         {

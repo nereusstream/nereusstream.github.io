@@ -15,8 +15,9 @@
 html { scroll-behavior: smooth; }
 body { color: #243855; }
 .navbar { border-bottom: 1px solid #e7edf3; box-shadow: none; }
-.navbar__logo { margin-right: 0.5rem; }
-.navbar__title { color: #10294b; font-size: 1.05rem; font-weight: 800; letter-spacing: -0.02em; }
+.navbar__brand { gap: 0.55rem; }
+.navbar__logo { width: 2.65rem; height: auto; margin-right: 0; object-fit: contain; }
+.navbar__title { color: #10294b; font-size: 1.05rem; font-weight: 800; letter-spacing: -0.025em; white-space: nowrap; }
 .navbar__link { color: #4f6078; font-weight: 650; }
 .navbar__link:hover, .navbar__link--active { color: #087f95; }
 .header-github-link { width: 2rem; height: 2rem; padding: 0; font-size: 0; }
