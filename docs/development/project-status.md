@@ -1,0 +1,50 @@
+---
+title: Project status
+description: Current source, documentation, and verification status for the public Nereus site.
+sidebar_position: 1
+---
+
+import DocBaseline from '@site/src/components/DocBaseline';
+
+<DocBaseline commit="c820391dc1de4229362ddf833487066c32609cba" verified="2026-08-07" />
+
+# Project status {#project-status}
+
+## Current implementation baseline {#implementation-baseline}
+
+| Item | Current value |
+| --- | --- |
+| Nereus source | `main@c820391dc1de4229362ddf833487066c32609cba` |
+| Architecture PDF source | `main@894fc4e4d9afcfd5ec14c2bde336106b85c2a151` |
+| Verification date | 2026-08-07 |
+| Release posture | `v0.1.0` testing; no final release claim |
+| Public site stage | Docusaurus migration: framework, homepage, Overview, and Concepts |
+
+The source advanced after the PDF snapshot with a Kafka retention test change that waits for close/drain completion and asserts the active count reaches zero. It does not change the architecture model, but the current source commit is recorded separately so readers do not mistake the PDF's historical commit for today's checkout.
+
+## Documentation migration status {#documentation-migration-status}
+
+| Stage | Scope | Status |
+| --- | --- | --- |
+| Framework | Docusaurus 3.10.2, TypeScript, Mermaid, Pages workflow | Implemented |
+| Homepage | Stable project entry, architecture summary, invariants, profiles, status | Implemented |
+| Overview | Why Nereus, architecture, reading guide | Implemented |
+| Concepts | Coordinates, WAL, head/CAS, read targets | Implemented |
+| Write/read paths | Append outcomes, recovery, reads | Next |
+| Storage evolution | Profiles, Object/BK WAL, generations, materialization | Planned |
+| Integrations | Pulsar and Native Kafka | Planned |
+| Operations/reference | GC, failure, observability, security, examples, glossary | Planned |
+| Chinese locale | Full translated document tree | Deferred until the English route is usable |
+
+The authoritative coverage table is [`migration/pdf-content-map.yml`](https://github.com/nereusstream/nereusstream.github.io/blob/master/migration/pdf-content-map.yml). Pending sections remain explicitly marked there; the site does not claim a complete PDF migration yet.
+
+## Verification gates {#verification-gates}
+
+Every milestone must pass:
+
+- `yarn typecheck`
+- `yarn build`
+- `git diff --check`
+- a review of source baseline, current status, and coverage-map changes together
+
+The GitHub Pages workflow builds pull requests but deploys only on a push to `master`.

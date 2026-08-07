@@ -1,0 +1,16 @@
+node_modules/
+.docusaurus/
+.cache-loader/
+build/
+build-*/
+.yarn/
+.pnp.*
+.DS_Store
+*.log
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Local IDE state
+.idea/workspace.xml

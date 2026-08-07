@@ -1,0 +1,183 @@
+source:
+  title: Nereus 当前架构与端到端流程
+  file: Nereus-当前架构与端到端流程-完整版.pdf
+  repository: nereusstream/nereus
+  commit: 894fc4e4d9afcfd5ec14c2bde336106b85c2a151
+  generated: 2026-08-04
+  current_source_commit: c820391dc1de4229362ddf833487066c32609cba
+  current_source_verified: 2026-08-07
+
+chapters:
+  - source: "Chapter 1"
+    title: "Reading guide"
+    target: [docs/overview/reading-guide.md]
+    status: migrated
+  - source: "Chapter 2"
+    title: "Why Nereus"
+    target: [docs/overview/why-nereus.md]
+    status: migrated
+  - source: "Chapter 3"
+    title: "Stream, record, entry, and offset"
+    target:
+      - docs/concepts/stream-record-entry-offset.md
+      - docs/concepts/protocol-logical-physical-coordinates.md
+    status: migrated
+  - source: "Chapter 4"
+    title: "WAL, persistence, and logical commit"
+    target:
+      - docs/concepts/primary-wal.md
+      - docs/concepts/stream-head-and-commit-chain.md
+      - docs/concepts/cas-and-linearization-point.md
+      - docs/concepts/read-target-and-offset-index.md
+    status: migrated
+  - source: "Chapter 5"
+    title: "Generic append flow"
+    target: [docs/data-paths/append-flow.md]
+    status: pending
+  - source: "Chapter 6"
+    title: "Uncertain outcomes and recovery"
+    target:
+      - docs/data-paths/append-outcomes.md
+      - docs/data-paths/append-recovery.md
+    status: pending
+  - source: "Chapter 7"
+    title: "Storage profiles"
+    target: [docs/storage/storage-profiles.md]
+    status: pending
+  - source: "Chapter 8"
+    title: "Object WAL and BookKeeper WAL physical organization"
+    target:
+      - docs/storage/object-wal.md
+      - docs/storage/bookkeeper-wal.md
+    status: pending
+  - source: "Chapter 9"
+    title: "Generation"
+    target:
+      - docs/storage/generation-overview.md
+      - docs/storage/generation-lifecycle.md
+      - docs/storage/generation-selection-and-fallback.md
+    status: pending
+  - source: "Chapter 10"
+    title: "Generic read flow"
+    target:
+      - docs/data-paths/read-flow.md
+      - docs/data-paths/read-boundaries.md
+      - docs/data-paths/index-repair-and-fallback.md
+    status: pending
+  - source: "Chapter 11"
+    title: "Pulsar integration"
+    target:
+      - docs/integrations/pulsar.md
+      - docs/integrations/pulsar-cursor-and-subscription.md
+    status: pending
+  - source: "Chapter 12"
+    title: "Native Kafka integration"
+    target:
+      - docs/integrations/native-kafka.md
+      - docs/integrations/kafka-produce-and-fetch.md
+      - docs/integrations/kafka-recovery-and-compaction.md
+      - docs/integrations/kop-vs-native-kafka.md
+    status: pending
+  - source: "Chapter 13"
+    title: "Materialization"
+    target: [docs/storage/materialization.md]
+    status: pending
+  - source: "Chapter 14"
+    title: "Trim, retention, source retirement, and GC"
+    target:
+      - docs/operations/retention-and-gc.md
+      - docs/operations/object-gc-state-machine.md
+      - docs/operations/bookkeeper-retention.md
+    status: pending
+  - source: "Chapter 15"
+    title: "Failure and recovery"
+    target: [docs/operations/failure-and-recovery.md]
+    status: pending
+  - source: "Chapter 16"
+    title: "Backpressure, timeouts, and observability"
+    target:
+      - docs/operations/backpressure-and-timeouts.md
+      - docs/operations/observability.md
+    status: pending
+  - source: "Chapter 17"
+    title: "Security and multi-tenancy"
+    target: [docs/operations/security-and-multitenancy.md]
+    status: pending
+  - source: "Chapter 18"
+    title: "Correctness authorities"
+    target: [docs/reference/correctness-authorities.md]
+    status: pending
+  - source: "Chapter 19"
+    title: "Code modules and dependency boundaries"
+    target: [docs/development/module-boundaries.md]
+    status: pending
+  - source: "Chapter 20"
+    title: "End-to-end examples"
+    target:
+      - docs/examples/pulsar-object-wal-sync.md
+      - docs/examples/pulsar-bookkeeper-async-object.md
+      - docs/examples/bookkeeper-sync-object-timeout.md
+      - docs/examples/kafka-transaction-and-delete-records.md
+    status: pending
+  - source: "Chapter 21"
+    title: "Non-goals"
+    target: [docs/reference/non-goals.md]
+    status: pending
+
+appendices:
+  - source: "Appendix A"
+    title: "Glossary"
+    target: [docs/reference/glossary.md]
+    status: pending
+  - source: "Appendix B"
+    title: "State machines"
+    target: [docs/reference/state-machines.md]
+    status: pending
+  - source: "Appendix C"
+    title: "End-to-end cheatsheet"
+    target: [docs/reference/end-to-end-cheatsheet.md]
+    status: pending
+  - source: "Appendix D"
+    title: "Source reading map"
+    target: [docs/development/source-reading-map.md]
+    status: pending
+  - source: "Appendix E"
+    title: "Document baseline and trade-offs"
+    target: [docs/reference/document-baseline.md]
+    status: migrated
+
+figures:
+  - source: "Overall position of Nereus beneath Pulsar and Kafka"
+    target: [docs/index.mdx, docs/overview/architecture.md]
+    status: migrated
+  - source: "Generic append flow"
+    target: [docs/data-paths/append-flow.md]
+    status: pending
+  - source: "Generation evolution"
+    target: [docs/storage/generation-overview.md]
+    status: pending
+  - source: "Generic read flow"
+    target: [docs/data-paths/read-flow.md]
+    status: pending
+  - source: "Pulsar projection and MessageId"
+    target: [docs/integrations/pulsar.md]
+    status: pending
+  - source: "Kafka binding and ranged entry"
+    target: [docs/integrations/native-kafka.md]
+    status: pending
+  - source: "Object physical root state machine"
+    target: [docs/operations/object-gc-state-machine.md]
+    status: pending
+
+tables: []
+
+unmapped_sections:
+  - "Chapters 5-21 pending migration"
+  - "Appendices A-D pending migration"
+unmapped_figures:
+  - "Generic append flow"
+  - "Generation evolution"
+  - "Generic read flow"
+  - "Pulsar projection and MessageId"
+  - "Kafka binding and ranged entry"
+  - "Object physical root state machine"
